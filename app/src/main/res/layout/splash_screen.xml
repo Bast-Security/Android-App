@@ -31,7 +31,8 @@
         android:textColor="@color/white"
         android:textSize="150dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginRight="24dp" />
 
     <TextView
         android:id="@+id/bastTitle2"
@@ -44,6 +45,7 @@
         android:textColor="@color/white"
         android:textSize="20dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginLeft="152dp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
