@@ -8,19 +8,18 @@
     android:background="@drawable/signup"
     tools:context=".HomeScreen">
 
-    <TextView
+    <!-- <TextView
         android:id="@+id/textView4"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="328dp"
+        android:layout_marginTop="308dp"
         android:fontFamily="@font/regular"
-        android:textColor="@color/white"
         android:text="\- OR \-"
+        android:textColor="@color/white"
         android:textSize="15dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView" />
+        app:layout_constraintTop_toBottomOf="@+id/imageView" /> -->
 
     <EditText
         android:id="@+id/username"
@@ -97,7 +96,7 @@
         android:id="@+id/button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="64dp"
+        android:layout_marginTop="40dp"
         android:background="@drawable/smallbutton"
         android:fontFamily="@font/segoesemibold"
         android:text="Create a System"
@@ -106,19 +105,19 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/username" />
 
-    <Button
+    <!-- <Button
         android:id="@+id/button2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Join a System"
-        android:fontFamily="@font/segoesemibold"
         android:background="@drawable/smallbutton"
+        android:fontFamily="@font/segoesemibold"
+        android:text="Join a System"
         android:textColor="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView4"
-        app:layout_constraintVertical_bias="0.32" />
+        app:layout_constraintVertical_bias="0.32" /> -->
 
 </androidx.constraintlayout.widget.ConstraintLayout>
