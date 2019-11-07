@@ -23,14 +23,14 @@ public class HomeScreen extends AppCompatActivity {
     }
 
     public void joinSystem(View view){
-        Log.d("test", "El Rancho");
+        Log.d("clicked", "userClick");
         //ip address of fabio's computer
         String ipAdress = "http://192.168.1.99:8080/addUser";
         //gives the object
         final TextView textView = (TextView) findViewById(R.id.username);
 
         final String userName = textView.getText().toString();
-        Log.d("test", userName);
+        Log.d("userName",userName);
 
         //sending data over
         String payload = "{\"name\": \"" + userName + "\"}";
@@ -48,11 +48,14 @@ public class HomeScreen extends AppCompatActivity {
 
         queue.add(request);
 
-        //continue button
+        setContentView(R.layout.activity_create_system);
+
+
         //create public and private pair
         //list is going to be empty at the first time
 
         //figure out how to send a message[
 
     }
+
 }
