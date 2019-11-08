@@ -13,36 +13,37 @@ databases, and the connection between the app and the locks.
 
 ## What Are The Features?
 
-This project contains multiple features, the key one being the ability to
-- **Add a user** - If this feature is called to a system that has no other users, this user will
+- *Add a user:* If this feature is called to a system that has no other users, this user will
 become the admin of the system.
-
-Other features include:
-- **User Levels/Roles** - controls the features and accesses the user has
-- **Timezones** - grants access to users only at certain times of the day for a particular room
-- **Anti-Passback** - a security protocol that will help prevent improper access. Ensures that an
+- *User Levels/Roles:* Controls the features and accesses the user has
+- *Timezones:* Grants access to users only at certain times of the day for a particular room
+- *Anti-Passback:* A security protocol that will help prevent improper access. Ensures that an
 order must be followed for particular doors
-- **Temporary Users** - the admin(s) can give temporary access to keyholders
-- **Factors** - configuration with key cards or key codes
-- **Temporary Keycodes** - the admin(s) can give temporary access keycodes
-- **Multi-User Authentication** - multiple users would be needed to gain access through a
+- *Temporary Users:* The admin(s) can give temporary access to keyholders
+- *Factors:* Configuration with key cards or key codes
+- *Temporary Keycodes* - the admin(s) can give temporary access keycodes
+- *Multi-User Authentication:* Multiple users would be needed to gain access through a
 particular lock
-- **Multi-factor authentication** - the user would need multiple levels of authentication to gain
+- *Multi-factor authentication:* The user would need multiple levels of authentication to gain
 access.
-- **Log Files** - a history of the people and the doors access would be recoded and logged
-- **Air-Lock Mode** - for hallways, the first lock would have to be closed after entry for the
+- *Log Files:* A history of the people and the doors access would be recoded and logged
+- *Air-Lock Mode:* For hallways, the first lock would have to be closed after entry for the
 second lock at the end of the hallway to be opened
-- **Alarm** - if too many failed attempts, and alert sound will ring
-- **Toggle mode** - can change to a standard lock
+- *Alarm:* If too many failed attempts, and alert sound will ring
+- *Toggle mode:* Can change to a standard lock
 
 ## How To Install
 
-**1. Install Android from the [Android Developer website](https://developer.android.com/studio/)**
-Follow the steps to download using all the default settings
+1. Install Android from the [Android Developer website](https://developer.android.com/studio/). Follow the steps to download using all the default settings.
+2. Clone the Android-App source code
+3. Open and build the project from Android Studio
+4. Clone the Controller source code to your broadcom controller
+5. Navigate to the controller source code and run ``mix run --no-halt``. Alternatively, the app can be run as a Nerves app.
 
 ## What Are The Components?
 
 There are 3 components to this project, only 1 of which is controlled by the Android Studio app:
+
 **1. Android App**
 The app is necessary for users and admins to be added to a system or to control the settings in
 the system. It provides the data such as the user's name, public and private key, administrative
