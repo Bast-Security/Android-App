@@ -67,4 +67,12 @@ Within this organization, the different repositories used for this project can b
 [Controller](https://github.com/Bast-Security/Controller)
 [Lock-Firmware](https://github.com/Bast-Security/Lock-Firmware)
 
-## What Is The Support?
+## Supported Systems
+
+The Android App requires Android 4.3 (Jellybean) or above.
+
+The Controller firmware targets the Broadcom SoC's, and officially supports the Broadcom BCM2837.
+The firmware is written in Elixir, and requires Elixir 1.8 or newer with Erlang/OTP 22 or newer.
+
+The Lock firmware is compatible with megaAVR compliant microcontroller.
+
