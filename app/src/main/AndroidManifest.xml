@@ -12,7 +12,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".HomeMenu"
+            android:name=".HomeScreen"
             android:label="@string/title_activity_home_menu"
             android:theme="@style/AppTheme.NoActionBar"></activity>
         <activity

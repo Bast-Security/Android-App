@@ -2,4 +2,5 @@
     <string name="app_name">Bast</string>
     <string name="title_activity_main">MainActivity</string>
     <string name="title_activity_home_menu">HomeMenu</string>
+    <string name="plus_add">+</string>
 </resources>
