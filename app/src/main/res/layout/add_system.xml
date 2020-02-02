@@ -15,7 +15,7 @@
         android:layout_marginStart="29dp"
         android:layout_marginTop="100dp"
 
-        android:text="USER INFORMATION"
+        android:text="ADD A SYSTEM"
         android:textColor="@color/colorPrimaryDark"
         android:fontFamily="@font/segoesemibold"
         android:textSize="20dp"/>
@@ -29,58 +29,22 @@
         android:layout_marginStart="28dp"
         android:layout_marginTop="150dp"
         android:ems="10"
-        android:inputType="textPersonName"
-        android:text="Name" />
-
-    <EditText
-        android:id="@+id/cardnum"
-        android:layout_width="300dp"
-        android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginStart="28dp"
-        android:layout_marginTop="220dp"
-        android:ems="10"
-        android:inputType="number"
-        android:text="Card Number" />
-
-    <EditText
-        android:id="@+id/pin"
-        android:layout_width="300dp"
-        android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginStart="28dp"
-        android:layout_marginTop="290dp"
-        android:ems="10"
-        android:inputType="number"
-        android:text="PIN" />
-
-    <EditText
-        android:id="@+id/email"
-        android:layout_width="300dp"
-        android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginStart="28dp"
-        android:layout_marginTop="360dp"
-        android:ems="10"
-        android:inputType="textEmailAddress"
-        android:text="Email" />
+        android:inputType="text"
+        android:text="System Name" />
 
     <Button
         android:id="@+id/button"
-        android:background="@drawable/rectanglebutton"
         android:layout_width="125dp"
         android:layout_height="40dp"
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
         android:layout_marginEnd="32dp"
-        android:layout_marginBottom="33dp"
+        android:layout_marginBottom="400dp"
+        android:background="@drawable/rectanglebutton"
 
-        android:text="Confirm"
-        android:textColor="@color/colorPrimaryDark"
-        android:fontFamily="@font/segoesemibold"/>
+        android:fontFamily="@font/segoesemibold"
+        android:text="Add"
+        android:textColor="@color/colorPrimaryDark" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/floatingActionButton"
