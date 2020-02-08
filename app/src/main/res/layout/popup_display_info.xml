@@ -1,6 +1,191 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/infopopup">
 
-</LinearLayout>
+    <TextView
+        android:id="@+id/userinfo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="29dp"
+        android:layout_marginTop="100dp"
+
+        android:text="USER INFORMATION"
+        android:textColor="@color/colorPrimaryDark"
+        android:fontFamily="@font/segoesemibold"
+        android:textSize="20dp"/>
+
+    <TextView
+        android:id="@+id/textView_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="28dp"
+        android:layout_marginTop="150dp"
+
+        android:text="Name"
+        android:textColor="@color/colorPrimaryDark"
+        android:fontFamily="@font/segoesemibold"
+        android:textSize="20dp"/>
+
+    <TextView
+        android:id="@+id/textView_username"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="28dp"
+        android:layout_marginTop="180dp"
+
+        android:text="Bast, God of Protection"
+        android:textColor="@color/colorPrimary"
+        android:fontFamily="@font/segoeregular"
+        android:textSize="18dp"/>
+
+    <TextView
+        android:id="@+id/textView_card"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="28dp"
+        android:layout_marginTop="220dp"
+
+        android:text="Card Number"
+        android:textColor="@color/colorPrimaryDark"
+        android:fontFamily="@font/segoesemibold"
+        android:textSize="20dp"/>
+
+    <TextView
+        android:id="@+id/textView_cardnum"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="28dp"
+        android:layout_marginTop="250dp"
+
+        android:text="135564351354"
+        android:textColor="@color/colorPrimary"
+        android:fontFamily="@font/segoeregular"
+        android:textSize="18dp"/>
+
+    <TextView
+        android:id="@+id/textView_pincode"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="28dp"
+        android:layout_marginTop="290dp"
+
+        android:text="PIN"
+        android:textColor="@color/colorPrimaryDark"
+        android:fontFamily="@font/segoesemibold"
+        android:textSize="20dp"/>
+
+    <TextView
+        android:id="@+id/textView_pin"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="28dp"
+        android:layout_marginTop="320dp"
+
+        android:text="021645"
+        android:textColor="@color/colorPrimary"
+        android:fontFamily="@font/segoeregular"
+        android:textSize="18dp"/>
+
+    <TextView
+        android:id="@+id/textView_mail"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="28dp"
+        android:layout_marginTop="360dp"
+
+        android:text="Email"
+        android:textColor="@color/colorPrimaryDark"
+        android:fontFamily="@font/segoesemibold"
+        android:textSize="20dp"/>
+
+    <TextView
+        android:id="@+id/textView_email"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="28dp"
+        android:layout_marginTop="390dp"
+
+        android:text="bastcatgod@gmail.com"
+        android:textColor="@color/colorPrimary"
+        android:fontFamily="@font/segoeregular"
+        android:textSize="18dp"/>
+
+    <TextView
+        android:id="@+id/textView_phonenumber"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="28dp"
+        android:layout_marginTop="430dp"
+
+        android:text="Phone"
+        android:textColor="@color/colorPrimaryDark"
+        android:fontFamily="@font/segoesemibold"
+        android:textSize="20dp"/>
+
+    <TextView
+        android:id="@+id/textView_phone"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="28dp"
+        android:layout_marginTop="460dp"
+
+        android:text="(Empty)"
+        android:textColor="@color/colorPrimary"
+        android:fontFamily="@font/segoeregular"
+        android:textSize="18dp"/>
+
+    <Button
+        android:id="@+id/button"
+        android:layout_width="125dp"
+        android:layout_height="40dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="18dp"
+        android:layout_marginEnd="268dp"
+        android:layout_marginBottom="100dp"
+
+        android:background="@drawable/rectanglebutton"
+        android:fontFamily="@font/segoesemibold"
+        android:text="Edit"
+        android:textColor="@color/colorPrimaryDark" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/floatingActionButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="22dp"
+        android:layout_marginEnd="33dp"
+        android:clickable="true"
+        app:srcCompat="@android:drawable/btn_dialog" />
+
+
+</RelativeLayout>
