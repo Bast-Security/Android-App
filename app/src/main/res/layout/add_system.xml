@@ -15,7 +15,7 @@
         android:layout_marginStart="23dp"
         android:layout_marginTop="100dp"
 
-        android:text="ADD A SYSTEM"
+        android:text="CONNECT TO A NEW SYSTEM"
         android:textColor="@color/colorPrimaryDark"
         android:fontFamily="@font/segoesemibold"
         android:textSize="20dp"/>
