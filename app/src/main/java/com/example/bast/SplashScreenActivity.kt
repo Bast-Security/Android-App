@@ -5,13 +5,13 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
 
-class SplashScreen : AppCompatActivity() {
+class SplashScreenActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.splash_screen)
         Handler().postDelayed({
-            val homeIntent = Intent(this@SplashScreen, HomeScreen::class.java)
+            val homeIntent = Intent(this@SplashScreenActivity, HomeScreenActivity::class.java)
             startActivity(homeIntent)
             finish()
         }, SPLASH_TIME_OUT.toLong())
