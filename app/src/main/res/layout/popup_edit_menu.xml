@@ -33,7 +33,7 @@
         android:text="Name" />
 
     <EditText
-        android:id="@+id/cardnum"
+        android:id="@+id/email"
         android:layout_width="300dp"
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
@@ -41,8 +41,8 @@
         android:layout_marginStart="28dp"
         android:layout_marginTop="220dp"
         android:ems="10"
-        android:inputType="number"
-        android:text="Card Number" />
+        android:inputType="textEmailAddress"
+        android:text="Email" />
 
     <EditText
         android:id="@+id/pin"
@@ -54,10 +54,10 @@
         android:layout_marginTop="290dp"
         android:ems="10"
         android:inputType="number"
-        android:text="PIN" />
+        android:text="PIN (Optional)" />
 
     <EditText
-        android:id="@+id/email"
+        android:id="@+id/cardnum"
         android:layout_width="300dp"
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
@@ -65,8 +65,8 @@
         android:layout_marginStart="28dp"
         android:layout_marginTop="360dp"
         android:ems="10"
-        android:inputType="textEmailAddress"
-        android:text="Email" />
+        android:inputType="number"
+        android:text="Card Number (Optional)" />
 
     <EditText
         android:id="@+id/phone"
@@ -78,7 +78,7 @@
         android:layout_marginTop="430dp"
         android:ems="10"
         android:inputType="number"
-        android:text="Phone" />
+        android:text="Phone (Optional)" />
 
     <Button
         android:id="@+id/button"
