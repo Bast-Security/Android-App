@@ -1,4 +1,4 @@
-package com.example.bast;
+package com.example.bast.objects;
 
 import java.util.ArrayList;
 
