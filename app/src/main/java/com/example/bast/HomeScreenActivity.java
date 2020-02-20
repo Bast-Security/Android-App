@@ -6,15 +6,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
 import android.util.Log;
-import android.view.View;
-import android.widget.TextView;
 
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.StringRequest;
-import com.android.volley.toolbox.Volley;
+import com.example.bast.objects.System;
 
 import java.util.ArrayList;
 
@@ -22,7 +15,7 @@ public class HomeScreenActivity extends AppCompatActivity {
 
     private static final String TAG = "MainActivity";
 
-    private ArrayList<String> systems = new ArrayList<>();
+    private ArrayList<System> systems = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,13 +24,18 @@ public class HomeScreenActivity extends AppCompatActivity {
         setContentView(R.layout.activity_home_screen);
         Log.d(TAG, "onCreate: started");
 
-        systems.add("System 1");
-        systems.add("???????????????");
-        systems.add("Yes");
+        systems.add(new System("System 1", true));
+        systems.add(new System("System 2", false));
+        systems.add(new System("System 3", true));
 
         initRecyclerView();
     }
 
+    /**
+     * Initializes the Recycler View and its adapter
+     *
+     * This class has no useful logic; it's just a documentation example.
+     */
     private void initRecyclerView() {
         Log.d(TAG, "initRecyclerView: init recyclerview.");
         RecyclerView rv = findViewById(R.id.rvSystems);

@@ -13,16 +13,18 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.bast.objects.System;
+
 import java.util.ArrayList;
 
 public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.ViewHolder> {
 
     private static final String TAG = "RecyclerViewAdapter";
 
-    private ArrayList<String> systems;
+    private ArrayList<System> systems;
     private Context mContext;
 
-    public RecyclerViewAdapter(ArrayList<String> systems, Context mContext) {
+    public RecyclerViewAdapter(ArrayList<System> systems, Context mContext) {
         this.systems = systems;
         this.mContext = mContext;
     }
@@ -39,13 +41,19 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     public void onBindViewHolder(@NonNull ViewHolder holder, final int position) {
         Log.d(TAG, "onBindViewHolder: called.");
 
-        holder.systemName.setText(systems.get(position));
+        holder.systemName.setText(systems.get(position).getSystemName());
+
+        if(systems.get(position).isConnected()) {
+            holder.connectButton.setText("View");
+        } else {
+            holder.connectButton.setText("Connect");
+        }
 
         holder.parentLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Log.d(TAG, "onClick: clicked on: " + systems.get(position));
-                Toast.makeText(mContext, systems.get(position), Toast.LENGTH_SHORT).show();
+                Toast.makeText(mContext, systems.get(position).getSystemName(), Toast.LENGTH_SHORT).show();
             }
         });
 
