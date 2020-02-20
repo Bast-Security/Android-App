@@ -6,7 +6,7 @@ public class System {
 
     private String systemName;
     private boolean isConnected;
-    private ArrayList<Door> doors;
+    private ArrayList<Lock> locks;
     private ArrayList<User> users;
     private ArrayList<Role> roles;
 
