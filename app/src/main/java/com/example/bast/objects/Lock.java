@@ -1,25 +1,25 @@
-package com.example.bast;
+package com.example.bast.objects;
 
 import java.util.Date;
 
-public class Door {
+public class Lock {
 
-    private String doorName;
+    private String lockName;
     private Date dateAdded;
     private Date lastOpened;
 
-    public Door(String doorName, Date dateAdded) {
-        this.doorName = doorName;
+    public Lock(String lockName, Date dateAdded) {
+        this.lockName = lockName;
         this.dateAdded = dateAdded;
         lastOpened = null;
     }
 
-    public String getDoorName() {
-        return doorName;
+    public String getLockName() {
+        return lockName;
     }
 
-    public void setDoorNamedoorName(String doorName) {
-        this.doorName = doorName;
+    public void setLockName(String lockName) {
+        this.lockName = lockName;
     }
 
     public Date getDateAdded() {
