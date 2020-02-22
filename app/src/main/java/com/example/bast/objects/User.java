@@ -11,6 +11,7 @@ public class User {
     private int cardNumber;
     private ArrayList<Role> roles;
 
+    // constructor
     public User(String userName, String email, String phoneNumber, int pin, int cardNumber) {
         this.userName = userName;
         this.email = email;
@@ -19,6 +20,7 @@ public class User {
         this.cardNumber = cardNumber;
     }
 
+    //getter and setters
     public String getUserName() {
         return userName;
     }

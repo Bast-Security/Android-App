@@ -4,9 +4,11 @@ import java.util.ArrayList;
 
 public class Role {
 
+    //initialize variables
     private String roleName;
     private ArrayList<User> users;
 
+    // getter and setter methods
     public String getRoleName() {
         return roleName;
     }
@@ -23,6 +25,7 @@ public class Role {
         this.users = users;
     }
 
+    // constructor
     public Role(String roleName) {
         this.roleName = roleName;
         users = new ArrayList<>();

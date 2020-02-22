@@ -29,11 +29,13 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     private ArrayList<System> systems;
     private Context mContext;
 
+    // creates the adapter from the list of systems
     public RecyclerViewAdapter(ArrayList<System> systems, Context mContext) {
         this.systems = systems;
         this.mContext = mContext;
     }
 
+    // creates a new view for the addition of a new system from layout
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -42,6 +44,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         return holder;
     }
 
+    // replades the contents of a view
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, final int position) {
         Log.d(TAG, "onBindViewHolder: called.");
@@ -54,6 +57,8 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
             holder.connectButton.setText("Connect");
         }
 
+
+        // adds connect button if the system is not already connected
         holder.connectButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -74,6 +79,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         return systems.size();
     }
 
+    // displays the recycler view
     public class ViewHolder extends RecyclerView.ViewHolder {
 
         TextView systemName;

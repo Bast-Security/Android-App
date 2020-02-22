@@ -4,16 +4,19 @@ import java.util.Date;
 
 public class Lock {
 
+    // intialize variables
     private String lockName;
     private Date dateAdded;
     private Date lastOpened;
 
+    // constructor
     public Lock(String lockName, Date dateAdded) {
         this.lockName = lockName;
         this.dateAdded = dateAdded;
         lastOpened = null;
     }
 
+    // getter and setter methods
     public String getLockName() {
         return lockName;
     }

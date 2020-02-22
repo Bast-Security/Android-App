@@ -5,21 +5,27 @@ import java.util.ArrayList;
 public class System {
 
     private String systemName;
+    private String serviceName;
     private boolean isConnected;
     private ArrayList<Lock> locks;
     private ArrayList<User> users;
     private ArrayList<Role> roles;
 
-    public System() {
-        this.systemName = "Unknown System";
+    //constructor if system is unknown
+    public System(String systemServiceName) {
+        serviceName = systemServiceName;
+        this.systemName = "Unknown System: " + serviceName;
         this.isConnected = false;
     }
 
+
+    //constructor for known system
     public System(String systemName, boolean connection) {
         this.systemName = systemName;
         this.isConnected = connection;
     }
 
+    // getters and setters
     public String getSystemName() {
         return systemName;
     }
