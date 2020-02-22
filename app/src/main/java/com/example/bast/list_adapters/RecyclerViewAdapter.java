@@ -1,6 +1,7 @@
-package com.example.bast;
+package com.example.bast.list_adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,6 +14,10 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.bast.ConnectSystemActivity;
+import com.example.bast.CreateSystem;
+import com.example.bast.R;
+import com.example.bast.SystemMenuActivity;
 import com.example.bast.objects.System;
 
 import java.util.ArrayList;
@@ -49,11 +54,16 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
             holder.connectButton.setText("Connect");
         }
 
-        holder.parentLayout.setOnClickListener(new View.OnClickListener() {
+        holder.connectButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Intent intent;
                 Log.d(TAG, "onClick: clicked on: " + systems.get(position));
                 Toast.makeText(mContext, systems.get(position).getSystemName(), Toast.LENGTH_SHORT).show();
+
+                if(systems.get(position).isConnected()) { intent = new Intent(mContext, SystemMenuActivity.class); }
+                else { intent = new Intent(mContext, ConnectSystemActivity.class); }
+                mContext.startActivity(intent);
             }
         });
 
@@ -77,6 +87,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
             connectButton = itemView.findViewById(R.id.addbutton);
             parentLayout = itemView.findViewById(R.id.parent_layout);
         }
+
     }
 }
 
