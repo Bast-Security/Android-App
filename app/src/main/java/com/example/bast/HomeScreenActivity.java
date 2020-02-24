@@ -32,7 +32,7 @@ public class HomeScreenActivity extends AppCompatActivity {
 
     private static final String TAG = "MainActivity";
 
-    private ArrayList<System> systems = new ArrayList<>();
+    public ArrayList<System> systems = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
