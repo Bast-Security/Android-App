@@ -1,14 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@drawable/main_background">
+
+    <TextView
+        android:id="@+id/activity_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="85dp"
+        android:paddingBottom="10dp"
+        android:paddingLeft="20dp"
+        android:text="SYSTEMS"
+        android:textSize="35dp"
+        android:fontFamily="@font/segoesemibold"
+        android:textColor="@color/colorPrimaryDark"/>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvSystems"
+        android:layout_below="@id/activity_title"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content">
 
     </androidx.recyclerview.widget.RecyclerView>
+
 
 </RelativeLayout>
