@@ -1,6 +1,8 @@
 package com.example.bast;
 
 import android.app.Dialog;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -47,6 +49,15 @@ public class ConnectSystemActivity extends AppCompatActivity {
         successDialog.show();
 
         successDialog.setCanceledOnTouchOutside(true);
+
+        successDialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
+            @Override
+            public void onCancel(DialogInterface dialog) {
+                // dialog dismisses
+                Intent homeIntent = new Intent(ConnectSystemActivity.this, HomeScreenActivity.class);
+                ConnectSystemActivity.this.startActivity(homeIntent);
+            }
+        });
     }
 
 }
