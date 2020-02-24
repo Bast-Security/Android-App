@@ -88,7 +88,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         public ViewHolder(View itemView) {
             super(itemView);
 
-            systemName = itemView.findViewById(R.id.newsystemname);
+            systemName = itemView.findViewById(R.id.new_system);
             parentLayout = itemView.findViewById(R.id.parent_layout);
             
         }

@@ -24,7 +24,7 @@ public class ConnectSystemActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_connect_system);
 
-        Button button = (Button) findViewById(R.id.button);
+        Button button = (Button) findViewById(R.id.add_button);
         EditText systemName = (EditText) findViewById(R.id.username);
 
         String name = systemName.toString();
