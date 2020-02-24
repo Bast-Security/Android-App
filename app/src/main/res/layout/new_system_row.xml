@@ -8,35 +8,16 @@
     android:id="@+id/parent_layout">
 
 
+
     <TextView
         android:id="@+id/newsystemname"
         android:layout_width="wrap_content"
         android:layout_height="55dp"
-
         android:fontFamily="@font/segoesemibold"
         android:gravity="center_vertical"
 
         android:text="Room Name"
         android:textSize="20dp" />
 
-    <Button
-        android:id="@+id/addbutton"
-        android:layout_width="95dp"
-        android:layout_height="35dp"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentEnd="true"
-
-        android:layout_gravity="center"
-        android:layout_marginTop="10dp"
-        android:layout_marginEnd="11dp"
-        android:layout_marginRight="40dp"
-        android:background="@drawable/roundedrectangle"
-
-        android:fontFamily="@font/segoesemibold"
-        android:shadowColor="@color/colorPrimaryDark"
-        android:shadowDy="3"
-        android:shadowRadius="6"
-        android:text="Connect"
-        android:textColor="@color/white" />
 
 </RelativeLayout>

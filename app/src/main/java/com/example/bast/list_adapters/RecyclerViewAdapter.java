@@ -2,6 +2,7 @@ package com.example.bast.list_adapters;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -41,6 +42,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.new_system_row, parent, false);
         ViewHolder holder = new ViewHolder(view);
+
         return holder;
     }
 
@@ -50,16 +52,15 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         Log.d(TAG, "onBindViewHolder: called.");
 
         holder.systemName.setText(systems.get(position).getSystemName());
-
-        if(systems.get(position).isConnected()) {
-            holder.connectButton.setText("View");
-        } else {
-            holder.connectButton.setText("Connect");
+        if(systems.get(position).isConnected() == true){
+            holder.parentLayout.setBackgroundColor(Color.WHITE);
+        }
+        else{
+            holder.parentLayout.setBackgroundColor(Color.LTGRAY);
         }
 
-
         // adds connect button if the system is not already connected
-        holder.connectButton.setOnClickListener(new View.OnClickListener() {
+        holder.systemName.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent;
@@ -83,15 +84,14 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     public class ViewHolder extends RecyclerView.ViewHolder {
 
         TextView systemName;
-        Button connectButton;
         RelativeLayout parentLayout;
 
         public ViewHolder(View itemView) {
             super(itemView);
 
             systemName = itemView.findViewById(R.id.newsystemname);
-            connectButton = itemView.findViewById(R.id.addbutton);
             parentLayout = itemView.findViewById(R.id.parent_layout);
+            
         }
 
     }

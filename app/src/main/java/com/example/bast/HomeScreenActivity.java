@@ -97,10 +97,10 @@ public class HomeScreenActivity extends AppCompatActivity {
                     if(serviceInfo.getServiceType() != null){
                         String serviceType = serviceInfo.getServiceType();
                         Log.d("networkDiscovery", "Service type: " + serviceType);
-                        systems.add(new System(serviceType));
                     }
 
                     Log.d("networkDiscovery", "Service name: " + mHost);
+                    systems.add(new System(mHost, false));
 
                 }
                 else{
