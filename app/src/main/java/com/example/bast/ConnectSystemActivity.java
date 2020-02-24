@@ -11,7 +11,7 @@ public class ConnectSystemActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        setContentView(R.layout.activity_connect_system);
+        setContentView(R.layout.activity_system_menu);
 
 
 
