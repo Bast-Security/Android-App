@@ -7,13 +7,13 @@
     android:background="@drawable/main_background">
 
     <TextView
-        android:id="@+id/activity_title"
+        android:id="@+id/system_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
-        android:layout_marginTop="85dp"
+        android:layout_marginTop="95dp"
         android:paddingBottom="10dp"
-        android:paddingLeft="20dp"
+        android:paddingLeft="10dp"
         android:text="SYSTEMS"
         android:textSize="35dp"
         android:fontFamily="@font/segoesemibold"
@@ -21,7 +21,7 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvSystems"
-        android:layout_below="@id/activity_title"
+        android:layout_below="@id/system_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
