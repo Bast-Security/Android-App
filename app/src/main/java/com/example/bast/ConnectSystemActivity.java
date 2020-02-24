@@ -16,7 +16,7 @@ public class ConnectSystemActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        setContentView(R.layout.popup_display_info);
+        setContentView(R.layout.activity_connect_system);
 
         Button addButton = findViewById(R.id.button);
         addButton.setOnClickListener(listener);

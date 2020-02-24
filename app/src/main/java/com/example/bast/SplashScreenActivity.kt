@@ -7,8 +7,6 @@ import android.os.Handler
 
 class SplashScreenActivity : AppCompatActivity() {
 
-    val systemName = String;
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.splash_screen)

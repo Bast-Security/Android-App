@@ -16,7 +16,6 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.bast.ConnectSystemActivity;
-import com.example.bast.CreateSystem;
 import com.example.bast.R;
 import com.example.bast.SystemMenuActivity;
 import com.example.bast.objects.System;

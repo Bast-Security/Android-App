@@ -13,7 +13,7 @@ public class SystemMenuActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        setContentView(R.layout.add_system);
+        setContentView(R.layout.activity_system_menu);
 
     }
 }
