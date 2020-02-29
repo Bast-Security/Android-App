@@ -111,7 +111,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="vertical"
-                android:gravity="center">
+                android:gravity="center"
+                android:id="@+id/locks">
                 <ImageView
                     android:layout_width="75dp"
                     android:layout_height="75dp"
@@ -141,7 +142,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="vertical"
-                android:gravity="center">
+                android:gravity="center"
+                android:id="@+id/users">
                 <ImageView
                     android:layout_width="75dp"
                     android:layout_height="75dp"
@@ -181,7 +183,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="vertical"
-                android:gravity="center">
+                android:gravity="center"
+                android:id="@+id/roles">
                 <ImageView
                     android:layout_width="75dp"
                     android:layout_height="75dp"
@@ -210,21 +213,22 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:gravity="center"
                 android:orientation="vertical"
-                android:gravity="center">
+                android:id="@+id/settings">
+
                 <ImageView
                     android:layout_width="75dp"
                     android:layout_height="75dp"
                     android:padding="10dp"
-                    android:src="@drawable/bast">
-                </ImageView>
+                    android:src="@drawable/bast"></ImageView>
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:fontFamily="@font/segoesemibold"
                     android:text="Settings"
-                    android:textSize="25dp"
-                    android:fontFamily="@font/segoesemibold">
-                </TextView>
+                    android:textSize="25dp"></TextView>
             </LinearLayout>
         </androidx.cardview.widget.CardView>
 

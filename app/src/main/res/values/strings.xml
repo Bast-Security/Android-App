@@ -3,5 +3,4 @@
     <string name="title_activity_main">MainActivity</string>
     <string name="title_activity_home_menu">HomeMenu</string>
     <string name="plus_add">+</string>
-    <string name="public_key">int</string>
 </resources>
