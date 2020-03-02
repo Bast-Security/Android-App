@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -53,13 +54,13 @@ public class RolesAdapter extends RecyclerView.Adapter<RolesAdapter.ViewHolder> 
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         TextView roleName;
-        LinearLayout item_parent;
+        RelativeLayout item_parent;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
 
             item_parent = itemView.findViewById(R.id.list_parent_layout);
-            roleName = itemView.findViewById(R.id.new_item);
+            roleName = itemView.findViewById(R.id.list_item);
         }
     }
 

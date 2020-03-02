@@ -59,8 +59,9 @@ public class LocksAdapter extends RecyclerView.Adapter<LocksAdapter.ViewHolder> 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
 
+            lockName = itemView.findViewById(R.id.list_item);
             item_parent = itemView.findViewById(R.id.list_parent_layout);
-            lockName = itemView.findViewById(R.id.new_item);
+
         }
     }
 
