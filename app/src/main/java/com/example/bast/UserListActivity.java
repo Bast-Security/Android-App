@@ -1,7 +1,8 @@
 package com.example.bast;
 
 import android.os.Bundle;
-import android.util.Log;
+import android.view.View;
+import android.widget.Button;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -19,7 +20,7 @@ public class UserListActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_users);
+        setContentView(R.layout.activity_general_list);
 
         //TODO: Delete dummy data when connected
         users.add(new User("Bast", "bast@gmail.com", "1234567890", 2789, 123456783));
@@ -29,14 +30,25 @@ public class UserListActivity extends AppCompatActivity {
         users.add(new User("Kristen", "bast@gmail.com", "1234567890", 2789, 123456783));
 
         initRecyclerView();
+        initButton();
 
+    }
+
+    private void initButton() {
+        Button add_button = (Button) findViewById(R.id.add_btn);
+        add_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //Intent i = new Intent(this, AddUserActivity.class);
+            }
+        });
     }
 
     /**
      * Initializes the Recycler View and its adapter
      */
     private void initRecyclerView() {
-        RecyclerView rv = findViewById(R.id.rvUsers);
+        RecyclerView rv = findViewById(R.id.recycler_view);
         UsersAdapter adapter = new UsersAdapter(users, this);
         rv.setAdapter(adapter);
         rv.setLayoutManager(new LinearLayoutManager(this));

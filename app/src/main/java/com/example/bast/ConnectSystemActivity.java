@@ -34,7 +34,6 @@ public class ConnectSystemActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 openDialog();
-                //setContentView(R.layout.success_notif);
             }
         });
 
