@@ -15,38 +15,47 @@ import com.example.bast.objects.Role;
 
 import java.util.ArrayList;
 
-public class RolesAdapter extends RecyclerView.Adapter<RolesAdapter.RolesAdapterViewHolder> {
-    private ArrayList<Role> mRoles = new ArrayList<>();
+public class RolesAdapter extends RecyclerView.Adapter<RolesAdapter.ViewHolder> {
+
+    private ArrayList<Role> roles;
     private Context mContext;
 
-    public RolesAdapter(Context context, ArrayList<Role> roles) {
-        mContext = context;
-        mRoles = roles;
+    public RolesAdapter(Context mContext, ArrayList<Role> roles) {
+        this.roles = roles;
+        this.mContext = mContext;
     }
 
     @NonNull
     @Override
-    public RolesAdapter.RolesAdapterViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_row, parent, false);
-        RolesAdapterViewHolder viewHolder = new RolesAdapterViewHolder(view);
-        return viewHolder;
+        ViewHolder holder = new ViewHolder(view);
+
+        return holder;
     }
 
     @Override
-    public void onBindViewHolder(@NonNull RolesAdapter.RolesAdapterViewHolder holder, int position) {
-        holder.roleName.setText(mRoles.get(position).getRoleName());
+    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+        holder.roleName.setText(roles.get(position).getRoleName());
+
+        holder.item_parent.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+            }
+        });
     }
 
     @Override
     public int getItemCount() {
-        return mRoles.size();
+        return roles.size();
     }
 
-    public class RolesAdapterViewHolder extends RecyclerView.ViewHolder {
+    public class ViewHolder extends RecyclerView.ViewHolder {
         TextView roleName;
         LinearLayout item_parent;
 
-        public RolesAdapterViewHolder(@NonNull View itemView) {
+        public ViewHolder(@NonNull View itemView) {
             super(itemView);
 
             item_parent = itemView.findViewById(R.id.list_parent_layout);

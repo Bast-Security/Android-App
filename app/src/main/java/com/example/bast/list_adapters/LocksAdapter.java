@@ -4,7 +4,7 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -15,38 +15,48 @@ import com.example.bast.objects.Lock;
 
 import java.util.ArrayList;
 
-public class LocksAdapter extends RecyclerView.Adapter<LocksAdapter.LocksAdapterViewHolder> {
-    private ArrayList<Lock> mLocks = new ArrayList<>();
+public class LocksAdapter extends RecyclerView.Adapter<LocksAdapter.ViewHolder> {
+
+    private ArrayList<Lock> locks;
     private Context mContext;
 
-    public LocksAdapter(Context context, ArrayList<Lock> locks) {
-        mContext = context;
-        mLocks = locks;
+    public LocksAdapter(ArrayList<Lock> locks, Context mContext) {
+        this.locks = locks;
+        this.mContext = mContext;
     }
 
     @NonNull
     @Override
-    public LocksAdapter.LocksAdapterViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_row, parent, false);
-        LocksAdapterViewHolder viewHolder = new LocksAdapterViewHolder(view);
-        return viewHolder;
+        ViewHolder holder = new ViewHolder(view);
+
+        return holder;
     }
 
     @Override
-    public void onBindViewHolder(@NonNull LocksAdapter.LocksAdapterViewHolder holder, int position) {
-        holder.lockName.setText(mLocks.get(position).getLockName());
+    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+        holder.lockName.setText(locks.get(position).getLockName());
+
+        holder.item_parent.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+            }
+        });
     }
 
     @Override
     public int getItemCount() {
-        return mLocks.size();
+        return locks.size();
     }
 
-    public class LocksAdapterViewHolder extends RecyclerView.ViewHolder {
-        TextView lockName;
-        LinearLayout item_parent;
+    public class ViewHolder extends RecyclerView.ViewHolder {
 
-        public LocksAdapterViewHolder(@NonNull View itemView) {
+        TextView lockName;
+        RelativeLayout item_parent;
+
+        public ViewHolder(@NonNull View itemView) {
             super(itemView);
 
             item_parent = itemView.findViewById(R.id.list_parent_layout);

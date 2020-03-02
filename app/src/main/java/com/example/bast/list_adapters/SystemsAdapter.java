@@ -21,15 +21,15 @@ import com.example.bast.objects.System;
 
 import java.util.ArrayList;
 
-public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.ViewHolder> {
+public class SystemsAdapter extends RecyclerView.Adapter<SystemsAdapter.ViewHolder> {
 
-    private static final String TAG = "RecyclerViewAdapter";
+    private static final String TAG = "SystemsAdapter";
 
     private ArrayList<System> systems;
     private Context mContext;
 
     // creates the adapter from the list of systems
-    public RecyclerViewAdapter(ArrayList<System> systems, Context mContext) {
+    public SystemsAdapter(ArrayList<System> systems, Context mContext) {
         this.systems = systems;
         this.mContext = mContext;
     }
@@ -44,7 +44,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         return holder;
     }
 
-    // replades the contents of a view
+    // replaces the contents of a view
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, final int position) {
         Log.d(TAG, "onBindViewHolder: called.");
@@ -57,8 +57,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
             holder.parentLayout.setBackgroundColor(Color.LTGRAY);
         }
 
-        // adds connect button if the system is not already connected
-        holder.systemName.setOnClickListener(new View.OnClickListener() {
+        holder.parentLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent;
