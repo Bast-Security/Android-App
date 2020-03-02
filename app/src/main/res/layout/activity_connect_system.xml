@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:layout_gravity="center"
     android:padding="5dp"
-    android:background="@drawable/main_background">
+    android:background="@drawable/main_backgroundv2">
 
     <TextView
         android:id="@+id/textView"
