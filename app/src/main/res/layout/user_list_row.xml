@@ -5,8 +5,6 @@
     android:paddingLeft="15dp"
     android:id="@+id/user_layout">
 
-
-
     <TextView
         android:id="@+id/username"
         android:layout_width="wrap_content"

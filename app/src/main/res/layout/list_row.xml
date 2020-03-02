@@ -5,7 +5,6 @@
     android:paddingLeft="15dp"
     android:id="@+id/list_parent_layout">
 
-
     <TextView
         android:id="@+id/list_item"
         android:layout_width="wrap_content"
