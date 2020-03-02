@@ -3,16 +3,17 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:paddingLeft="15dp"
-    android:id="@+id/list_parent_layout">
+    android:id="@+id/user_layout">
+
 
 
     <TextView
-        android:id="@+id/list_item"
+        android:id="@+id/username"
         android:layout_width="wrap_content"
         android:layout_height="55dp"
         android:fontFamily="@font/segoesemibold"
         android:gravity="center_vertical"
-        android:text="List Item"
+        android:text="Bast, Cat God of Protection"
         android:textSize="20dp" />
 
 
