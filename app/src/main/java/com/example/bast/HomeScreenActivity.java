@@ -12,7 +12,7 @@ import android.security.keystore.KeyGenParameterSpec;
 import android.security.keystore.KeyProperties;
 import android.util.Log;
 
-import com.example.bast.list_adapters.RecyclerViewAdapter;
+import com.example.bast.list_adapters.SystemsAdapter;
 import com.example.bast.objects.System;
 
 import org.spongycastle.jcajce.provider.asymmetric.ec.KeyPairGeneratorSpi;
@@ -128,7 +128,7 @@ public class HomeScreenActivity extends AppCompatActivity {
     private void initRecyclerView() {
         Log.d(TAG, "initRecyclerView: init recyclerview.");
         RecyclerView rv = findViewById(R.id.rvSystems);
-        RecyclerViewAdapter adapter = new RecyclerViewAdapter(systems, this);
+        SystemsAdapter adapter = new SystemsAdapter(systems, this);
         rv.setAdapter(adapter);
         rv.setLayoutManager(new LinearLayoutManager(this));
 
