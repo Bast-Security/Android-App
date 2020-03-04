@@ -9,7 +9,6 @@ public class User {
     private String phoneNumber;
     private int pin;
     private int cardNumber;
-    private ArrayList<Role> roles;
 
     // constructor
     public User(String userName, String email, String phoneNumber, int pin, int cardNumber) {

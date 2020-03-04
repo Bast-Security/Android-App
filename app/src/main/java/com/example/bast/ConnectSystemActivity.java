@@ -39,6 +39,7 @@ public class ConnectSystemActivity extends AppCompatActivity {
 
     }
 
+
     public void openDialog() {
         successDialog.setContentView(R.layout.success_notif);
         ImageView check = (ImageView) successDialog.findViewById(R.id.success_check);

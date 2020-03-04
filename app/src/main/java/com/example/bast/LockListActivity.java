@@ -9,6 +9,10 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.bast.list_adapters.LocksAdapter;
 import com.example.bast.objects.Lock;
+import com.example.bast.objects.Role;
+
+import org.json.JSONArray;
+import org.json.JSONException;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -25,7 +29,29 @@ public class LockListActivity extends AppCompatActivity {
         TextView title = (TextView) findViewById(R.id.activity_title);
         title.setText("LOCKS");
 
-        locks.add(new Lock("First Lock"));
+        /*
+         * adding data using JSON object
+         * */
+
+        //dummy data
+        String jsonString = "[{\"Name\":\"Front Door\"},{\"Name\":\"Back Door\"}," +
+                "{\"Name\":\"Master Bedroom\"},{\"Name\":\"Guest Room\"}]";
+
+        JSONArray jsonObject = null;
+        try {
+            jsonObject = new JSONArray(jsonString);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        for(int i = 0; i < jsonObject.length(); i++){
+            try {
+                String name = (String) jsonObject.getJSONObject(i).get("Name");
+                locks.add(new Lock(name));
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
 
         locksRecyclerView();
 

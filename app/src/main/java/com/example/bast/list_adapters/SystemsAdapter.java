@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -18,6 +19,8 @@ import com.example.bast.ConnectSystemActivity;
 import com.example.bast.R;
 import com.example.bast.SystemMenuActivity;
 import com.example.bast.objects.System;
+
+import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 
@@ -56,7 +59,6 @@ public class SystemsAdapter extends RecyclerView.Adapter<SystemsAdapter.ViewHold
         else{
             holder.parentLayout.setBackgroundColor(Color.LTGRAY);
         }
-
         holder.parentLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -64,7 +66,9 @@ public class SystemsAdapter extends RecyclerView.Adapter<SystemsAdapter.ViewHold
                 Log.d(TAG, "onClick: clicked on: " + systems.get(position));
                 Toast.makeText(mContext, systems.get(position).getSystemName(), Toast.LENGTH_SHORT).show();
 
-                if(systems.get(position).isConnected()) { intent = new Intent(mContext, SystemMenuActivity.class); }
+                if(systems.get(position).isConnected()) {
+                    intent = new Intent(mContext, SystemMenuActivity.class);
+                }
                 else { intent = new Intent(mContext, ConnectSystemActivity.class); }
                 mContext.startActivity(intent);
             }
@@ -92,5 +96,6 @@ public class SystemsAdapter extends RecyclerView.Adapter<SystemsAdapter.ViewHold
         }
 
     }
+
 }
 

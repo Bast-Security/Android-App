@@ -16,6 +16,7 @@ import com.example.bast.list_adapters.SystemsAdapter;
 import com.example.bast.objects.System;
 
 import org.spongycastle.jcajce.provider.asymmetric.ec.KeyPairGeneratorSpi;
+import org.spongycastle.jce.provider.BouncyCastleProvider;
 
 import java.security.Key;
 import java.security.KeyPair;
@@ -30,6 +31,9 @@ public class HomeScreenActivity extends AppCompatActivity {
     private NsdManager.DiscoveryListener discoveryListener;
     private NsdManager nsdManager;
 
+    private Key privateKey;
+    public Key publicKey;
+
     private static final String TAG = "MainActivity";
 
     public ArrayList<System> systems = new ArrayList<>();
@@ -42,24 +46,28 @@ public class HomeScreenActivity extends AppCompatActivity {
         Log.d(TAG, "onCreate: started");
 
         // adding dummy data
-        //TODO: delete dummy data later
         systems.add(new System("System 1", true));
         systems.add(new System("System 2", false));
         systems.add(new System("System 3", true));
 
         // add the SpongyCastle provider so that we can generate keys
-        Security.addProvider(new org.spongycastle.jce.provider.BouncyCastleProvider());
+        Security.addProvider(new BouncyCastleProvider());
 
         //Creating an instance of the key generator class
         new KeyGenParameterSpec.Builder("keyPair", KeyProperties.PURPOSE_ENCRYPT);
         KeyPairGenerator keyPair = new KeyPairGeneratorSpi.ECDSA();
         KeyPair onCreateKeyPair = keyPair.genKeyPair();
-        Key userPublicKey = onCreateKeyPair.getPublic();
-        Log.d("keypair", "admin public key: " + userPublicKey);
+        publicKey = onCreateKeyPair.getPublic();
+        privateKey = onCreateKeyPair.getPrivate();
+        Log.d("keypair", "keypair created");
+
 
         // Create an instance of NSD Manager and Discovery Listener
         nsdManager = (NsdManager) this.getSystemService(Context.NSD_SERVICE);
         discoveryListener = new NsdManager.DiscoveryListener() {
+
+
+
 
             // Failure to start discovery upon start
             @Override
@@ -98,6 +106,9 @@ public class HomeScreenActivity extends AppCompatActivity {
                         String serviceType = serviceInfo.getServiceType();
                         Log.d("networkDiscovery", "Service type: " + serviceType);
                     }
+
+
+
 
                     Log.d("networkDiscovery", "Service name: " + mHost);
                     systems.add(new System(mHost, false));

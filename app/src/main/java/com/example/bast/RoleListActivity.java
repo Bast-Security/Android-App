@@ -27,8 +27,18 @@ public class RoleListActivity extends AppCompatActivity {
         TextView title = (TextView) findViewById(R.id.activity_title);
         title.setText("ROLES");
 
-        //////add here
-        String jsonString = "[{\"Name\":\"Admin\"},{\"Name\":\"Developer\"},{\"Name\":\"Guest\"},{\"Name\":\"IT\"},{\"Name\":\"Researcher\"},{\"Name\":\"Staff\"}]";
+        /*
+        * adding data using JSON object
+        *
+        * When exchanging data between a browser and a server, the data can only be text.
+        * JSON is text, and we can convert any JavaScript object into JSON,
+        * and send JSON to the server.
+        * We can also convert any JSON received from the server into JavaScript objects.
+        * */
+
+        //dummy data
+        String jsonString = "[{\"Name\":\"Admin\"},{\"Name\":\"Developer\"},{\"Name\":\"Guest\"}," +
+                "{\"Name\":\"IT\"},{\"Name\":\"Researcher\"},{\"Name\":\"Staff\"}]";
 
         JSONArray jsonObject = null;
         try {
@@ -39,19 +49,18 @@ public class RoleListActivity extends AppCompatActivity {
 
         for(int i = 0; i < jsonObject.length(); i++){
             try {
-                System.out.println(jsonObject.getJSONObject(i).get("Name"));
+                String name = (String) jsonObject.getJSONObject(i).get("Name");
+                roles.add(new Role(name));
             } catch (JSONException e) {
                 e.printStackTrace();
             }
         }
 
-        roles.add(new Role("Team Leader"));
-        roles.add(new Role("Back-end Developer"));
-        roles.add(new Role("Front-end Developer"));
-
+        // shows the recycler view of items
         rolesRecyclerView();
     }
 
+    // intializes the view of roles
     private void rolesRecyclerView() {
         RecyclerView rv = findViewById(R.id.recycler_view);
         RolesAdapter adapter = new RolesAdapter(this, roles);
