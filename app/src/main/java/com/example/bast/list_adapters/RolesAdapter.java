@@ -1,6 +1,7 @@
 package com.example.bast.list_adapters;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +14,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.bast.R;
 import com.example.bast.objects.Role;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 
@@ -61,6 +65,16 @@ public class RolesAdapter extends RecyclerView.Adapter<RolesAdapter.ViewHolder> 
 
             item_parent = itemView.findViewById(R.id.list_parent_layout);
             roleName = itemView.findViewById(R.id.list_item);
+        }
+    }
+
+    /**method will receive a string that will be in a form of a json object
+     * @param jsonString - the string that will be received from the controller*/
+    public void getRoles(String jsonString){
+        try {
+            JSONObject jsonObject = new JSONObject(jsonString);
+        }catch (JSONException err){
+            Log.d("Error", err.toString());
         }
     }
 
