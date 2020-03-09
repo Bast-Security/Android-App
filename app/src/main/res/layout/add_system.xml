@@ -33,7 +33,7 @@
         android:layout_marginEnd="35dp"
         android:ems="10"
         android:inputType="text"
-        android:text="System Name" />
+        android:hint="System Name" />
 
     <Button
         android:id="@+id/add_button"
@@ -43,7 +43,7 @@
         android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
         android:layout_marginStart="245dp"
-        android:layout_marginTop="135dp"
+        android:layout_marginTop="132dp"
         android:layout_marginEnd="30dp"
         android:background="@drawable/rectanglebutton"
         android:fontFamily="@font/segoesemibold"

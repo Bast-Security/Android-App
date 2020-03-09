@@ -34,7 +34,7 @@
         android:layout_marginEnd="35dp"
         android:ems="10"
         android:inputType="text"
-        android:text="System Name" />
+        android:hint="System Name" />
 
     <Button
         android:id="@+id/add_button"
