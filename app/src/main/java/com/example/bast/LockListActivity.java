@@ -1,6 +1,12 @@
 package com.example.bast;
 
+import android.app.Dialog;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -9,17 +15,16 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.bast.list_adapters.LocksAdapter;
 import com.example.bast.objects.Lock;
-import com.example.bast.objects.Role;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 
 import java.util.ArrayList;
-import java.util.Date;
 
 public class LockListActivity extends AppCompatActivity {
 
     public ArrayList<Lock> locks = new ArrayList<>();
+    Dialog addDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,6 +59,7 @@ public class LockListActivity extends AppCompatActivity {
         }
 
         locksRecyclerView();
+        initButton();
 
     }
 
@@ -62,5 +68,39 @@ public class LockListActivity extends AppCompatActivity {
         LocksAdapter adapter = new LocksAdapter(locks, this);
         rv.setAdapter(adapter);
         rv.setLayoutManager(new LinearLayoutManager(this));
+    }
+
+    private void initButton() {
+        Button add_button = (Button) findViewById(R.id.add_btn);
+        addDialog = new Dialog(this);
+
+        // Popup add user menu
+        add_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                addLock();
+            }
+        });
+    }
+
+    public void addLock() {
+        addDialog.setContentView(R.layout.add_lock);
+
+        TextView title = (TextView) addDialog.findViewById(R.id.lock_tle);
+        EditText name = (EditText) addDialog.findViewById(R.id.lockname);
+
+        Button add_role = (Button) addDialog.findViewById(R.id.add_button);
+        add_role.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // TODO: Add to locks database
+                addDialog.dismiss();
+            }
+        });
+
+        addDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+
+        addDialog.show();
+
     }
 }
