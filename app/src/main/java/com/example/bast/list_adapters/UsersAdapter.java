@@ -28,7 +28,7 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.ViewHolder> 
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.user_list_row, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_row, parent, false);
         ViewHolder holder = new ViewHolder(view);
 
         return holder;
@@ -60,8 +60,8 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.ViewHolder> 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
 
-            userName = itemView.findViewById(R.id.username);
-            layout = itemView.findViewById(R.id.user_layout);
+            userName = itemView.findViewById(R.id.list_item);
+            layout = itemView.findViewById(R.id.list_parent_layout);
         }
     }
 
