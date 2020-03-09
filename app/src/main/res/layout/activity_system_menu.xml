@@ -13,9 +13,9 @@
         android:layout_centerHorizontal="true"
         android:layout_alignParentTop="true"
         android:layout_marginTop="125dp"
-        android:paddingBottom="10dp"
+        android:paddingBottom="15dp"
         android:text="SYSTEM MENU"
-        android:textSize="35dp"
+        android:textSize="40dp"
         android:fontFamily="@font/segoeuiblack"
         android:textColor="@color/colorPrimaryDark"/>
 
@@ -96,17 +96,8 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/activity_title"
-        android:orientation="horizontal"
-        android:gravity="center"
-        android:clipToPadding="false">
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
         android:layout_below="@id/first_row"
+        android:paddingTop="1dp"
         android:orientation="horizontal"
         android:gravity="center"
         android:clipToPadding="false">
