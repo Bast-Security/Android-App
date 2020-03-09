@@ -28,7 +28,7 @@ public class SystemMenuActivity extends AppCompatActivity implements View.OnClic
         lock = (CardView) findViewById(R.id.locks_button);
         user = (CardView) findViewById(R.id.users_button);
         role = (CardView) findViewById(R.id.roles_button);
-        settings = (CardView) findViewById(R.id.settings_button);
+        settings = (CardView) findViewById(R.id.logs_button);
 
         lock.setOnClickListener(this);
         user.setOnClickListener(this);
@@ -60,7 +60,7 @@ public class SystemMenuActivity extends AppCompatActivity implements View.OnClic
                 i = new Intent(this, RoleListActivity.class);
                 startActivity(i);
                 break;
-            case R.id.settings_button:
+            case R.id.logs_button:
                 i = new Intent(this, HomeScreenActivity.class);
                 startActivity(i);
                 break;

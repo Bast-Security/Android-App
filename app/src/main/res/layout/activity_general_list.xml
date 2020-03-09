@@ -13,8 +13,8 @@
         android:paddingBottom="10dp"
         android:paddingLeft="15dp"
         android:text="USERS"
-        android:textSize="35dp"
-        android:fontFamily="@font/segoesemibold"
+        android:textSize="30dp"
+        android:fontFamily="@font/segoeuiblack"
         android:textColor="@color/colorPrimaryDark"/>
 
     <Button
