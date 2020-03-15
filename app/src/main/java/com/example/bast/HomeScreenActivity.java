@@ -18,6 +18,7 @@ import android.util.Log;
 import android.widget.Button;
 
 import com.example.bast.list_adapters.SystemsAdapter;
+import com.example.bast.objects.HTTP;
 import com.example.bast.objects.ServiceFinder;
 import com.example.bast.objects.System;
 
@@ -70,14 +71,10 @@ public class HomeScreenActivity extends AppCompatActivity {
         setContentView(R.layout.activity_home_screen);
         Log.d(TAG, "onCreate: started");
 
-
-
-
         Log.d(TAG, "initRecyclerView: init recyclerview.");
         rv = findViewById(R.id.rvSystems);
         rv.setAdapter(adapter);
         rv.setLayoutManager(new LinearLayoutManager(this));
-
 
         {
             // add the SpongyCastle provider so that we can generate keys
@@ -103,68 +100,14 @@ public class HomeScreenActivity extends AppCompatActivity {
 
             Log.d("networkDiscovery", "GETing " + url.toString());
 
-            Handler handler = new Handler();
-
-            Runnable r = () -> {
-                try {
-                    OkHttpClient.Builder clientBuilder = new OkHttpClient.Builder();
-
-                    final TrustManager[] trustAllCerts = new TrustManager[]{new X509TrustManager() {
-                        @Override
-                        public X509Certificate[] getAcceptedIssuers() {
-                            X509Certificate[] cArrr = new X509Certificate[0];
-                            return cArrr;
-                        }
-
-                        @Override
-                        public void checkServerTrusted(final X509Certificate[] chain,
-                                                       final String authType) throws CertificateException {
-                        }
-
-                        @Override
-                        public void checkClientTrusted(final X509Certificate[] chain,
-                                                       final String authType) throws CertificateException {
-                        }
-                    }};
-
-                    SSLContext sslContext = SSLContext.getInstance("SSL");
-
-                    sslContext.init(null, trustAllCerts, new java.security.SecureRandom());
-                    clientBuilder.sslSocketFactory(sslContext.getSocketFactory());
-
-                    HostnameVerifier hostnameVerifier = new HostnameVerifier() {
-                        @Override
-                        public boolean verify(String hostname, SSLSession session) {
-                            Log.d(TAG, "okhttp :" + hostname);
-                            return true;
-                        }
-                    };
-                    clientBuilder.hostnameVerifier(hostnameVerifier);
-
-                    OkHttpClient client = clientBuilder.build();
-
-                    Request request = new Request.Builder().url(url).get().build();
-
-                    Response response = client.newCall(request).execute();
-                    boolean isOrphan = response.code() == 200;
-
-                    handler.post(() -> {
-                        systems.add(new System(service.getServiceName(), service.getHost(), isOrphan));
-                        adapter.notifyItemInserted(systems.size() - 1);
-                    });
-                } catch (Exception e) {
-                    Log.d("networkDiscovery", e.toString());
-                }
-            };
-
-            Thread t = new Thread(r);
-            t.start();
+            Request request = new Request.Builder().url(url).get().build();
+            HTTP.doRequest(request, (res) -> {
+                boolean isOrphan = res.code() == 200;
+                systems.add(new System(service.getServiceName(), service.getHost(), isOrphan));
+                adapter.notifyItemInserted(systems.size() - 1);
+            });
         } catch (Exception e) {
             Log.d("networkDiscovery", e.toString());
         }
-    }
-
-    public void addSystemPopup(System system) {
-
     }
 }
