@@ -1,28 +1,31 @@
 package com.example.bast.objects;
 
+import java.net.InetAddress;
 import java.util.ArrayList;
 
 public class System {
-
+    private InetAddress address;
     private String systemName;
     private String serviceName;
-    private boolean isConnected;
-    private ArrayList<Lock> locks;
-    private ArrayList<User> users;
-    private ArrayList<Role> roles;
-
-    //constructor if system is unknown
-    public System(String systemServiceName) {
-        serviceName = systemServiceName;
-        this.systemName = "Unknown System: " + serviceName;
-        this.isConnected = false;
-    }
-
+    private boolean isOrphan;
 
     //constructor for known system
-    public System(String systemName, boolean connection) {
+    public System(String systemName, InetAddress addr, boolean isOrphan) {
         this.systemName = systemName;
-        this.isConnected = connection;
+        this.address = addr;
+        this.isOrphan = isOrphan;
+    }
+
+    public boolean isOrphan() {
+        return isOrphan;
+    }
+
+    public void adopt() {
+        this.isOrphan = false;
+    }
+
+    public InetAddress getIp() {
+        return this.address;
     }
 
     // getters and setters
@@ -35,10 +38,6 @@ public class System {
     }
 
     public boolean isConnected() {
-        return isConnected;
-    }
-
-    public void setConnected(boolean connected) {
-        isConnected = connected;
+        return getIp() != null;
     }
 }

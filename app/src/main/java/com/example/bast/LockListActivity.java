@@ -101,6 +101,5 @@ public class LockListActivity extends AppCompatActivity {
         addDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
 
         addDialog.show();
-
     }
 }

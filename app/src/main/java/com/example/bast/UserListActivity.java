@@ -102,7 +102,5 @@ public class UserListActivity extends AppCompatActivity {
         addDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
 
         addDialog.show();
-
     }
-
 }
