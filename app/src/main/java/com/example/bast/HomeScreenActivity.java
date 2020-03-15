@@ -29,8 +29,20 @@ import java.net.URL;
 import java.security.Key;
 import java.security.KeyPair;
 import java.security.KeyPairGenerator;
+import java.security.KeyStore;
+import java.security.SecureRandom;
 import java.security.Security;
+import java.security.cert.CertificateException;
+import java.security.cert.X509Certificate;
 import java.util.ArrayList;
+
+import javax.net.ssl.HostnameVerifier;
+import javax.net.ssl.KeyManagerFactory;
+import javax.net.ssl.SSLContext;
+import javax.net.ssl.SSLSession;
+import javax.net.ssl.TrustManager;
+import javax.net.ssl.TrustManagerFactory;
+import javax.net.ssl.X509TrustManager;
 
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -87,17 +99,52 @@ public class HomeScreenActivity extends AppCompatActivity {
         try {
             InetAddress addr = service.getHost();
             int port = service.getPort();
-            URL url = new URL("https", addr.toString(), port, "isOrphan");
+            URL url = new URL("https", addr.getHostAddress(), port, "isOrphan");
 
             Log.d("networkDiscovery", "GETing " + url.toString());
 
             Handler handler = new Handler();
 
             Runnable r = () -> {
-                OkHttpClient client = new OkHttpClient();
-                Request request = new Request.Builder().url(url).get().build();
-
                 try {
+                    OkHttpClient.Builder clientBuilder = new OkHttpClient.Builder();
+
+                    final TrustManager[] trustAllCerts = new TrustManager[]{new X509TrustManager() {
+                        @Override
+                        public X509Certificate[] getAcceptedIssuers() {
+                            X509Certificate[] cArrr = new X509Certificate[0];
+                            return cArrr;
+                        }
+
+                        @Override
+                        public void checkServerTrusted(final X509Certificate[] chain,
+                                                       final String authType) throws CertificateException {
+                        }
+
+                        @Override
+                        public void checkClientTrusted(final X509Certificate[] chain,
+                                                       final String authType) throws CertificateException {
+                        }
+                    }};
+
+                    SSLContext sslContext = SSLContext.getInstance("SSL");
+
+                    sslContext.init(null, trustAllCerts, new java.security.SecureRandom());
+                    clientBuilder.sslSocketFactory(sslContext.getSocketFactory());
+
+                    HostnameVerifier hostnameVerifier = new HostnameVerifier() {
+                        @Override
+                        public boolean verify(String hostname, SSLSession session) {
+                            Log.d(TAG, "okhttp :" + hostname);
+                            return true;
+                        }
+                    };
+                    clientBuilder.hostnameVerifier(hostnameVerifier);
+
+                    OkHttpClient client = clientBuilder.build();
+
+                    Request request = new Request.Builder().url(url).get().build();
+
                     Response response = client.newCall(request).execute();
                     boolean isOrphan = response.code() == 200;
 
