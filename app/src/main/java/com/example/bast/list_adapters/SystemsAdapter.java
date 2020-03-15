@@ -92,7 +92,7 @@ public class SystemsAdapter extends RecyclerView.Adapter<SystemsAdapter.ViewHold
 
             systemName = itemView.findViewById(R.id.new_system);
             parentLayout = itemView.findViewById(R.id.parent_layout);
-            
+
         }
 
     }

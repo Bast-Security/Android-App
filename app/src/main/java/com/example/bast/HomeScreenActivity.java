@@ -8,16 +8,19 @@ import android.content.Context;
 import android.net.nsd.NsdManager;
 import android.net.nsd.NsdServiceInfo;
 import android.os.Bundle;
+import android.os.Handler;
 import android.security.keystore.KeyGenParameterSpec;
 import android.security.keystore.KeyProperties;
 import android.util.Log;
 
 import com.example.bast.list_adapters.SystemsAdapter;
+import com.example.bast.objects.ServiceFinder;
 import com.example.bast.objects.System;
 
 import org.spongycastle.jcajce.provider.asymmetric.ec.KeyPairGeneratorSpi;
 import org.spongycastle.jce.provider.BouncyCastleProvider;
 
+import java.net.InetAddress;
 import java.security.Key;
 import java.security.KeyPair;
 import java.security.KeyPairGenerator;
@@ -25,18 +28,17 @@ import java.security.Security;
 import java.util.ArrayList;
 
 public class HomeScreenActivity extends AppCompatActivity {
-
-
     // Initialize Discovery Listener and NSD Manager
-    private NsdManager.DiscoveryListener discoveryListener;
-    private NsdManager nsdManager;
+
 
     private Key privateKey;
     public Key publicKey;
 
     private static final String TAG = "MainActivity";
 
-    public ArrayList<System> systems = new ArrayList<>();
+    private RecyclerView rv;
+    private ArrayList<System> systems = new ArrayList<>();
+    private SystemsAdapter adapter = new SystemsAdapter(systems, this);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,10 +47,10 @@ public class HomeScreenActivity extends AppCompatActivity {
         setContentView(R.layout.activity_home_screen);
         Log.d(TAG, "onCreate: started");
 
-        // adding dummy data
-        systems.add(new System("System 1", true));
-        systems.add(new System("System 2", false));
-        systems.add(new System("System 3", true));
+        Log.d(TAG, "initRecyclerView: init recyclerview.");
+        rv = findViewById(R.id.rvSystems);
+        rv.setAdapter(adapter);
+        rv.setLayoutManager(new LinearLayoutManager(this));
 
         // add the SpongyCastle provider so that we can generate keys
         Security.addProvider(new BouncyCastleProvider());
@@ -61,88 +63,12 @@ public class HomeScreenActivity extends AppCompatActivity {
         privateKey = onCreateKeyPair.getPrivate();
         Log.d("keypair", "keypair created");
 
-
         // Create an instance of NSD Manager and Discovery Listener
-        nsdManager = (NsdManager) this.getSystemService(Context.NSD_SERVICE);
-        discoveryListener = new NsdManager.DiscoveryListener() {
-
-
-
-
-            // Failure to start discovery upon start
-            @Override
-            public void onStartDiscoveryFailed(String serviceType, int errorCode) {
-                Log.d("networkDiscovery", "On start discovery fail. Error code: " + errorCode);
-                nsdManager.stopServiceDiscovery(this);
-            }
-
-            // Failure to discover service
-            @Override
-            public void onStopDiscoveryFailed(String serviceType, int errorCode) {
-                Log.d("networkDiscovery", "On stop discovery fail. Error code: " + errorCode);
-                nsdManager.stopServiceDiscovery(this);
-            }
-
-            // Called when service discovery begins
-            @Override
-            public void onDiscoveryStarted(String serviceType) {
-                Log.d("networkDiscovery", "Discovery started");
-            }
-
-            // Discovery stopped
-            @Override
-            public void onDiscoveryStopped(String serviceType) {
-                Log.d("networkDiscovery", "Discovery stopped. Service type: " + serviceType);
-            }
-
-            // When service found, do something
-            @Override
-            public void onServiceFound(NsdServiceInfo serviceInfo) {
-                Log.d("networkDiscovery", "Service discovery success");
-                // When the service name is not null
-                if (serviceInfo.getServiceName() != null) {
-                    String mHost = serviceInfo.getServiceName();
-                    if(serviceInfo.getServiceType() != null){
-                        String serviceType = serviceInfo.getServiceType();
-                        Log.d("networkDiscovery", "Service type: " + serviceType);
-                    }
-
-
-
-
-                    Log.d("networkDiscovery", "Service name: " + mHost);
-                    systems.add(new System(mHost, false));
-
-                }
-                else{
-                    Log.d("networkDiscovery", "null host ip address");
-                }
-            }
-
-            // Network service lost/not available
-            @Override
-            public void onServiceLost(NsdServiceInfo serviceInfo) {
-                Log.d("networkDiscovery", "Service Lost. " + serviceInfo);
-            }
-        };
-
-        // What type of service to look for
-        nsdManager.discoverServices(
-                "_bast._tcp", NsdManager.PROTOCOL_DNS_SD, discoveryListener);
-
-        initRecyclerView();
+        ServiceFinder serviceFinder = new ServiceFinder("_bast_controller._tcp", this, this::serviceFound);
     }
 
-    /**
-     * Initializes the Recycler View and its adapter
-     */
-    private void initRecyclerView() {
-        Log.d(TAG, "initRecyclerView: init recyclerview.");
-        RecyclerView rv = findViewById(R.id.rvSystems);
-        SystemsAdapter adapter = new SystemsAdapter(systems, this);
-        rv.setAdapter(adapter);
-        rv.setLayoutManager(new LinearLayoutManager(this));
-
+    private void serviceFound(NsdServiceInfo service) {
+        systems.add(new System(service.getServiceName(), true));
+        adapter.notifyItemInserted(systems.size() - 1);
     }
-
 }
