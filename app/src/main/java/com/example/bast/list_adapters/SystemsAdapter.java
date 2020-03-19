@@ -1,10 +1,14 @@
 package com.example.bast.list_adapters;
 
+import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.os.Handler;
+import android.util.Base64;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,11 +25,27 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.bast.ConnectSystemActivity;
 import com.example.bast.R;
 import com.example.bast.SystemMenuActivity;
+import com.example.bast.objects.HTTP;
+import com.example.bast.objects.Session;
 import com.example.bast.objects.System;
 
+import org.json.JSONObject;
 import org.w3c.dom.Text;
 
+import java.net.InetAddress;
+import java.net.URL;
+import java.security.KeyStore;
+import java.security.PrivateKey;
+import java.security.Signature;
+import java.security.interfaces.ECPrivateKey;
+import java.security.interfaces.ECPublicKey;
 import java.util.ArrayList;
+import java.util.function.Consumer;
+
+import okhttp3.MediaType;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+import okhttp3.Response;
 
 public class SystemsAdapter extends RecyclerView.Adapter<SystemsAdapter.ViewHolder> {
 
@@ -55,7 +75,7 @@ public class SystemsAdapter extends RecyclerView.Adapter<SystemsAdapter.ViewHold
     public void onBindViewHolder(@NonNull ViewHolder holder, final int position) {
         Log.d(TAG, "onBindViewHolder: called.");
 
-        System system = systems.get(position);
+        final System system = systems.get(position);
         String display = system.getSystemName();
 
         if (system.isOrphan()) {
@@ -63,50 +83,87 @@ public class SystemsAdapter extends RecyclerView.Adapter<SystemsAdapter.ViewHold
         }
 
         holder.systemName.setText(display);
-
         if(systems.get(position).isConnected() == true){
             holder.parentLayout.setBackgroundColor(Color.WHITE);
-        }
-        else{
+        } else{
             holder.parentLayout.setBackgroundColor(Color.LTGRAY);
         }
-        holder.parentLayout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent;
 
-                Log.d(TAG, "onClick: clicked on: " + systems.get(position));
+        holder.parentLayout.setOnClickListener((view) -> {
+            Log.d(TAG, "onClick: clicked on: " + systems.get(position));
+            Toast.makeText(mContext, systems.get(position).getSystemName(), Toast.LENGTH_SHORT).show();
 
-                Toast.makeText(mContext, systems.get(position).getSystemName(), Toast.LENGTH_SHORT).show();
+            if(systems.get(position).isConnected()) {
+                final InetAddress addr = system.getIp();
+                final int port = system.getPort();
+                final String host = addr.getHostAddress();
 
-                if(systems.get(position).isConnected()) {
-                    // if orphan
-                    /*
-                    Dialog newSystemDialog = new Dialog(mContext);
-                    newSystemDialog.setContentView(R.layout.add_system);
-                    Button addButton = (Button) newSystemDialog.findViewById(R.id.add_button);
+                try {
+                    final KeyStore keyStore = KeyStore.getInstance("AndroidKeyStore");
+                    keyStore.load(null);
+                    KeyStore.PrivateKeyEntry entry = (KeyStore.PrivateKeyEntry) keyStore.getEntry("signer", null);
+                    final ECPublicKey pubKey = (ECPublicKey) entry.getCertificate().getPublicKey();
 
-                    addButton.setOnClickListener((v) -> {
-                        // if request succeeds
-                        newSystemDialog.dismiss();
+                    if (system.isOrphan()) {
+                        final Dialog newSystemDialog = new Dialog(mContext);
+                        newSystemDialog.setContentView(R.layout.add_system);
 
-                        // else do a thing
-                    });
+                        final EditText nameEntry = (EditText) newSystemDialog.findViewById(R.id.username);
+                        final Button addButton = (Button) newSystemDialog.findViewById(R.id.add_button);
 
-                    newSystemDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-                    newSystemDialog.show();
-                    */
+                        addButton.setOnClickListener((v) -> {
+                            try {
+                                final String name = nameEntry.getText().toString();
 
-                    // else
-                    intent = new Intent(mContext, SystemMenuActivity.class);
-                } else {
-                    intent = new Intent(mContext, ConnectSystemActivity.class);
+                                final JSONObject payload = new JSONObject();
+                                payload.accumulate("X", pubKey.getW().getAffineX());
+                                payload.accumulate("Y", pubKey.getW().getAffineY());
+                                Log.d("key", payload.toString(4));
+
+                                final MediaType contentType = MediaType.parse("application/json");
+                                final RequestBody body = RequestBody.create(contentType, payload.toString());
+                                final URL url = new URL("https", host, port, "newAdmin");
+                                final Request request = new Request.Builder().url(url).post(body).build();
+
+                                HTTP.doRequest(request, (response) -> {
+                                    if (response.code() == 200) {
+                                        newSystemDialog.dismiss();
+
+                                        try {
+                                            final URL loginUrl = new URL("https", host, port, "login");
+                                            Session.doLogin(loginUrl, entry.getPrivateKey(), (s) -> {
+                                                final Intent intent = new Intent(mContext, SystemMenuActivity.class);
+                                                mContext.startActivity(intent);
+                                            });
+                                        } catch (Exception e) {
+                                            Log.d("login", e.getMessage());
+                                        }
+                                    }
+
+                                    response.close();
+                                });
+                            } catch (Exception e) {
+                                Log.d("login", e.getMessage());
+                            }
+                        });
+
+                        newSystemDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                        newSystemDialog.show();
+                    } else {
+                        final URL loginUrl = new URL("https", host, port, "login");
+                        Session.doLogin(loginUrl, entry.getPrivateKey(), (session) -> {
+                            final Intent intent = new Intent(mContext, SystemMenuActivity.class);
+                            mContext.startActivity(intent);
+                        });
+                    }
+                } catch (Exception e) {
+                    Log.d("login", e.getMessage());
                 }
-
+            } else {
+                final Intent intent = new Intent(mContext, ConnectSystemActivity.class);
                 mContext.startActivity(intent);
             }
         });
-
     }
 
     @Override
@@ -126,8 +183,6 @@ public class SystemsAdapter extends RecyclerView.Adapter<SystemsAdapter.ViewHold
             systemName = itemView.findViewById(R.id.new_system);
             parentLayout = itemView.findViewById(R.id.parent_layout);
         }
-
     }
-
 }
 

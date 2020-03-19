@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.net.nsd.NsdManager;
@@ -26,6 +27,7 @@ import org.spongycastle.jcajce.provider.asymmetric.ec.KeyPairGeneratorSpi;
 import org.spongycastle.jce.provider.BouncyCastleProvider;
 
 import java.net.InetAddress;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.security.Key;
 import java.security.KeyPair;
@@ -35,6 +37,8 @@ import java.security.SecureRandom;
 import java.security.Security;
 import java.security.cert.CertificateException;
 import java.security.cert.X509Certificate;
+import java.security.spec.ECGenParameterSpec;
+import java.security.spec.ECParameterSpec;
 import java.util.ArrayList;
 
 import javax.net.ssl.HostnameVerifier;
@@ -76,17 +80,27 @@ public class HomeScreenActivity extends AppCompatActivity {
         rv.setAdapter(adapter);
         rv.setLayoutManager(new LinearLayoutManager(this));
 
-        {
-            // add the SpongyCastle provider so that we can generate keys
-            Security.addProvider(new BouncyCastleProvider());
+        SharedPreferences prefs = getPreferences(Context.MODE_PRIVATE);
+        if (!prefs.getBoolean("createdKey", false)) {
+            try {
+                KeyPairGenerator kpg = KeyPairGenerator.getInstance(KeyProperties.KEY_ALGORITHM_EC, "AndroidKeyStore");
 
-            //Creating an instance of the key generator class
-            new KeyGenParameterSpec.Builder("keyPair", KeyProperties.PURPOSE_ENCRYPT);
-            KeyPairGenerator keyPair = new KeyPairGeneratorSpi.ECDSA();
-            KeyPair onCreateKeyPair = keyPair.genKeyPair();
-            publicKey = onCreateKeyPair.getPublic();
-            privateKey = onCreateKeyPair.getPrivate();
-            Log.d("keypair", "keypair created");
+                KeyGenParameterSpec spec = new KeyGenParameterSpec.Builder("signer", KeyProperties.PURPOSE_SIGN)
+                        .setDigests(KeyProperties.DIGEST_SHA256)
+                        .setAlgorithmParameterSpec(new ECGenParameterSpec("P-384"))
+                        .build();
+
+                kpg.initialize(spec);
+                kpg.generateKeyPair();
+
+                prefs.edit().putBoolean("createdKey", true).apply();
+
+                Log.d("key","Created EC key");
+            } catch (Exception e) {
+                Log.d("key", "Failed to create EC key: " + e.getMessage());
+            }
+        } else {
+            Log.d("key", "EC key previously created.");
         }
 
         ServiceFinder serviceFinder = new ServiceFinder("_bast_controller._tcp", this, this::serviceFound);
@@ -103,10 +117,10 @@ public class HomeScreenActivity extends AppCompatActivity {
             Request request = new Request.Builder().url(url).get().build();
             HTTP.doRequest(request, (res) -> {
                 boolean isOrphan = res.code() == 200;
-                systems.add(new System(service.getServiceName(), service.getHost(), isOrphan));
+                systems.add(new System(service.getServiceName(), service.getHost(), service.getPort(), isOrphan));
                 adapter.notifyItemInserted(systems.size() - 1);
             });
-        } catch (Exception e) {
+        } catch (MalformedURLException e) {
             Log.d("networkDiscovery", e.toString());
         }
     }
