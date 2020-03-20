@@ -29,6 +29,7 @@ import com.example.bast.objects.HTTP;
 import com.example.bast.objects.Session;
 import com.example.bast.objects.System;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 import org.w3c.dom.Text;
 
@@ -132,6 +133,27 @@ public class SystemsAdapter extends RecyclerView.Adapter<SystemsAdapter.ViewHold
                                         try {
                                             final URL loginUrl = new URL("https", host, port, "login");
                                             Session.doLogin(loginUrl, entry.getPrivateKey(), (s) -> {
+                                                try {
+                                                    final URL setNameURL = new URL("https", host, port, "setName");
+                                                    final String setNameJson = new JSONObject()
+                                                            .accumulate("name", name).toString();
+                                                    final RequestBody setNameBody = RequestBody.create(contentType, setNameJson);
+                                                    final Request setNameReq = new Request.Builder()
+                                                            .url(setNameURL)
+                                                            .post(setNameBody)
+                                                            .build();
+
+                                                    new Thread(() -> {
+                                                        try {
+                                                            s.doSyncRequest(setNameReq);
+                                                        } catch (Exception e) {
+                                                            Log.d("setname", e.toString());
+                                                        }
+                                                    }).start();
+                                                } catch (Exception e) {
+                                                    Log.d("name", e.toString());
+                                                }
+
                                                 final Intent intent = new Intent(mContext, SystemMenuActivity.class);
                                                 mContext.startActivity(intent);
                                             });

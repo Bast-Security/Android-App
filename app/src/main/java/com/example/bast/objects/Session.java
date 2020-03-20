@@ -37,17 +37,10 @@ public class Session {
             final MediaType contentType = MediaType.parse("application/json");
             final Request challengeReq = new Request.Builder().url(url).get().build();
 
-            Log.d("session", "request 1");
-
             try (Response response = HTTP.doSyncRequest(challengeReq)) {
-                Log.d("session", "a");
                 final JSONObject c = new JSONObject(response.body().string());
-                Log.d("session", "b");
                 challenge = Base64.decode(c.getString("challenge"), Base64.DEFAULT);
-                Log.d("session", "c");
             }
-
-            Log.d("session", "signature");
 
             final Signature sig = Signature.getInstance("SHA256withECDSA");
             sig.initSign(privKey);
@@ -57,8 +50,6 @@ public class Session {
                     .accumulate("response", Base64.encodeToString(signed, Base64.DEFAULT));
             final RequestBody loginBody = RequestBody.create(contentType, jsonSig.toString());
             final Request loginRequest = new Request.Builder().url(url).post(loginBody).build();
-
-            Log.d("session", "request 2");
 
             try (Response response = HTTP.doSyncRequest(loginRequest)) {
                 Log.d("session", "did response!");
@@ -110,7 +101,9 @@ public class Session {
      * @return Augmented Request
      */
     public Request wrap(Request request) {
-        return request.newBuilder().addHeader("jwt", jwt).build();
+        return request.newBuilder()
+                .addHeader("Authorization", "Bearer " + jwt)
+                .build();
     }
 
     public void doRequest(Request request, Consumer<Response> onResponse) {
