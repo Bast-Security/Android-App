@@ -79,16 +79,16 @@ public class SystemsAdapter extends RecyclerView.Adapter<SystemsAdapter.ViewHold
         final System system = systems.get(position);
         String display = system.getSystemName();
 
-        if (system.isOrphan()) {
-            display = "(Orphan) " + display;
-        }
+//        if (system.isOrphan()) {
+//            display = "(Orphan) " + display;
+//        }
 
         holder.systemName.setText(display);
-        if(systems.get(position).isConnected() == true){
-            holder.parentLayout.setBackgroundColor(Color.WHITE);
-        } else{
-            holder.parentLayout.setBackgroundColor(Color.LTGRAY);
-        }
+//        if(systems.get(position).isConnected() == true){
+//            holder.parentLayout.setBackgroundColor(Color.WHITE);
+//        } else{
+//            holder.parentLayout.setBackgroundColor(Color.LTGRAY);
+//        }
 
         holder.parentLayout.setOnClickListener((view) -> {
             Log.d(TAG, "onClick: clicked on: " + systems.get(position));
