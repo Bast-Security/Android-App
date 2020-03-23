@@ -1,6 +1,7 @@
 package com.example.bast.objects;
 
 import android.os.Handler;
+import android.os.NetworkOnMainThreadException;
 import android.util.Base64;
 import android.util.Log;
 
@@ -22,22 +23,21 @@ import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
 
+import static com.example.bast.objects.HTTP.get;
+
 public class Session {
     private String jwt;
     private Session(String jwt) {
         this.jwt = jwt;
     }
 
-    public static Session doSyncLogin(final URL url, final PrivateKey privKey) throws IOException, AuthFailedException {
+    public static Session doSyncLogin(final PrivateKey privKey) throws IOException, AuthFailedException {
         Session session = null;
 
         try {
             final byte[] challenge;
 
-            final MediaType contentType = MediaType.parse("application/json");
-            final Request challengeReq = new Request.Builder().url(url).get().build();
-
-            try (Response response = HTTP.doSyncRequest(challengeReq)) {
+            try (Response response = HTTP.doSyncRequest(HTTP.get("login"))) {
                 final JSONObject c = new JSONObject(response.body().string());
                 challenge = Base64.decode(c.getString("challenge"), Base64.DEFAULT);
             }
@@ -48,17 +48,13 @@ public class Session {
             final byte[] signed = sig.sign();
             final JSONObject jsonSig = new JSONObject()
                     .accumulate("response", Base64.encodeToString(signed, Base64.DEFAULT));
-            final RequestBody loginBody = RequestBody.create(contentType, jsonSig.toString());
-            final Request loginRequest = new Request.Builder().url(url).post(loginBody).build();
 
-            try (Response response = HTTP.doSyncRequest(loginRequest)) {
+            try (Response response = HTTP.doSyncRequest(HTTP.post("login", jsonSig))) {
                 Log.d("session", "did response!");
                 if (response.code() == 200) {
                     session = new Session(response.body().string());
                 }
             }
-        } catch (IOException e) {
-            Log.d("session", "I Want to die " + e.toString());
         } catch (JSONException e) {
             Log.d("session", "JSON exception: " + e.getMessage());
         } catch (NoSuchAlgorithmException e) {
@@ -67,7 +63,7 @@ public class Session {
             Log.d("session", "Signature: " + e.getMessage());
         } catch (InvalidKeyException e) {
             Log.d("session", "Invalid Key: " + e.getMessage());
-        } catch (Exception e) {
+        } catch (NetworkOnMainThreadException e) {
             throw new AuthFailedException(e.toString());
         } finally {
             if (session == null) {
@@ -78,22 +74,19 @@ public class Session {
         return session;
     }
 
-    public static void doLogin(final URL url, final PrivateKey privateKey, final Consumer<Session> callback) {
+    public static void doLogin(final PrivateKey privateKey, final Consumer<Session> callback) {
         final Handler handler = new Handler();
 
-        Runnable r = () -> {
+        Async.task(() -> {
             try {
-                final Session s = doSyncLogin(url, privateKey);
+                final Session s = doSyncLogin(privateKey);
                 handler.post(() -> callback.accept(s));
             } catch (IOException e) {
                 Log.d("session", e.getMessage());
             } catch (AuthFailedException e) {
                 Log.d("session", e.getMessage());
             }
-        };
-
-        Thread t = new Thread(r);
-        t.start();
+        });
     }
 
     /**
