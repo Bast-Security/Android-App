@@ -3,7 +3,10 @@ package com.example.bast.objects;
 import android.os.Handler;
 import android.util.Log;
 
+import org.json.JSONObject;
+
 import java.io.IOException;
+import java.net.URL;
 import java.security.KeyManagementException;
 import java.security.NoSuchAlgorithmException;
 import java.security.cert.CertificateException;
@@ -17,11 +20,47 @@ import javax.net.ssl.SSLSession;
 import javax.net.ssl.TrustManager;
 import javax.net.ssl.X509TrustManager;
 
+import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
+import okhttp3.RequestBody;
 import okhttp3.Response;
 
 public class HTTP {
+    public static final String HOST = "bast-security.services";
+    public static final int PORT = 8080;
+
+    public static Request post(String file, JSONObject body) {
+        return new Request.Builder()
+                .url(url("register"))
+                .post(jsonBody(body))
+                .build();
+    }
+
+    public static Request get(String file, JSONObject body) {
+        return new Request.Builder()
+                .url(url("register"))
+                .method("GET", jsonBody(body))
+                .build();
+    }
+
+    public static Request get(String file) {
+        return new Request.Builder()
+                .url(url("register"))
+                .get()
+                .build();
+    }
+
+    public static String url(String file) {
+        return "https://" + HOST + "/" + file;
+    }
+
+    public static RequestBody jsonBody(JSONObject payload) {
+        final MediaType contentType = MediaType.parse("application/json");
+        final RequestBody body = RequestBody.create(contentType, payload.toString());
+        return body;
+    }
+
     public static OkHttpClient client() {
         OkHttpClient.Builder clientBuilder = new OkHttpClient.Builder();
 
