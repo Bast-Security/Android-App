@@ -4,12 +4,19 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.Dialog;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.security.keystore.KeyGenParameterSpec;
 import android.security.keystore.KeyProperties;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.TextView;
 
 import com.example.bast.list_adapters.SystemsAdapter;
 import com.example.bast.objects.HTTP;
@@ -38,17 +45,17 @@ public class HomeScreenActivity extends AppCompatActivity {
     private ArrayList<System> systems = new ArrayList<System>();
     private SystemsAdapter adapter = new SystemsAdapter(systems, this);
 
+    private Dialog addDialog;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        setContentView(R.layout.activity_home_screen);
+        setContentView(R.layout.activity_general_list);
         Log.d(TAG, "onCreate: started");
 
         Log.d(TAG, "initRecyclerView: init recyclerview.");
-        rv = findViewById(R.id.rvSystems);
-        rv.setAdapter(adapter);
-        rv.setLayoutManager(new LinearLayoutManager(this));
+        initRecyclerView();
 
         final SharedPreferences prefs = getPreferences(Context.MODE_PRIVATE);
         if (!prefs.getBoolean("createdKey", false)) {
@@ -105,5 +112,44 @@ public class HomeScreenActivity extends AppCompatActivity {
                 Log.d("register", "couldn't load keys " + e.toString());
             }
         }
+    }
+
+    // initializes the view of roles
+    private void initRecyclerView() {
+        rv = findViewById(R.id.recycler_view);
+        rv.setAdapter(adapter);
+        rv.setLayoutManager(new LinearLayoutManager(this));
+    }
+
+    private void initButton() {
+        Button add_button = (Button) findViewById(R.id.add_btn);
+        addDialog = new Dialog(this);
+
+        // Popup add user menu
+        add_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                connectSystem();
+            }
+        });
+    }
+
+    private void connectSystem() {
+        addDialog.setContentView(R.layout.connect_system);
+
+        TextView title = (TextView) addDialog.findViewById(R.id.connect_title);
+        EditText name = (EditText) addDialog.findViewById(R.id.system_name);
+
+        Button add_role = (Button) addDialog.findViewById(R.id.add_button);
+        add_role.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // TODO: Connect to system
+            }
+        });
+
+        addDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+
+        addDialog.show();
     }
 }

@@ -113,8 +113,8 @@ public class SystemsAdapter extends RecyclerView.Adapter<SystemsAdapter.ViewHold
         public ViewHolder(View itemView) {
             super(itemView);
 
-            systemName = itemView.findViewById(R.id.new_system);
-            parentLayout = itemView.findViewById(R.id.parent_layout);
+            systemName = itemView.findViewById(R.id.list_item);
+            parentLayout = itemView.findViewById(R.id.list_parent_layout);
         }
     }
 }
