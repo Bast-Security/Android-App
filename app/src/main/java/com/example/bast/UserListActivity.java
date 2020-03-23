@@ -44,6 +44,17 @@ public class UserListActivity extends AppCompatActivity {
 
     }
 
+    /**
+     * Initializes the Recycler View and its adapter
+     */
+    private void initRecyclerView() {
+        RecyclerView rv = findViewById(R.id.recycler_view);
+        UsersAdapter adapter = new UsersAdapter(users, this);
+        rv.setAdapter(adapter);
+        rv.setLayoutManager(new LinearLayoutManager(this));
+
+    }
+
     private void initButton() {
         Button add_button = (Button) findViewById(R.id.add_btn);
         addDialog = new Dialog(this);
@@ -55,17 +66,6 @@ public class UserListActivity extends AppCompatActivity {
                 addUserMenu();
             }
         });
-    }
-
-    /**
-     * Initializes the Recycler View and its adapter
-     */
-    private void initRecyclerView() {
-        RecyclerView rv = findViewById(R.id.recycler_view);
-        UsersAdapter adapter = new UsersAdapter(users, this);
-        rv.setAdapter(adapter);
-        rv.setLayoutManager(new LinearLayoutManager(this));
-
     }
 
     public void addUserMenu() {
