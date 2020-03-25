@@ -9,18 +9,14 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
-import java.net.URL;
 import java.security.InvalidKeyException;
-import java.security.KeyStore;
 import java.security.NoSuchAlgorithmException;
 import java.security.PrivateKey;
 import java.security.Signature;
 import java.security.SignatureException;
 import java.util.function.Consumer;
 
-import okhttp3.MediaType;
 import okhttp3.Request;
-import okhttp3.RequestBody;
 import okhttp3.Response;
 
 import static com.example.bast.objects.HTTP.get;
@@ -31,24 +27,28 @@ public class Session {
         this.jwt = jwt;
     }
 
-    public static Session doSyncLogin(final PrivateKey privKey) throws IOException, AuthFailedException {
+    public static Session login(final PrivateKey privKey, final int id) throws IOException, AuthFailedException {
         Session session = null;
 
         try {
             final byte[] challenge;
 
-            try (Response response = HTTP.doSyncRequest(HTTP.get("login"))) {
+            Log.d("login", "fetching challenge");
+            try (Response response = HTTP.doSyncRequest(HTTP.post("challenge", new JSONObject().accumulate("id", id)))) {
                 final JSONObject c = new JSONObject(response.body().string());
                 challenge = Base64.decode(c.getString("challenge"), Base64.DEFAULT);
             }
 
+            Log.d("login", "generating response");
             final Signature sig = Signature.getInstance("SHA256withECDSA");
             sig.initSign(privKey);
             sig.update(challenge);
             final byte[] signed = sig.sign();
             final JSONObject jsonSig = new JSONObject()
-                    .accumulate("response", Base64.encodeToString(signed, Base64.DEFAULT));
+                    .accumulate("response", Base64.encodeToString(signed, Base64.DEFAULT))
+                    .accumulate("id", id);
 
+            Log.d("login", "sending response");
             try (Response response = HTTP.doSyncRequest(HTTP.post("login", jsonSig))) {
                 Log.d("session", "did response!");
                 if (response.code() == 200) {
@@ -65,21 +65,21 @@ public class Session {
             Log.d("session", "Invalid Key: " + e.getMessage());
         } catch (NetworkOnMainThreadException e) {
             throw new AuthFailedException(e.toString());
-        } finally {
+        } catch (Exception e) {
             if (session == null) {
-                throw new AuthFailedException();
+                throw new AuthFailedException(e.toString());
             }
         }
 
         return session;
     }
 
-    public static void doLogin(final PrivateKey privateKey, final Consumer<Session> callback) {
+    public static void loginAsync(final PrivateKey privateKey, final int id, final Consumer<Session> callback) {
         final Handler handler = new Handler();
 
         Async.task(() -> {
             try {
-                final Session s = doSyncLogin(privateKey);
+                final Session s = login(privateKey, id);
                 handler.post(() -> callback.accept(s));
             } catch (IOException e) {
                 Log.d("session", e.getMessage());

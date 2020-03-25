@@ -27,32 +27,25 @@ import okhttp3.RequestBody;
 import okhttp3.Response;
 
 public class HTTP {
-    public static final String HOST = "bast-security.services";
+    public static final String HOST = "10.0.2.2";
     public static final int PORT = 8080;
 
     public static Request post(String file, JSONObject body) {
         return new Request.Builder()
-                .url(url("register"))
+                .url(url(file))
                 .post(jsonBody(body))
-                .build();
-    }
-
-    public static Request get(String file, JSONObject body) {
-        return new Request.Builder()
-                .url(url("register"))
-                .method("GET", jsonBody(body))
                 .build();
     }
 
     public static Request get(String file) {
         return new Request.Builder()
-                .url(url("register"))
+                .url(url(file))
                 .get()
                 .build();
     }
 
     public static String url(String file) {
-        return "https://" + HOST + "/" + file;
+        return "https://" + HOST + ":" + PORT + "/" + file;
     }
 
     public static RequestBody jsonBody(JSONObject payload) {
