@@ -65,7 +65,7 @@ public class SystemsAdapter extends RecyclerView.Adapter<SystemsAdapter.ViewHold
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.new_system_row, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_row, parent, false);
         ViewHolder holder = new ViewHolder(view);
 
         return holder;
@@ -77,22 +77,13 @@ public class SystemsAdapter extends RecyclerView.Adapter<SystemsAdapter.ViewHold
         Log.d(TAG, "onBindViewHolder: called.");
 
         final System system = systems.get(position);
-        String display = system.getSystemName();
 
-//        if (system.isOrphan()) {
-//            display = "(Orphan) " + display;
-//        }
-
-        holder.systemName.setText(display);
-//        if(systems.get(position).isConnected() == true){
-//            holder.parentLayout.setBackgroundColor(Color.WHITE);
-//        } else{
-//            holder.parentLayout.setBackgroundColor(Color.LTGRAY);
-//        }
+        holder.systemName.setText(system.name);
 
         holder.parentLayout.setOnClickListener((view) -> {
-            Log.d(TAG, "onClick: clicked on: " + systems.get(position));
-            Toast.makeText(mContext, systems.get(position).getSystemName(), Toast.LENGTH_SHORT).show();
+            Log.d(TAG, "onClick: clicked on: " + system.name);
+
+            Toast.makeText(mContext, system.name, Toast.LENGTH_SHORT).show();
 
             final Intent intent = new Intent(mContext, SystemMenuActivity.class);
             mContext.startActivity(intent);
@@ -106,13 +97,11 @@ public class SystemsAdapter extends RecyclerView.Adapter<SystemsAdapter.ViewHold
 
     // displays the recycler view
     public class ViewHolder extends RecyclerView.ViewHolder {
-
         TextView systemName;
         RelativeLayout parentLayout;
 
         public ViewHolder(View itemView) {
             super(itemView);
-
             systemName = itemView.findViewById(R.id.list_item);
             parentLayout = itemView.findViewById(R.id.list_parent_layout);
         }

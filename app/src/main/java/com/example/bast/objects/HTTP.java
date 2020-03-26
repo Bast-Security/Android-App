@@ -6,17 +6,14 @@ import android.util.Log;
 import org.json.JSONObject;
 
 import java.io.IOException;
-import java.net.URL;
 import java.security.KeyManagementException;
 import java.security.NoSuchAlgorithmException;
 import java.security.cert.CertificateException;
 import java.security.cert.X509Certificate;
-import java.util.concurrent.Future;
 import java.util.function.Consumer;
 
 import javax.net.ssl.HostnameVerifier;
 import javax.net.ssl.SSLContext;
-import javax.net.ssl.SSLSession;
 import javax.net.ssl.TrustManager;
 import javax.net.ssl.X509TrustManager;
 
@@ -95,12 +92,12 @@ public class HTTP {
         return clientBuilder.build();
     }
 
-    public static void doRequest(Request request, Consumer<Response> onResponse) {
+    public static void requestAsync(Request request, Consumer<Response> onResponse) {
         Handler handler = new Handler();
 
         Runnable r = () -> {
             try {
-                Response response = doSyncRequest(request);
+                Response response = request(request);
                 handler.post(() -> onResponse.accept(response));
             } catch (Exception e) {
                 Log.d("http", e.toString());
@@ -111,7 +108,7 @@ public class HTTP {
         t.start();
     }
 
-    public static Response doSyncRequest(Request request) throws IOException {
+    public static Response request(Request request) throws IOException {
         Response r = null;
         OkHttpClient client = HTTP.client();
         return client.newCall(request).execute();

@@ -21,6 +21,8 @@ import java.security.KeyStore;
 import java.security.interfaces.ECPublicKey;
 import java.security.spec.ECGenParameterSpec;
 
+import javax.crypto.KeyGenerator;
+
 import okhttp3.Request;
 import okhttp3.Response;
 
@@ -35,15 +37,21 @@ public class SplashScreenActivity extends AppCompatActivity {
         final SharedPreferences prefs = getPreferences(Context.MODE_PRIVATE);
         if (!prefs.getBoolean("createdKey", false)) {
             try {
-                final KeyPairGenerator kpg = KeyPairGenerator.getInstance(KeyProperties.KEY_ALGORITHM_EC, "AndroidKeyStore");
-
-                final KeyGenParameterSpec spec = new KeyGenParameterSpec.Builder("signer", KeyProperties.PURPOSE_SIGN)
+                final KeyPairGenerator ecKeyGen = KeyPairGenerator.getInstance(KeyProperties.KEY_ALGORITHM_EC, "AndroidKeyStore");
+                final KeyGenParameterSpec ecSpec = new KeyGenParameterSpec.Builder("signer", KeyProperties.PURPOSE_SIGN)
                         .setDigests(KeyProperties.DIGEST_SHA256)
                         .setAlgorithmParameterSpec(new ECGenParameterSpec("P-384"))
                         .build();
+                ecKeyGen.initialize(ecSpec);
+                ecKeyGen.generateKeyPair();
 
-                kpg.initialize(spec);
-                kpg.generateKeyPair();
+                final KeyGenerator aesKeyGen = KeyGenerator.getInstance(KeyProperties.KEY_ALGORITHM_AES, "AndroidKeyStore");
+                final KeyGenParameterSpec aesSpec = new KeyGenParameterSpec.Builder("wrapper", KeyProperties.PURPOSE_ENCRYPT | KeyProperties.PURPOSE_DECRYPT)
+                        .setKeySize(256)
+                        .setBlockModes(KeyProperties.BLOCK_MODE_CBC)
+                        .build();
+                aesKeyGen.init(aesSpec);
+                aesKeyGen.generateKey();
 
                 prefs.edit().putBoolean("createdKey", true).apply();
 
@@ -72,7 +80,7 @@ public class SplashScreenActivity extends AppCompatActivity {
 
                             Log.d("register", "Sending register POST");
                             final Request register = HTTP.post("register", payload);
-                            try (final Response response = HTTP.doSyncRequest(register)) {
+                            try (final Response response = HTTP.request(register)) {
                                 if (response.code() == 200) {
                                     final int id = new JSONObject(response.body().string()).getInt("id");
                                     prefs.edit().putInt("id", id).apply();
@@ -91,6 +99,7 @@ public class SplashScreenActivity extends AppCompatActivity {
                             Log.d("login", "logged in successfully");
 
                             final Intent intent = new Intent(this, HomeScreenActivity.class);
+                            intent.putExtra("jwt", session.jwt);
                             this.startActivity(intent);
                         } catch (Exception e) {
                             Log.d("login", "Failed to login " + e.toString());

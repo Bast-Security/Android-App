@@ -19,11 +19,10 @@ import java.util.function.Consumer;
 import okhttp3.Request;
 import okhttp3.Response;
 
-import static com.example.bast.objects.HTTP.get;
-
 public class Session {
-    private String jwt;
-    private Session(String jwt) {
+    public final String jwt;
+
+    public Session(String jwt) {
         this.jwt = jwt;
     }
 
@@ -34,8 +33,9 @@ public class Session {
             final byte[] challenge;
 
             Log.d("login", "fetching challenge");
-            try (Response response = HTTP.doSyncRequest(HTTP.post("challenge", new JSONObject().accumulate("id", id)))) {
+            try (Response response = HTTP.request(HTTP.post("challenge", new JSONObject().accumulate("id", id)))) {
                 final JSONObject c = new JSONObject(response.body().string());
+                Log.d("login", c.toString());
                 challenge = Base64.decode(c.getString("challenge"), Base64.DEFAULT);
             }
 
@@ -49,7 +49,7 @@ public class Session {
                     .accumulate("id", id);
 
             Log.d("login", "sending response");
-            try (Response response = HTTP.doSyncRequest(HTTP.post("login", jsonSig))) {
+            try (Response response = HTTP.request(HTTP.post("login", jsonSig))) {
                 Log.d("session", "did response!");
                 if (response.code() == 200) {
                     session = new Session(response.body().string());
@@ -65,9 +65,9 @@ public class Session {
             Log.d("session", "Invalid Key: " + e.getMessage());
         } catch (NetworkOnMainThreadException e) {
             throw new AuthFailedException(e.toString());
-        } catch (Exception e) {
+        } finally {
             if (session == null) {
-                throw new AuthFailedException(e.toString());
+                throw new AuthFailedException();
             }
         }
 
@@ -99,11 +99,11 @@ public class Session {
                 .build();
     }
 
-    public void doRequest(Request request, Consumer<Response> onResponse) {
-        HTTP.doRequest(wrap(request), onResponse);
+    public void requestAync(Request request, Consumer<Response> onResponse) {
+        HTTP.requestAsync(wrap(request), onResponse);
     }
 
-    public Response doSyncRequest(Request request) throws IOException {
-        return HTTP.doSyncRequest(wrap(request));
+    public Response request(Request request) throws IOException {
+        return HTTP.request(wrap(request));
     }
 }

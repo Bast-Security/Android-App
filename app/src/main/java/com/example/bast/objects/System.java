@@ -4,46 +4,11 @@ import java.net.InetAddress;
 import java.util.ArrayList;
 
 public class System {
-    private InetAddress address;
-    private int port;
-    private String systemName;
-    private String serviceName;
-    private boolean isOrphan;
+    public final int id;
+    public final String name;
 
-    //constructor for known system
-    public System(String systemName, InetAddress addr, int port, boolean isOrphan) {
-        this.systemName = systemName;
-        this.address = addr;
-        this.port = port;
-        this.isOrphan = isOrphan;
-    }
-
-    public int getPort() {
-        return port;
-    }
-
-    public boolean isOrphan() {
-        return isOrphan;
-    }
-
-    public void adopt() {
-        this.isOrphan = false;
-    }
-
-    public InetAddress getIp() {
-        return this.address;
-    }
-
-    // getters and setters
-    public String getSystemName() {
-        return systemName;
-    }
-
-    public void setSystemName(String systemName) {
-        this.systemName = systemName;
-    }
-
-    public boolean isConnected() {
-        return getIp() != null;
+    public System(final int id, final String name) {
+        this.name = name;
+        this.id = id;
     }
 }
