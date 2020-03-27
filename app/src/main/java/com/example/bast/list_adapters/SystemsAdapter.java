@@ -87,6 +87,8 @@ public class SystemsAdapter extends RecyclerView.Adapter<SystemsAdapter.ViewHold
 
             final Intent intent = new Intent(mContext, SystemMenuActivity.class);
             intent.putExtra("jwt", ((HomeScreenActivity) mContext).getSession().jwt);
+            intent.putExtra("systemName", system.name);
+            intent.putExtra("systemId", system.id);
             mContext.startActivity(intent);
         });
     }

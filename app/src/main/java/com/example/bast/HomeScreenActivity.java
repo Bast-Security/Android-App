@@ -113,7 +113,7 @@ public class HomeScreenActivity extends AppCompatActivity {
                         systemsList.add(system);
                     }
 
-                    handler.post(() ->  adapter.notifyDataSetChanged());
+                    handler.post(() -> adapter.notifyDataSetChanged());
                 } else {
                     Log.d("system", "Bad response from server");
                 }
