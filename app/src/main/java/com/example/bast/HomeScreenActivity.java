@@ -8,6 +8,7 @@ import android.app.Dialog;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
@@ -36,13 +37,14 @@ public class HomeScreenActivity extends AppCompatActivity {
     private final ArrayList<System> systemsList = new ArrayList<System>();
     private final SystemsAdapter adapter = new SystemsAdapter(systemsList, this);
     private RecyclerView rv;
+    private Session session;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         final Bundle bundle = getIntent().getExtras();
-        final Session session = new Session(bundle.getString("jwt"));
+        session = new Session(bundle.getString("jwt"));
         Log.d("session", "JWT: " + session.jwt);
 
         setContentView(R.layout.activity_general_list);
@@ -96,6 +98,7 @@ public class HomeScreenActivity extends AppCompatActivity {
     }
 
     public void refreshSystems(Session session) {
+        final Handler handler = new Handler();
         Async.task(() -> {
             try (final Response response = session.request(HTTP.get("listSystems"))) {
                 if (response.isSuccessful()) {
@@ -109,7 +112,8 @@ public class HomeScreenActivity extends AppCompatActivity {
                         final System system = new System(object.getInt("id"), object.getString("name"));
                         systemsList.add(system);
                     }
-                    adapter.notifyDataSetChanged();
+
+                    handler.post(() ->  adapter.notifyDataSetChanged());
                 } else {
                     Log.d("system", "Bad response from server");
                 }
@@ -119,5 +123,9 @@ public class HomeScreenActivity extends AppCompatActivity {
                 Log.d("system", "Failed to parse JSON string " + e.toString());
             }
         });
+    }
+
+    public Session getSession() {
+        return session;
     }
 }

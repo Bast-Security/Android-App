@@ -23,6 +23,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.bast.ConnectSystemActivity;
+import com.example.bast.HomeScreenActivity;
 import com.example.bast.R;
 import com.example.bast.SystemMenuActivity;
 import com.example.bast.objects.HTTP;
@@ -67,7 +68,6 @@ public class SystemsAdapter extends RecyclerView.Adapter<SystemsAdapter.ViewHold
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_row, parent, false);
         ViewHolder holder = new ViewHolder(view);
-
         return holder;
     }
 
@@ -86,6 +86,7 @@ public class SystemsAdapter extends RecyclerView.Adapter<SystemsAdapter.ViewHold
             Toast.makeText(mContext, system.name, Toast.LENGTH_SHORT).show();
 
             final Intent intent = new Intent(mContext, SystemMenuActivity.class);
+            intent.putExtra("jwt", ((HomeScreenActivity) mContext).getSession().jwt);
             mContext.startActivity(intent);
         });
     }
