@@ -74,7 +74,7 @@ public class HomeScreenActivity extends AppCompatActivity {
                     final JSONObject payload = new JSONObject()
                             .accumulate("name", systemName);
 
-                    session.requestAync(HTTP.post("addSystem", payload), (response) -> {
+                    session.requestAync(HTTP.post("systems", payload), (response) -> {
                         if (response.code() != 200) {
                             Toast.makeText(this, "Failed to Add System", Toast.LENGTH_SHORT).show();
                         } else {
@@ -100,7 +100,7 @@ public class HomeScreenActivity extends AppCompatActivity {
     public void refreshSystems(Session session) {
         final Handler handler = new Handler();
         Async.task(() -> {
-            try (final Response response = session.request(HTTP.get("listSystems"))) {
+            try (final Response response = session.request(HTTP.get("systems"))) {
                 if (response.isSuccessful()) {
                     final String responseBody = response.body().string();
                     Log.d("system", responseBody);
