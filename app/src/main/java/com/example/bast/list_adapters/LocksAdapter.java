@@ -65,4 +65,8 @@ public class LocksAdapter extends RecyclerView.Adapter<LocksAdapter.ViewHolder> 
         }
     }
 
+    public interface OnLockListener {
+        void onLockClick(int position);
+    }
+
 }

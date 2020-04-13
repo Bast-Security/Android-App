@@ -109,5 +109,6 @@ public class SystemsAdapter extends RecyclerView.Adapter<SystemsAdapter.ViewHold
             parentLayout = itemView.findViewById(R.id.list_parent_layout);
         }
     }
+
 }
 
