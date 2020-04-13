@@ -50,7 +50,7 @@
         android:textSize="18dp"/>
 
     <TextView
-        android:id="@+id/textView_card"
+        android:id="@+id/textView_mail"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
@@ -58,13 +58,13 @@
         android:layout_marginStart="28dp"
         android:layout_marginTop="220dp"
 
-        android:text="Card Number"
+        android:text="Email"
         android:textColor="@color/colorPrimaryDark"
         android:fontFamily="@font/segoesemibold"
         android:textSize="20dp"/>
 
     <TextView
-        android:id="@+id/textView_cardnum"
+        android:id="@+id/textView_email"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
@@ -72,7 +72,7 @@
         android:layout_marginStart="28dp"
         android:layout_marginTop="250dp"
 
-        android:text="135564351354"
+        android:text="bastcat@gmail.com"
         android:textColor="@color/colorPrimary"
         android:fontFamily="@font/segoeregular"
         android:textSize="18dp"/>
@@ -106,7 +106,7 @@
         android:textSize="18dp"/>
 
     <TextView
-        android:id="@+id/textView_mail"
+        android:id="@+id/textView_card"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
@@ -114,13 +114,13 @@
         android:layout_marginStart="28dp"
         android:layout_marginTop="360dp"
 
-        android:text="Email"
+        android:text="Card Number"
         android:textColor="@color/colorPrimaryDark"
         android:fontFamily="@font/segoesemibold"
         android:textSize="20dp"/>
 
     <TextView
-        android:id="@+id/textView_email"
+        android:id="@+id/textView_cardnum"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
@@ -128,7 +128,7 @@
         android:layout_marginStart="28dp"
         android:layout_marginTop="390dp"
 
-        android:text="bastcatgod@gmail.com"
+        android:text="1235456783521"
         android:textColor="@color/colorPrimary"
         android:fontFamily="@font/segoeregular"
         android:textSize="18dp"/>
