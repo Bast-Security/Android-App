@@ -34,6 +34,20 @@ public class HTTP {
                 .build();
     }
 
+    public static Request delete(String file, JSONObject body) {
+        return new Request.Builder()
+                .url(url(file))
+                .delete(jsonBody(body))
+                .build();
+    }
+
+    public static Request put(String file, JSONObject body) {
+        return new Request.Builder()
+                .url(url(file))
+                .put(jsonBody(body))
+                .build();
+    }
+
     public static Request get(String file) {
         return new Request.Builder()
                 .url(url(file))
@@ -107,6 +121,7 @@ public class HTTP {
         Thread t = new Thread(r);
         t.start();
     }
+
 
     public static Response request(Request request) throws IOException {
         Response r = null;

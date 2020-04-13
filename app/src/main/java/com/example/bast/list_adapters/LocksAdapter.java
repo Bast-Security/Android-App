@@ -20,7 +20,7 @@ public class LocksAdapter extends RecyclerView.Adapter<LocksAdapter.ViewHolder> 
     private ArrayList<Lock> locks;
     private Context mContext;
 
-    public LocksAdapter(ArrayList<Lock> locks, Context mContext) {
+    public LocksAdapter(Context mContext, ArrayList<Lock> locks) {
         this.locks = locks;
         this.mContext = mContext;
     }

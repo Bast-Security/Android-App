@@ -5,6 +5,8 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.os.Handler;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -18,15 +20,24 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.bast.list_adapters.LocksAdapter;
+import com.example.bast.objects.Async;
+import com.example.bast.objects.HTTP;
 import com.example.bast.objects.Lock;
+import com.example.bast.objects.Lock;
+import com.example.bast.objects.Session;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 
 import org.json.JSONArray;
 import org.json.JSONException;
+import org.json.JSONObject;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
 import it.xabaras.android.recyclerview.swipedecorator.RecyclerViewSwipeDecorator;
+import okhttp3.RequestBody;
+import okhttp3.Response;
 
 public class LockListActivity extends AppCompatActivity implements LocksAdapter.OnLockListener {
 
@@ -37,89 +48,72 @@ public class LockListActivity extends AppCompatActivity implements LocksAdapter.
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_general_list);
         TextView title = (TextView) findViewById(R.id.activity_title);
         title.setText("LOCKS");
 
-        /*
-         * adding data using JSON object
-         * */
+        final Bundle bundle = getIntent().getExtras();
+        final String jwt = bundle.getString("jwt");
+        final String systemName = bundle.getString("systemName");
+        final int systemId = bundle.getInt("systemId");
+        final Session session = new Session(jwt);
 
-        //dummy data
-        String jsonString = "[{\"Name\":\"Front Door\"},{\"Name\":\"Back Door\"}," +
-                "{\"Name\":\"Master Bedroom\"},{\"Name\":\"Guest Room\"}]";
-
-        JSONArray jsonObject = null;
-        try {
-            jsonObject = new JSONArray(jsonString);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-
-        for(int i = 0; i < jsonObject.length(); i++){
-            try {
-                String name = (String) jsonObject.getJSONObject(i).get("Name");
-                locks.add(new Lock(name));
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-        }
-
-
-        locksRecyclerView();
-        initButton();
-
-    }
-
-    private void locksRecyclerView() {
         rv = findViewById(R.id.recycler_view);
-        adapter = new LocksAdapter(locks, this);
+        adapter = new LocksAdapter(this, locks);
         rv.setAdapter(adapter);
         rv.setLayoutManager(new LinearLayoutManager(this));
 
-        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(simpleCallback);
+        final ItemTouchHelper itemTouchHelper = new ItemTouchHelper(simpleCallback);
         itemTouchHelper.attachToRecyclerView(rv);
-    }
 
-    private void initButton() {
-        Button add_button = (Button) findViewById(R.id.add_btn);
+        final Button add_button = (Button) findViewById(R.id.add_btn);
         addDialog = new Dialog(this);
 
         // Popup add user menu
-        add_button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                addLock();
-            }
+        add_button.setOnClickListener((view) -> {
+            addDialog.setContentView(R.layout.add_lock);
+
+            final TextView lockTitle = (TextView) addDialog.findViewById(R.id.lock_title);
+            final EditText name = (EditText) addDialog.findViewById(R.id.lockname);
+
+            Button add_lock = (Button) addDialog.findViewById(R.id.add_button);
+            add_lock.setOnClickListener((btn) -> {
+                final String lockName = name.getText().toString();
+
+                final Handler handler = new Handler();
+
+                Async.task(() -> {
+                    try {
+                        final JSONObject payload = new JSONObject().accumulate("name", lockName);
+                        final String file = String.format("systems/%d/locks", systemId);
+                        try (final Response response = session.request(HTTP.post(file, payload))) {
+                            if (!response.isSuccessful()) {
+                                throw new Exception("Request failed with status " + response.code());
+                            }
+
+                            addDialog.dismiss();
+                        }
+                    } catch (JSONException e) {
+                        Log.d("locks", "JSONException " + e.toString());
+                    } catch (IOException e) {
+                        Log.d("locks", "IOException " + e.toString());
+                    } catch (Exception e) {
+                        Log.d("locks", e.toString());
+                    }
+                });
+            });
+
+            addDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+
+            addDialog.show();
         });
-    }
-
-    public void addLock() {
-        addDialog.setContentView(R.layout.add_lock);
-
-        TextView title = (TextView) addDialog.findViewById(R.id.lock_tle);
-        EditText name = (EditText) addDialog.findViewById(R.id.lockname);
-
-        Button add_role = (Button) addDialog.findViewById(R.id.add_button);
-        add_role.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // TODO: Add to locks database
-                addDialog.dismiss();
-            }
-        });
-
-        addDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-
-        addDialog.show();
     }
 
     public void editLock() {
         addDialog.setContentView(R.layout.add_lock);
 
-        TextView title = (TextView) addDialog.findViewById(R.id.lock_tle);
+        TextView title = (TextView) addDialog.findViewById(R.id.lock_title);
         title.setText("EDIT LOCK NAME");
         EditText name = (EditText) addDialog.findViewById(R.id.lockname);
 

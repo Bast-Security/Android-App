@@ -11,4 +11,6 @@ public class System {
         this.name = name;
         this.id = id;
     }
+
+    public String getSystemName(){return name;}
 }

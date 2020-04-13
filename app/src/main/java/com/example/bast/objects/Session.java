@@ -99,7 +99,7 @@ public class Session {
                 .build();
     }
 
-    public void requestAync(Request request, Consumer<Response> onResponse) {
+    public void requestAsync(Request request, Consumer<Response> onResponse) {
         HTTP.requestAsync(wrap(request), onResponse);
     }
 

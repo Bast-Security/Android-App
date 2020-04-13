@@ -25,7 +25,7 @@ public class RolesAdapter extends RecyclerView.Adapter<RolesAdapter.ViewHolder> 
     private ArrayList<Role> roles;
     private Context mContext;
 
-    public RolesAdapter(Context mContext, ArrayList<Role> roles) {
+    public RolesAdapter(ArrayList<Role> roles, Context mContext) {
         this.roles = roles;
         this.mContext = mContext;
     }

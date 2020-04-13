@@ -41,6 +41,8 @@ public class UserListActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_general_list);
+        TextView title = (TextView) findViewById(R.id.activity_title);
+        title.setText("USERS");
 
         //TODO: Delete dummy data when connected
         users.add(new User("Bast", "bast@gmail.com", "1234567890", 2789, 123456783));

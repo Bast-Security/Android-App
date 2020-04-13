@@ -1,15 +1,20 @@
 package com.example.bast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
+import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.Dialog;
+import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -21,6 +26,8 @@ import com.example.bast.objects.Async;
 import com.example.bast.objects.HTTP;
 import com.example.bast.objects.Session;
 import com.example.bast.objects.System;
+import com.example.bast.objects.User;
+import com.google.android.material.snackbar.Snackbar;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -29,6 +36,7 @@ import org.json.JSONObject;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import it.xabaras.android.recyclerview.swipedecorator.RecyclerViewSwipeDecorator;
 import okhttp3.Response;
 
 public class HomeScreenActivity extends AppCompatActivity {
@@ -74,7 +82,7 @@ public class HomeScreenActivity extends AppCompatActivity {
                     final JSONObject payload = new JSONObject()
                             .accumulate("name", systemName);
 
-                    session.requestAync(HTTP.post("systems", payload), (response) -> {
+                    session.requestAsync(HTTP.post("systems", payload), (response) -> {
                         if (response.code() != 200) {
                             Toast.makeText(this, "Failed to Add System", Toast.LENGTH_SHORT).show();
                         } else {
@@ -96,6 +104,42 @@ public class HomeScreenActivity extends AppCompatActivity {
 
         refreshSystems(session);
     }
+
+    ItemTouchHelper.SimpleCallback simpleCallback = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT) {
+        @Override
+        public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
+            return false;
+        }
+
+        @Override
+        public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
+            int pos = viewHolder.getAdapterPosition();
+            System deletedSystem = systemsList.remove(pos);
+            adapter.notifyItemRemoved(pos);
+
+            Snackbar.make(rv, deletedSystem.getSystemName(), Snackbar.LENGTH_LONG)
+                    .setAction("Undo", new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            systemsList.add(pos, deletedSystem);
+                            adapter.notifyItemInserted(pos);
+                        }
+                    }).show();
+        }
+
+        @Override
+        public void onChildDraw(@NonNull Canvas c, @NonNull RecyclerView rv, @NonNull RecyclerView.ViewHolder viewHolder,
+                                float dX, float dY, int actionState, boolean isCurrentlyActive) {
+
+            new RecyclerViewSwipeDecorator.Builder(c, rv, viewHolder, dX, dY, actionState, isCurrentlyActive)
+                    .addSwipeLeftBackgroundColor(ContextCompat.getColor(HomeScreenActivity.this, R.color.delete))
+                    .addActionIcon(R.drawable.ic_delete_black_24dp)
+                    .create()
+                    .decorate();
+
+            super.onChildDraw(c, rv, viewHolder, dX, dY, actionState, isCurrentlyActive);
+        }
+    };
 
     public void refreshSystems(Session session) {
         final Handler handler = new Handler();
