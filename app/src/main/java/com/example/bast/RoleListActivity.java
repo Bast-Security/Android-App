@@ -5,6 +5,8 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.os.Handler;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -18,17 +20,24 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.bast.list_adapters.RolesAdapter;
+import com.example.bast.objects.Async;
+import com.example.bast.objects.HTTP;
 import com.example.bast.objects.Lock;
 import com.example.bast.objects.Role;
+import com.example.bast.objects.Session;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 
 import org.json.JSONArray;
 import org.json.JSONException;
+import org.json.JSONObject;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
 import it.xabaras.android.recyclerview.swipedecorator.RecyclerViewSwipeDecorator;
+import okhttp3.RequestBody;
+import okhttp3.Response;
 
 public class RoleListActivity extends AppCompatActivity {
 
@@ -39,89 +48,66 @@ public class RoleListActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_general_list);
         TextView title = (TextView) findViewById(R.id.activity_title);
         title.setText("ROLES");
 
-        /*
-        * adding data using JSON object
-        *
-        * When exchanging data between a browser and a server, the data can only be text.
-        * JSON is text, and we can convert any JavaScript object into JSON,
-        * and send JSON to the server.
-        * We can also convert any JSON received from the server into JavaScript objects.
-        * */
+        final Bundle bundle = getIntent().getExtras();
+        final String jwt = bundle.getString("jwt");
+        final String systemName = bundle.getString("systemName");
+        final int systemId = bundle.getInt("systemId");
+        final Session session = new Session(jwt);
 
-        //dummy data
-        String jsonString = "[{\"Name\":\"Admin\"},{\"Name\":\"Developer\"},{\"Name\":\"Guest\"}," +
-                "{\"Name\":\"IT\"},{\"Name\":\"Researcher\"},{\"Name\":\"Staff\"}]";
-
-        JSONArray jsonObject = null;
-        try {
-            jsonObject = new JSONArray(jsonString);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-
-        for(int i = 0; i < jsonObject.length(); i++){
-            try {
-                String name = (String) jsonObject.getJSONObject(i).get("Name");
-                roles.add(new Role(name));
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-        }
-
-        // shows the recycler view of items
-        rolesRecyclerView();
-        initButton();
-    }
-
-    // initializes the view of roles
-    private void rolesRecyclerView() {
         rv = findViewById(R.id.recycler_view);
         adapter = new RolesAdapter(this, roles);
         rv.setAdapter(adapter);
         rv.setLayoutManager(new LinearLayoutManager(this));
 
-        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(simpleCallback);
+        final ItemTouchHelper itemTouchHelper = new ItemTouchHelper(simpleCallback);
         itemTouchHelper.attachToRecyclerView(rv);
-    }
 
-    private void initButton() {
-        Button add_button = (Button) findViewById(R.id.add_btn);
+        final Button add_button = (Button) findViewById(R.id.add_btn);
         addDialog = new Dialog(this);
 
         // Popup add user menu
-        add_button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                addRole();
-            }
+        add_button.setOnClickListener((view) -> {
+            addDialog.setContentView(R.layout.add_role);
+
+            final TextView roleTitle = (TextView) addDialog.findViewById(R.id.role_title);
+            final EditText name = (EditText) addDialog.findViewById(R.id.rolename);
+
+            Button add_role = (Button) addDialog.findViewById(R.id.add_button);
+            add_role.setOnClickListener((btn) -> {
+                final String roleName = roleTitle.getText().toString();
+
+                final Handler handler = new Handler();
+
+                Async.task(() -> {
+                    try {
+                        final JSONObject payload = new JSONObject().accumulate("name", roleName);
+                        final String file = String.format("systems/%d/roles", systemId);
+                        try (final Response response = session.request(HTTP.post(file, payload))) {
+                            if (!response.isSuccessful()) {
+                                throw new Exception("Request failed with status " + response.code());
+                            }
+
+                            addDialog.dismiss();
+                        }
+                    } catch (JSONException e) {
+                        Log.d("roles", "JSONException " + e.toString());
+                    } catch (IOException e) {
+                        Log.d("roles", "IOException " + e.toString());
+                    } catch (Exception e) {
+                        Log.d("roles", e.toString());
+                    }
+                });
+            });
+
+            addDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+
+            addDialog.show();
         });
-    }
-
-    public void addRole() {
-        addDialog.setContentView(R.layout.add_role);
-
-        TextView title = (TextView) addDialog.findViewById(R.id.role_title);
-        EditText name = (EditText) addDialog.findViewById(R.id.rolename);
-
-        Button add_role = (Button) addDialog.findViewById(R.id.add_button);
-        add_role.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // TODO: Add to roles database
-                addDialog.dismiss();
-            }
-        });
-
-        addDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-
-        addDialog.show();
-
     }
 
     ItemTouchHelper.SimpleCallback simpleCallback = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT) {
