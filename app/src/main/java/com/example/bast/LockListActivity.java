@@ -28,7 +28,7 @@ import java.util.ArrayList;
 
 import it.xabaras.android.recyclerview.swipedecorator.RecyclerViewSwipeDecorator;
 
-public class LockListActivity extends AppCompatActivity {
+public class LockListActivity extends AppCompatActivity implements LocksAdapter.OnLockListener {
 
     public ArrayList<Lock> locks = new ArrayList<>();
     RecyclerView rv;
@@ -116,6 +116,28 @@ public class LockListActivity extends AppCompatActivity {
         addDialog.show();
     }
 
+    public void editLock() {
+        addDialog.setContentView(R.layout.add_lock);
+
+        TextView title = (TextView) addDialog.findViewById(R.id.lock_tle);
+        title.setText("EDIT LOCK NAME");
+        EditText name = (EditText) addDialog.findViewById(R.id.lockname);
+
+        Button edit_role = (Button) addDialog.findViewById(R.id.add_button);
+        edit_role.setText("EDIT");
+        edit_role.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // TODO: Add changes to locks database
+                addDialog.dismiss();
+            }
+        });
+
+        addDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+
+        addDialog.show();
+    }
+
     ItemTouchHelper.SimpleCallback simpleCallback = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT) {
         @Override
         public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
@@ -152,4 +174,8 @@ public class LockListActivity extends AppCompatActivity {
         }
     };
 
+    @Override
+    public void onLockClick(int position) {
+        editLock();
+    }
 }
