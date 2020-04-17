@@ -34,10 +34,10 @@ public class HTTP {
                 .build();
     }
 
-    public static Request delete(String file, JSONObject body) {
+    public static Request delete(String file) {
         return new Request.Builder()
                 .url(url(file))
-                .delete(jsonBody(body))
+                .delete()
                 .build();
     }
 

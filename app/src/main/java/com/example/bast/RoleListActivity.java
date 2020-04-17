@@ -57,7 +57,7 @@ public class RoleListActivity extends AppCompatActivity {
         final String jwt = bundle.getString("jwt");
         final String systemName = bundle.getString("systemName");
         final int systemId = bundle.getInt("systemId");
-        final Session session = new Session(jwt);
+        session = new Session(jwt);
 
         setContentView(R.layout.activity_general_list);
         final TextView activityTitle = (TextView) findViewById(R.id.activity_title);
@@ -121,24 +121,31 @@ public class RoleListActivity extends AppCompatActivity {
         public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
             int pos = viewHolder.getAdapterPosition();
             Role deletedRole = rolesList.remove(pos);
-
+            String roleName = deletedRole.getRoleName();
+            Log.d("role", roleName);
             adapter.notifyItemRemoved(pos);
+
             final Bundle bundle = getIntent().getExtras();
             final int systemId = bundle.getInt("systemId");
 
-            try {
+            Async.task(() -> {
+                try {
+                    final String file = String.format("systems/"+ systemId + "/roles/" + roleName);
+                    Log.d("role", file);
+                    try (final Response response = session.request(HTTP.delete(file))) {
+                        if (!response.isSuccessful()) {
+                            throw new Exception("Request failed with status " + response.code());
+                        }
 
-                final JSONObject payload = new JSONObject()
-                        .accumulate("name", deletedRole);
-
-                String HTTPDelete = "systems/" + systemId + "/roles";
-                session.requestAsync(HTTP.delete(HTTPDelete, payload), (response) -> {
-                    response.close();
-                    refreshSystems(session);
-                });
-            } catch (Exception e) {
-                Log.d("role", e.toString());
-            }
+                    }
+                } catch (JSONException e) {
+                    Log.d("role", "JSONException " + e.toString());
+                } catch (IOException e) {
+                    Log.d("role", "IOException " + e.toString());
+                } catch (Exception e) {
+                    Log.d("role", e.toString());
+                }
+            });
 
             Snackbar.make(rv, deletedRole.getRoleName(), Snackbar.LENGTH_LONG)
                     .setAction("Undo", v -> {
