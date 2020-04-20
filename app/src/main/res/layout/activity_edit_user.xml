@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_gravity="center"
+    android:background="@drawable/main_backgroundv2">
+
+    <TextView
+        android:id="@+id/userinfo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="29dp"
+        android:layout_marginTop="125dp"
+
+        android:text="USER INFORMATION"
+        android:textColor="@color/colorPrimaryDark"
+        android:fontFamily="@font/segoesemibold"
+        android:textSize="25dp"/>
+
+    <TextView
+        android:id="@+id/textView_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="28dp"
+        android:layout_marginTop="190dp"
+
+        android:text="Name"
+        android:textColor="@color/colorPrimaryDark"
+        android:fontFamily="@font/segoesemibold"
+        android:textSize="20dp"/>
+
+    <EditText
+        android:id="@+id/textView_username"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="28dp"
+        android:layout_marginTop="210dp"
+        android:hint="Bast, God of Protection"
+        android:textColor="@color/colorPrimary"
+        android:fontFamily="@font/segoeregular"
+        android:textSize="18dp"/>
+
+    <TextView
+        android:id="@+id/textView_mail"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="28dp"
+        android:layout_marginTop="260dp"
+        android:text="Email"
+        android:textColor="@color/colorPrimaryDark"
+        android:fontFamily="@font/segoesemibold"
+        android:textSize="20dp"/>
+
+    <EditText
+        android:id="@+id/textView_email"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="28dp"
+        android:layout_marginTop="280dp"
+        android:hint="bastcat@gmail.com"
+        android:textColor="@color/colorPrimary"
+        android:fontFamily="@font/segoeregular"
+        android:textSize="18dp"/>
+
+    <TextView
+        android:id="@+id/textView_pincode"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="28dp"
+        android:layout_marginTop="330dp"
+        android:text="PIN"
+        android:textColor="@color/colorPrimaryDark"
+        android:fontFamily="@font/segoesemibold"
+        android:textSize="20dp"/>
+
+    <EditText
+        android:id="@+id/textView_pin"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="28dp"
+        android:layout_marginTop="350dp"
+        android:hint="021645"
+        android:textColor="@color/colorPrimary"
+        android:fontFamily="@font/segoeregular"
+        android:textSize="18dp"/>
+
+    <TextView
+        android:id="@+id/textView_card"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="28dp"
+        android:layout_marginTop="400dp"
+        android:text="Card Number"
+        android:textColor="@color/colorPrimaryDark"
+        android:fontFamily="@font/segoesemibold"
+        android:textSize="20dp"/>
+
+    <EditText
+        android:id="@+id/textView_cardnum"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="28dp"
+        android:layout_marginTop="420dp"
+        android:hint="1235456783521"
+        android:textColor="@color/colorPrimary"
+        android:fontFamily="@font/segoeregular"
+        android:textSize="18dp"/>
+
+    <TextView
+        android:id="@+id/textView_phonenumber"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="28dp"
+        android:layout_marginTop="470dp"
+        android:text="Phone"
+        android:textColor="@color/colorPrimaryDark"
+        android:fontFamily="@font/segoesemibold"
+        android:textSize="20dp"/>
+
+    <EditText
+        android:id="@+id/textView_phone"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="28dp"
+        android:layout_marginTop="495dp"
+        android:hint="(Empty)"
+        android:textColor="@color/colorPrimary"
+        android:fontFamily="@font/segoeregular"
+        android:textSize="18dp"/>
+
+    <Button
+        android:id="@+id/edit_button"
+        android:layout_width="125dp"
+        android:layout_height="40dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="219dp"
+        android:layout_marginEnd="50dp"
+        android:layout_marginBottom="53dp"
+
+        android:background="@drawable/rectanglebutton"
+        android:fontFamily="@font/segoesemibold"
+        android:text="CONFIRM"
+        android:textColor="@color/colorPrimaryDark"
+        android:textSize="16dp" />
+
+
+</RelativeLayout>
