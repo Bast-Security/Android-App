@@ -69,7 +69,7 @@ public class SystemMenuActivity extends AppCompatActivity implements View.OnClic
                 break;
 
             case R.id.logs_button:
-                intent = new Intent(this, HomeScreenActivity.class);
+                intent = new Intent(this, LogActivity.class);
                 intent.putExtra("jwt", jwt);
                 intent.putExtra("systemName", systemName);
                 intent.putExtra("systemId", systemId);
