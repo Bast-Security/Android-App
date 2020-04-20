@@ -30,12 +30,12 @@ import java.util.ArrayList;
 
 import it.xabaras.android.recyclerview.swipedecorator.RecyclerViewSwipeDecorator;
 
-public class UserListActivity extends AppCompatActivity {
+public class UserListActivity extends AppCompatActivity implements UsersAdapter.OnUserListener {
 
     ArrayList<User> users = new ArrayList<>();
     RecyclerView rv;
     UsersAdapter adapter;
-    Dialog addDialog, successDialog;
+    Dialog addDialog, displayDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -83,7 +83,7 @@ public class UserListActivity extends AppCompatActivity {
     }
 
     public void addUserMenu() {
-        addDialog.setContentView(R.layout.popup_add_menu);
+        displayDialog.setContentView(R.layout.popup_add_menu);
 
         TextView title = (TextView) addDialog.findViewById(R.id.usertitle);
         EditText name = (EditText) addDialog.findViewById(R.id.username);
@@ -110,6 +110,48 @@ public class UserListActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 addDialog.dismiss();
+            }
+        });
+
+        addDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+
+        addDialog.show();
+    }
+
+    public void displayUser() {
+        addDialog.setContentView(R.layout.popup_display_info);
+
+        //final String uName, uEmail, uPhone;
+        //final int uCard, uPin;
+
+        TextView title = (TextView) addDialog.findViewById(R.id.userinfo);
+        TextView name_header = (TextView) addDialog.findViewById(R.id.textView_name);
+        TextView username = (TextView) addDialog.findViewById(R.id.textView_username);
+        TextView email_header = (TextView) addDialog.findViewById(R.id.textView_mail);
+        TextView email = (TextView) addDialog.findViewById(R.id.textView_email);
+        TextView pin_header = (TextView) addDialog.findViewById(R.id.textView_pincode);
+        TextView pin = (TextView) addDialog.findViewById(R.id.textView_pin);
+        TextView card_header = (TextView) addDialog.findViewById(R.id.textView_card);
+        TextView card = (TextView) addDialog.findViewById(R.id.textView_cardnum);
+
+        Button edit_user = (Button) addDialog.findViewById(R.id.edit_button);
+        edit_user.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                addDialog.dismiss();
+                Intent intent = new Intent(UserListActivity.this, EditUserActivity.class);
+                startActivity(intent);
+
+            }
+        });
+
+        FloatingActionButton exit = (FloatingActionButton) addDialog.findViewById(R.id.exit_button);
+        exit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                addDialog.dismiss();
+                //Intent intent = new Intent(UserListActivity.this, EditUserActivity.class);
+                //startActivity(intent);
             }
         });
 
@@ -153,4 +195,9 @@ public class UserListActivity extends AppCompatActivity {
             super.onChildDraw(c, rv, viewHolder, dX, dY, actionState, isCurrentlyActive);
         }
     };
+
+    @Override
+    public void onUserClick(int position) {
+        displayUser();
+    }
 }
