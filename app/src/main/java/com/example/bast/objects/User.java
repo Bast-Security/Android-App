@@ -1,5 +1,7 @@
 package com.example.bast.objects;
 
+import androidx.annotation.NonNull;
+
 import java.util.ArrayList;
 
 public class User {
@@ -9,6 +11,7 @@ public class User {
     private String phoneNumber;
     private int pin;
     private int cardNumber;
+    private ArrayList<Role> roles;
 
     // constructor
     public User(String userName, String email, String phoneNumber, int pin, int cardNumber) {
@@ -17,6 +20,7 @@ public class User {
         this.phoneNumber = phoneNumber;
         this.pin = pin;
         this.cardNumber = cardNumber;
+        this.roles = new ArrayList<>();
     }
 
     //getter and setters
@@ -59,4 +63,9 @@ public class User {
     public void setCardNumber(int cardNumber) {
         this.cardNumber = cardNumber;
     }
+
+    public ArrayList<Role> getRoles() {
+        return roles;
+    }
+
 }

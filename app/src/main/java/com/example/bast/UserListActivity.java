@@ -118,21 +118,33 @@ public class UserListActivity extends AppCompatActivity implements UsersAdapter.
         addDialog.show();
     }
 
-    public void displayUser() {
+    public void displayUser(User u) {
         addDialog.setContentView(R.layout.popup_display_info);
 
         //final String uName, uEmail, uPhone;
         //final int uCard, uPin;
 
         TextView title = (TextView) addDialog.findViewById(R.id.userinfo);
+
         TextView name_header = (TextView) addDialog.findViewById(R.id.textView_name);
         TextView username = (TextView) addDialog.findViewById(R.id.textView_username);
+        username.setText(u.getUserName());
+
+        TextView roles_header = (TextView) addDialog.findViewById(R.id.textView_roles);
+        TextView roles = (TextView) addDialog.findViewById(R.id.textView_roleslist);
+        roles.setText(u.getRoles().toString());
+
         TextView email_header = (TextView) addDialog.findViewById(R.id.textView_mail);
         TextView email = (TextView) addDialog.findViewById(R.id.textView_email);
+        email.setText(u.getEmail());
+
         TextView pin_header = (TextView) addDialog.findViewById(R.id.textView_pincode);
         TextView pin = (TextView) addDialog.findViewById(R.id.textView_pin);
+        pin.setText(u.getPin());
+
         TextView card_header = (TextView) addDialog.findViewById(R.id.textView_card);
         TextView card = (TextView) addDialog.findViewById(R.id.textView_cardnum);
+        card.setText(u.getCardNumber());
 
         Button edit_user = (Button) addDialog.findViewById(R.id.edit_button);
         edit_user.setOnClickListener(new View.OnClickListener() {
@@ -145,13 +157,21 @@ public class UserListActivity extends AppCompatActivity implements UsersAdapter.
             }
         });
 
+        Button role_change = (Button) addDialog.findViewById(R.id.roles_button);
+        role_change.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                addDialog.dismiss();
+                Intent intent = new Intent(UserListActivity.this, ChangeUserRolesActivity.class);
+                startActivity(intent);
+            }
+        });
+
         FloatingActionButton exit = (FloatingActionButton) addDialog.findViewById(R.id.exit_button);
         exit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 addDialog.dismiss();
-                //Intent intent = new Intent(UserListActivity.this, EditUserActivity.class);
-                //startActivity(intent);
             }
         });
 
@@ -198,6 +218,7 @@ public class UserListActivity extends AppCompatActivity implements UsersAdapter.
 
     @Override
     public void onUserClick(int position) {
-        displayUser();
+        User clicked = adapter.getUser(position);
+        displayUser(clicked);
     }
 }
