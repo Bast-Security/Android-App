@@ -51,6 +51,10 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.ViewHolder> 
         return users.size();
     }
 
+    public User getUser(int position){
+        return users.get(position);
+    }
+
     public class ViewHolder extends RecyclerView.ViewHolder {
 
         TextView userName;
