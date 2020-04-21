@@ -98,6 +98,8 @@ public class SystemsAdapter extends RecyclerView.Adapter<SystemsAdapter.ViewHold
         return systems.size();
     }
 
+    public System getSystem(int position) { return systems.get(position); }
+
     // displays the recycler view
     public class ViewHolder extends RecyclerView.ViewHolder {
         TextView systemName;

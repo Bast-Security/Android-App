@@ -72,6 +72,8 @@ public class RolesAdapter extends RecyclerView.Adapter<RolesAdapter.ViewHolder> 
         void onRoleClick(int position);
     }
 
+    public Role getRole(int position) { return roles.get(position); }
+
     /**method will receive a string that will be in a form of a json object
      * @param jsonString - the string that will be received from the controller*/
     public void getRoles(String jsonString){
