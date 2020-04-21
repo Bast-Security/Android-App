@@ -43,7 +43,8 @@ import okhttp3.Response;
 public class UserListActivity extends AppCompatActivity {
     private static final String TAG = "UserListActivity";
 
-    private final ArrayList<User> usersList = new ArrayList<User>();
+    // Initialize values
+    private final ArrayList<User> usersList = new ArrayList<>();
     private final UsersAdapter adapter = new UsersAdapter(usersList, this);
     private RecyclerView rv;
     private Session session;
@@ -53,29 +54,34 @@ public class UserListActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        // Initialize values for database
         final Bundle bundle = getIntent().getExtras();
         final String jwt = bundle.getString("jwt");
         final String systemName = bundle.getString("systemName");
         final int systemId = bundle.getInt("systemId");
         session = new Session(jwt);
 
+        // Display the list
         setContentView(R.layout.activity_general_list);
         final TextView activityTitle = findViewById(R.id.activity_title);
         activityTitle.setText("USERS");
-
         rv = findViewById(R.id.recycler_view);
         rv.setAdapter(adapter);
         rv.setLayoutManager(new LinearLayoutManager(this));
 
+        // Initialize buttons
         final Button addButton = findViewById(R.id.add_btn);
         final Dialog addDialog = new Dialog(this);
 
+        // Initialize swipe to delete users
         final ItemTouchHelper itemTouchHelper = new ItemTouchHelper(simpleCallback);
         itemTouchHelper.attachToRecyclerView(rv);
 
+        // OnClickListener to add users
         addButton.setOnClickListener((view) -> {
                 addDialog.setContentView(R.layout.popup_add_menu);
 
+                // Initialize variables in popup_add_menu
                 TextView title = addDialog.findViewById(R.id.usertitle);
                 EditText name = addDialog.findViewById(R.id.username);
                 EditText email = addDialog.findViewById(R.id.email);
@@ -83,7 +89,7 @@ public class UserListActivity extends AppCompatActivity {
                 EditText card = addDialog.findViewById(R.id.cardnum);
                 EditText phone = addDialog.findViewById(R.id.phone);
 
-
+                // Initialize button to add user once fields have been filled out
                 Button add_user = addDialog.findViewById(R.id.add_user_button);
                 add_user.setOnClickListener(v -> {
                     Log.d("user", "Adding User!");
@@ -95,6 +101,7 @@ public class UserListActivity extends AppCompatActivity {
                         final String userPin = pin.getText().toString();
                         final String userCard = card.getText().toString();
 
+                        // turning the input fields into fields of a JSON object
                         final JSONObject payload = new JSONObject()
                                 .accumulate("name", userName)
                                 .accumulate("email", userEmail)
@@ -102,6 +109,7 @@ public class UserListActivity extends AppCompatActivity {
                                 .accumulate("pin", userPin)
                                 .accumulate("cardno", userCard);
 
+                        // HTTP request to post to the database
                         String HTTPPost = "systems/" + systemId + "/users";
                         session.requestAsync(HTTP.post(HTTPPost, payload), (response) -> {
                             if (response.code() != 200) {
@@ -111,6 +119,7 @@ public class UserListActivity extends AppCompatActivity {
                             }
 
                             response.close();
+                            refreshSystems(session);
                         });
                     } catch (Exception e) {
                         Log.d("user", e.toString());
@@ -119,20 +128,20 @@ public class UserListActivity extends AppCompatActivity {
                 }
                 );
 
-
+                // Displays the popup_add_menu
                 addDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
                 addDialog.show();
 
+                // Initialize button to exit out of popup_add_menu
                 FloatingActionButton exit = addDialog.findViewById(R.id.exit_button);
                 exit.setOnClickListener(v -> addDialog.dismiss());
         }
-
         );
-
+        // Refreshes the list of users once a user is added
         refreshSystems(session);
     }
 
-
+    // Initializes the swipe feature
     ItemTouchHelper.SimpleCallback simpleCallback = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT) {
         @Override
         public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
@@ -141,24 +150,26 @@ public class UserListActivity extends AppCompatActivity {
 
         @Override
         public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
+            // Initialize variables for deleting a user
             int pos = viewHolder.getAdapterPosition();
             User deletedUser = usersList.remove(pos);
             String userName = deletedUser.getUserName();
             Log.d("user", userName);
             adapter.notifyItemRemoved(pos);
 
+            // Initializing HTTP variables for delete requests
             final Bundle bundle = getIntent().getExtras();
             final int systemId = bundle.getInt("systemId");
 
             Async.task(() -> {
                 try {
+                    // HTTP delete requests
                     final String file = String.format("systems/"+ systemId + "/users/" + userName);
                     Log.d("user", file);
                     try (final Response response = session.request(HTTP.delete(file))) {
                         if (!response.isSuccessful()) {
                             throw new Exception("Request failed with status " + response.code());
                         }
-
                     }
                 } catch (JSONException e) {
                     Log.d("user", "JSONException " + e.toString());
@@ -169,9 +180,11 @@ public class UserListActivity extends AppCompatActivity {
                 }
             });
 
+            // Display a snackbar popup to undo a delete
             Snackbar.make(rv, deletedUser.getUserName(), Snackbar.LENGTH_LONG)
                     .setAction("Undo", v -> {
                         usersList.add(pos, deletedUser);
+                        //TODO: put place function to add the user back to database
                         adapter.notifyItemInserted(pos);
                     }).show();
         }
@@ -190,6 +203,7 @@ public class UserListActivity extends AppCompatActivity {
         }
     };
 
+    // Refreshes the list of users
     public void refreshSystems(Session session) {
         final Handler handler = new Handler();
         final Bundle bundle = getIntent().getExtras();
@@ -211,7 +225,7 @@ public class UserListActivity extends AppCompatActivity {
                         usersList.add(user);
                     }
 
-                    handler.post(() -> adapter.notifyDataSetChanged());
+                    handler.post(adapter::notifyDataSetChanged);
                 } else {
                     Log.d("user", "Bad response from server");
                 }
@@ -228,46 +242,40 @@ public class UserListActivity extends AppCompatActivity {
         //final String uName, uEmail, uPhone;
         //final int uCard, uPin;
 
-        TextView title = (TextView) addDialog.findViewById(R.id.userinfo);
+        TextView title = addDialog.findViewById(R.id.userinfo);
 
-        TextView name_header = (TextView) addDialog.findViewById(R.id.textView_name);
-        TextView username = (TextView) addDialog.findViewById(R.id.textView_username);
+        TextView name_header = addDialog.findViewById(R.id.textView_name);
+        TextView username = addDialog.findViewById(R.id.textView_username);
         username.setText(u.getUserName());
 
-        TextView roles_header = (TextView) addDialog.findViewById(R.id.textView_roles);
-        TextView roles = (TextView) addDialog.findViewById(R.id.textView_roleslist);
+        TextView roles_header = addDialog.findViewById(R.id.textView_roles);
+        TextView roles = addDialog.findViewById(R.id.textView_roleslist);
         roles.setText(u.getRoles().toString());
 
-        TextView email_header = (TextView) addDialog.findViewById(R.id.textView_mail);
-        TextView email = (TextView) addDialog.findViewById(R.id.textView_email);
+        TextView email_header = addDialog.findViewById(R.id.textView_mail);
+        TextView email = addDialog.findViewById(R.id.textView_email);
         email.setText(u.getEmail());
 
-        TextView pin_header = (TextView) addDialog.findViewById(R.id.textView_pincode);
-        TextView pin = (TextView) addDialog.findViewById(R.id.textView_pin);
+        TextView pin_header = addDialog.findViewById(R.id.textView_pincode);
+        TextView pin = addDialog.findViewById(R.id.textView_pin);
         pin.setText(u.getPin());
 
-        TextView card_header = (TextView) addDialog.findViewById(R.id.textView_card);
-        TextView card = (TextView) addDialog.findViewById(R.id.textView_cardnum);
+        TextView card_header = addDialog.findViewById(R.id.textView_card);
+        TextView card = addDialog.findViewById(R.id.textView_cardnum);
         card.setText(u.getCardNumber());
 
-        Button edit_user = (Button) addDialog.findViewById(R.id.edit_button);
-        edit_user.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                addDialog.dismiss();
-                Intent intent = new Intent(UserListActivity.this, EditUserActivity.class);
-                startActivity(intent);
+        Button edit_user = addDialog.findViewById(R.id.edit_button);
+        edit_user.setOnClickListener(v -> {
+            addDialog.dismiss();
+            Intent intent = new Intent(UserListActivity.this, EditUserActivity.class);
+            startActivity(intent);
 
-            }
         });
-        Button role_change = (Button) addDialog.findViewById(R.id.roles_button);
-        role_change.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                addDialog.dismiss();
-                Intent intent = new Intent(UserListActivity.this, ChangeUserRolesActivity.class);
-                startActivity(intent);
-            }
+        Button role_change = addDialog.findViewById(R.id.roles_button);
+        role_change.setOnClickListener(v -> {
+            addDialog.dismiss();
+            Intent intent = new Intent(UserListActivity.this, ChangeUserRolesActivity.class);
+            startActivity(intent);
         });
     }
 

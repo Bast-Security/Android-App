@@ -39,6 +39,7 @@ import okhttp3.Response;
 public class RoleListActivity extends AppCompatActivity {
     private static final String TAG = "RoleListActivity";
 
+    // Initialize values
     private final ArrayList<Role> rolesList = new ArrayList<Role>();
     private final RolesAdapter adapter = new RolesAdapter(rolesList, this);
     private RecyclerView rv;
@@ -48,23 +49,26 @@ public class RoleListActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        // Intialize values for database
         final Bundle bundle = getIntent().getExtras();
         final String jwt = bundle.getString("jwt");
         final String systemName = bundle.getString("systemName");
         final int systemId = bundle.getInt("systemId");
         session = new Session(jwt);
 
+        // Display the list
         setContentView(R.layout.activity_general_list);
         final TextView activityTitle = findViewById(R.id.activity_title);
         activityTitle.setText("ROLES");
-
         rv = findViewById(R.id.recycler_view);
         rv.setAdapter(adapter);
         rv.setLayoutManager(new LinearLayoutManager(this));
 
+        // Initialize buttons
         final Button addButton = findViewById(R.id.add_btn);
         final Dialog addDialog = new Dialog(this);
 
+        // Initialize swipe for deleting roles
         final ItemTouchHelper itemTouchHelper = new ItemTouchHelper(simpleCallback);
         itemTouchHelper.attachToRecyclerView(rv);
 
