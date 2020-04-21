@@ -7,7 +7,6 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
-import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -23,11 +22,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.bast.list_adapters.RolesAdapter;
 import com.example.bast.objects.Async;
 import com.example.bast.objects.HTTP;
-import com.example.bast.objects.Lock;
 import com.example.bast.objects.Role;
 import com.example.bast.objects.Session;
-import com.example.bast.objects.System;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 
 import org.json.JSONArray;
@@ -38,7 +34,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 import it.xabaras.android.recyclerview.swipedecorator.RecyclerViewSwipeDecorator;
-import okhttp3.RequestBody;
 import okhttp3.Response;
 
 public class RoleListActivity extends AppCompatActivity {
@@ -60,14 +55,14 @@ public class RoleListActivity extends AppCompatActivity {
         session = new Session(jwt);
 
         setContentView(R.layout.activity_general_list);
-        final TextView activityTitle = (TextView) findViewById(R.id.activity_title);
+        final TextView activityTitle = findViewById(R.id.activity_title);
         activityTitle.setText("ROLES");
 
         rv = findViewById(R.id.recycler_view);
         rv.setAdapter(adapter);
         rv.setLayoutManager(new LinearLayoutManager(this));
 
-        final Button addButton = (Button) findViewById(R.id.add_btn);
+        final Button addButton = findViewById(R.id.add_btn);
         final Dialog addDialog = new Dialog(this);
 
         final ItemTouchHelper itemTouchHelper = new ItemTouchHelper(simpleCallback);
@@ -76,9 +71,9 @@ public class RoleListActivity extends AppCompatActivity {
         addButton.setOnClickListener((view) -> {
             addDialog.setContentView(R.layout.add_role);
 
-            final TextView dialogTitle = (TextView) addDialog.findViewById(R.id.role_title);
-            final EditText nameEntry = (EditText) addDialog.findViewById(R.id.rolename);
-            final Button roleAddButton = (Button) addDialog.findViewById(R.id.add_button);
+            final TextView dialogTitle = addDialog.findViewById(R.id.role_title);
+            final EditText nameEntry = addDialog.findViewById(R.id.rolename);
+            final Button roleAddButton = addDialog.findViewById(R.id.add_button);
 
             roleAddButton.setOnClickListener((v) -> {
                 Log.d("role", "Adding Role!");

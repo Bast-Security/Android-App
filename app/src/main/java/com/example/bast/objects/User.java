@@ -9,12 +9,12 @@ public class User {
     private String userName;
     private String email;
     private String phoneNumber;
-    private int pin;
-    private int cardNumber;
+    private String pin;
+    private String cardNumber;
     private ArrayList<Role> roles;
 
     // constructor
-    public User(String userName, String email, String phoneNumber, int pin, int cardNumber) {
+    public User(String userName, String email, String phoneNumber, String pin, String cardNumber) {
         this.userName = userName;
         this.email = email;
         this.phoneNumber = phoneNumber;
@@ -48,19 +48,19 @@ public class User {
         this.phoneNumber = phoneNumber;
     }
 
-    public int getPin() {
+    public String getPin() {
         return pin;
     }
 
-    public void setPin(int pin) {
+    public void setPin(String pin) {
         this.pin = pin;
     }
 
-    public int getCardNumber() {
+    public String getCardNumber() {
         return cardNumber;
     }
 
-    public void setCardNumber(int cardNumber) {
+    public void setCardNumber(String cardNumber) {
         this.cardNumber = cardNumber;
     }
 
