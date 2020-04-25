@@ -6,6 +6,7 @@ import java.util.ArrayList;
 
 public class User {
 
+    private int userID;
     private String userName;
     private String email;
     private String phoneNumber;
@@ -14,7 +15,7 @@ public class User {
     private ArrayList<Role> roles;
 
     // constructor
-    public User(String userName, String email, String phoneNumber, String pin, String cardNumber) {
+    public User(int userID, String userName, String email, String phoneNumber, String pin, String cardNumber) {
         this.userName = userName;
         this.email = email;
         this.phoneNumber = phoneNumber;
@@ -24,6 +25,8 @@ public class User {
     }
 
     //getter and setters
+    public int getUserID(){return userID;}
+
     public String getUserName() {
         return userName;
     }

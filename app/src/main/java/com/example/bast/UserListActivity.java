@@ -8,7 +8,6 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
-import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -35,7 +34,6 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Objects;
 
 import it.xabaras.android.recyclerview.swipedecorator.RecyclerViewSwipeDecorator;
 import okhttp3.Response;
@@ -48,7 +46,7 @@ public class UserListActivity extends AppCompatActivity {
     private final UsersAdapter adapter = new UsersAdapter(usersList, this);
     private RecyclerView rv;
     private Session session;
-    Dialog addDialog, displayDialog;
+    Dialog addDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -113,7 +111,8 @@ public class UserListActivity extends AppCompatActivity {
                         String HTTPPost = "systems/" + systemId + "/users";
                         session.requestAsync(HTTP.post(HTTPPost, payload), (response) -> {
                             if (response.code() != 200) {
-                                Toast.makeText(this, "Failed to Add User", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(this, "Failed to Add User",
+                                        Toast.LENGTH_SHORT).show();
                             } else {
                                 addDialog.dismiss();
                             }
@@ -123,7 +122,8 @@ public class UserListActivity extends AppCompatActivity {
                         });
                     } catch (Exception e) {
                         Log.d("user", e.toString());
-                        Toast.makeText(this, "Failed to Add User", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(this, "Failed to Add User",
+                                Toast.LENGTH_SHORT).show();
                     }
                 }
                 );
@@ -142,9 +142,12 @@ public class UserListActivity extends AppCompatActivity {
     }
 
     // Initializes the swipe feature
-    ItemTouchHelper.SimpleCallback simpleCallback = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT) {
+    ItemTouchHelper.SimpleCallback simpleCallback = new ItemTouchHelper.SimpleCallback(0,
+            ItemTouchHelper.LEFT) {
         @Override
-        public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
+        public boolean onMove(@NonNull RecyclerView recyclerView,
+                              @NonNull RecyclerView.ViewHolder viewHolder,
+                              @NonNull RecyclerView.ViewHolder target) {
             return false;
         }
 
@@ -190,11 +193,14 @@ public class UserListActivity extends AppCompatActivity {
         }
 
         @Override
-        public void onChildDraw(@NonNull Canvas c, @NonNull RecyclerView rv, @NonNull RecyclerView.ViewHolder viewHolder,
+        public void onChildDraw(@NonNull Canvas c, @NonNull RecyclerView rv,
+                                @NonNull RecyclerView.ViewHolder viewHolder,
                                 float dX, float dY, int actionState, boolean isCurrentlyActive) {
 
-            new RecyclerViewSwipeDecorator.Builder(c, rv, viewHolder, dX, dY, actionState, isCurrentlyActive)
-                    .addSwipeLeftBackgroundColor(ContextCompat.getColor(UserListActivity.this, R.color.delete))
+            new RecyclerViewSwipeDecorator.Builder(c, rv, viewHolder, dX, dY, actionState,
+                    isCurrentlyActive)
+                    .addSwipeLeftBackgroundColor(ContextCompat.getColor(
+                            UserListActivity.this, R.color.delete))
                     .addActionIcon(R.drawable.ic_delete_black_24dp)
                     .create()
                     .decorate();
@@ -219,7 +225,8 @@ public class UserListActivity extends AppCompatActivity {
                     final JSONArray users = new JSONArray(responseBody);
                     for (int i = 0; i < users.length(); i++) {
                         final JSONObject object = users.getJSONObject(i);
-                        final User user = new User(object.getString("name"), object.getString("email"),
+                        final User user = new User(object.getInt("id"),
+                                object.getString("name"), object.getString("email"),
                                 object.getString("phone"), object.getString("pin"),
                                 object.getString("cardno"));
                         usersList.add(user);
@@ -267,14 +274,16 @@ public class UserListActivity extends AppCompatActivity {
         Button edit_user = addDialog.findViewById(R.id.edit_button);
         edit_user.setOnClickListener(v -> {
             addDialog.dismiss();
-            Intent intent = new Intent(UserListActivity.this, EditUserActivity.class);
+            Intent intent = new Intent(UserListActivity.this,
+                    EditUserActivity.class);
             startActivity(intent);
 
         });
         Button role_change = addDialog.findViewById(R.id.roles_button);
         role_change.setOnClickListener(v -> {
             addDialog.dismiss();
-            Intent intent = new Intent(UserListActivity.this, ChangeUserRolesActivity.class);
+            Intent intent = new Intent(UserListActivity.this,
+                    ChangeUserRolesActivity.class);
             startActivity(intent);
         });
     }
