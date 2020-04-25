@@ -1,6 +1,7 @@
 package com.example.bast;
 
 import android.app.Dialog;
+import android.content.Intent;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -23,12 +24,9 @@ import com.example.bast.list_adapters.LocksAdapter;
 import com.example.bast.objects.Async;
 import com.example.bast.objects.HTTP;
 import com.example.bast.objects.Lock;
-import com.example.bast.objects.Lock;
 import com.example.bast.objects.Session;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -36,7 +34,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 import it.xabaras.android.recyclerview.swipedecorator.RecyclerViewSwipeDecorator;
-import okhttp3.RequestBody;
 import okhttp3.Response;
 
 public class LockListActivity extends AppCompatActivity implements LocksAdapter.OnLockListener {
@@ -44,7 +41,7 @@ public class LockListActivity extends AppCompatActivity implements LocksAdapter.
     public ArrayList<Lock> locks = new ArrayList<>();
     RecyclerView rv;
     LocksAdapter adapter;
-    Dialog addDialog;
+    Dialog addDialog, displayDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -110,7 +107,7 @@ public class LockListActivity extends AppCompatActivity implements LocksAdapter.
         });
     }
 
-    public void editLock() {
+    public void editLockName(Lock current) {
         addDialog.setContentView(R.layout.add_lock);
 
         TextView title = (TextView) addDialog.findViewById(R.id.lock_title);
@@ -130,6 +127,42 @@ public class LockListActivity extends AppCompatActivity implements LocksAdapter.
         addDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
 
         addDialog.show();
+    }
+
+    public void displayLock(Lock current) {
+        displayDialog = new Dialog(this);
+        displayDialog.setContentView(R.layout.popup_display_lock);
+
+        TextView lockName = (TextView) displayDialog.findViewById(R.id.lock);
+        lockName.setText(current.getLockName());
+
+        TextView textView_mode = (TextView) displayDialog.findViewById(R.id.textView_mode);
+        TextView mode = (TextView) displayDialog.findViewById(R.id.textView_modeType);
+        mode.setText(current.getMode());
+
+        Button edit_lockname = (Button) displayDialog.findViewById(R.id.edit_button);
+        edit_lockname.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                displayDialog.dismiss();
+                Intent intent = new Intent(LockListActivity.this, AddLockActivity.class);
+                startActivity(intent);
+
+            }
+        });
+
+        Button mode_change = (Button) displayDialog.findViewById(R.id.mode_button);
+        mode_change.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                displayDialog.dismiss();
+                // TODO: Implement dropdown changes
+                //Intent intent = new Intent(UserListActivity.this, ChangeUserRolesActivity.class);
+                //startActivity(intent);
+            }
+        });
+
+        displayDialog.show();
     }
 
     ItemTouchHelper.SimpleCallback simpleCallback = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT) {
@@ -170,6 +203,7 @@ public class LockListActivity extends AppCompatActivity implements LocksAdapter.
 
     @Override
     public void onLockClick(int position) {
-        editLock();
+        Lock clicked = adapter.getLock(position);
+        displayLock(clicked);
     }
 }

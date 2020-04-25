@@ -8,14 +8,14 @@ public class Lock {
     private String lockName;
     private Date dateAdded;
     private Date lastOpened;
+    private String mode;
 
-    public Lock(String lockName){
-        this.lockName = lockName;
-    }
+
     // constructor
-    public Lock(String lockName, Date dateAdded) {
+    public Lock(String lockName, Date dateAdded, String mode) {
         this.lockName = lockName;
         this.dateAdded = dateAdded;
+        this.mode = mode;
         lastOpened = null;
     }
 
@@ -42,5 +42,11 @@ public class Lock {
 
     public void setLastOpened(Date lastOpened) {
         this.lastOpened = lastOpened;
+    }
+
+    public String getMode() { return mode; }
+
+    public void setMode(String mode) {
+        this.mode = mode;
     }
 }
