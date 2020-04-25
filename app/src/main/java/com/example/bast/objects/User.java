@@ -16,6 +16,7 @@ public class User {
 
     // constructor
     public User(int userID, String userName, String email, String phoneNumber, String pin, String cardNumber) {
+        this.userID = userID;
         this.userName = userName;
         this.email = email;
         this.phoneNumber = phoneNumber;

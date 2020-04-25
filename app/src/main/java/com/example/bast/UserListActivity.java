@@ -118,7 +118,7 @@ public class UserListActivity extends AppCompatActivity {
                                         }
 
                                         response.close();
-                                        refreshSystems(session);
+                                        refreshUsers(session);
                                     });
                                 } catch (Exception e) {
                                     Log.d("user", e.toString());
@@ -138,7 +138,7 @@ public class UserListActivity extends AppCompatActivity {
                 }
         );
         // Refreshes the list of users once a user is added
-        refreshSystems(session);
+        refreshUsers(session);
     }
 
     // Initializes the swipe feature
@@ -156,8 +156,8 @@ public class UserListActivity extends AppCompatActivity {
             // Initialize variables for deleting a user
             int pos = viewHolder.getAdapterPosition();
             User deletedUser = usersList.remove(pos);
-            String userName = deletedUser.getUserName();
-            Log.d("user", userName);
+            int userId = deletedUser.getUserID();
+            String userID = Integer.toString(userId);
             adapter.notifyItemRemoved(pos);
 
             // Initializing HTTP variables for delete requests
@@ -167,7 +167,7 @@ public class UserListActivity extends AppCompatActivity {
             Async.task(() -> {
                 try {
                     // HTTP delete requests
-                    final String file = String.format("systems/"+ systemId + "/users/" + userName);
+                    final String file = String.format("systems/"+ systemId + "/users/" + userID);
                     Log.d("user", file);
                     try (final Response response = session.request(HTTP.delete(file))) {
                         if (!response.isSuccessful()) {
@@ -210,7 +210,7 @@ public class UserListActivity extends AppCompatActivity {
     };
 
     // Refreshes the list of users
-    public void refreshSystems(Session session) {
+    public void refreshUsers(Session session) {
         final Handler handler = new Handler();
         final Bundle bundle = getIntent().getExtras();
         final int systemId = bundle.getInt("systemId");
