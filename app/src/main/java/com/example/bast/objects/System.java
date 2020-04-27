@@ -12,5 +12,6 @@ public class System {
         this.id = id;
     }
 
+    public int getSystemID(){return id;}
     public String getSystemName(){return name;}
 }

@@ -38,11 +38,8 @@ public class LocksAdapter extends RecyclerView.Adapter<LocksAdapter.ViewHolder> 
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         holder.lockName.setText(locks.get(position).getLockName());
 
-        holder.item_parent.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+        holder.item_parent.setOnClickListener(view -> {
 
-            }
         });
     }
 

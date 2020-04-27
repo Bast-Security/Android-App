@@ -26,7 +26,6 @@ import com.example.bast.objects.Async;
 import com.example.bast.objects.HTTP;
 import com.example.bast.objects.Session;
 import com.example.bast.objects.System;
-import com.example.bast.objects.User;
 import com.google.android.material.snackbar.Snackbar;
 
 import org.json.JSONArray;
@@ -56,22 +55,26 @@ public class HomeScreenActivity extends AppCompatActivity {
         Log.d("session", "JWT: " + session.jwt);
 
         setContentView(R.layout.activity_general_list);
-        final TextView activityTitle = (TextView) findViewById(R.id.activity_title);
+        final TextView activityTitle = findViewById(R.id.activity_title);
         activityTitle.setText("SYSTEMS");
 
         rv = findViewById(R.id.recycler_view);
         rv.setAdapter(adapter);
         rv.setLayoutManager(new LinearLayoutManager(this));
 
-        final Button addButton = (Button) findViewById(R.id.add_btn);
+        final Button addButton = findViewById(R.id.add_btn);
         final Dialog addDialog = new Dialog(this);
+
+        // Initialize swipe to delete users
+        final ItemTouchHelper itemTouchHelper = new ItemTouchHelper(simpleCallback);
+        itemTouchHelper.attachToRecyclerView(rv);
 
         addButton.setOnClickListener((view) -> {
             addDialog.setContentView(R.layout.connect_system);
 
-            final TextView dialogTitle = (TextView) addDialog.findViewById(R.id.connect_title);
-            final EditText nameEntry = (EditText) addDialog.findViewById(R.id.system_name);
-            final Button systemAddButton = (Button) addDialog.findViewById(R.id.add_button);
+            final TextView dialogTitle = addDialog.findViewById(R.id.connect_title);
+            final EditText nameEntry = addDialog.findViewById(R.id.system_name);
+            final Button systemAddButton = addDialog.findViewById(R.id.add_button);
 
             systemAddButton.setOnClickListener((v) -> {
                 Log.d("system", "Adding System!");
@@ -113,17 +116,37 @@ public class HomeScreenActivity extends AppCompatActivity {
 
         @Override
         public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
+            // Initialize variables for deleting a system
             int pos = viewHolder.getAdapterPosition();
             System deletedSystem = systemsList.remove(pos);
+            int systemId = deletedSystem.getSystemID();
             adapter.notifyItemRemoved(pos);
 
-            Snackbar.make(rv, deletedSystem.getSystemName(), Snackbar.LENGTH_LONG)
-                    .setAction("Undo", new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            systemsList.add(pos, deletedSystem);
-                            adapter.notifyItemInserted(pos);
+            Async.task(() -> {
+                try {
+                    // HTTP delete requests
+                    final String file = String.format("systems/"+ systemId);
+                    Log.d("system", file);
+                    try (final Response response = session.request(HTTP.delete(file))) {
+                        if (!response.isSuccessful()) {
+                            throw new Exception("Request failed with status " + response.code());
                         }
+                    }
+                } catch (JSONException e) {
+                    Log.d("system", "JSONException " + e.toString());
+                } catch (IOException e) {
+                    Log.d("system", "IOException " + e.toString());
+                } catch (Exception e) {
+                    Log.d("system", e.toString());
+                }
+            });
+
+            // Display a snackbar popup to undo a delete
+            Snackbar.make(rv, deletedSystem.getSystemName(), Snackbar.LENGTH_LONG)
+                    .setAction("Undo", v -> {
+                        systemsList.add(pos, deletedSystem);
+                        //TODO: put place function to add the system back to database
+                        adapter.notifyItemInserted(pos);
                     }).show();
         }
 
