@@ -50,6 +50,7 @@ public class UserListActivity extends AppCompatActivity implements UsersAdapter.
     private Dialog userDialog;
     private String systemName;
     private int systemId;
+    private String jwt;
 
     public UserListActivity() {
     }
@@ -60,11 +61,10 @@ public class UserListActivity extends AppCompatActivity implements UsersAdapter.
 
         // Initialize values for database
         final Bundle bundle = getIntent().getExtras();
-        final String jwt = bundle.getString("jwt");
-        systemName = bundle.getString("systemName");
+        if(jwt == null){jwt = bundle.getString("jwt");}
+        if(systemName == null){systemName = bundle.getString("systemName");}
         systemId = bundle.getInt("systemId");
         session = new Session(jwt);
-
         refreshUsers(session);
 
         // Display the list
@@ -177,7 +177,7 @@ public class UserListActivity extends AppCompatActivity implements UsersAdapter.
                 try {
                     // HTTP delete requests
                     final String file = String.format("systems/"+ systemId + "/users/" + userID);
-                    Log.d("user", file);
+                    Log.d("user", "Deleting user at path: " + file);
                     try (final Response response = session.request(HTTP.delete(file))) {
                         if (!response.isSuccessful()) {
                             throw new Exception("Request failed with status " + response.code());
@@ -292,8 +292,8 @@ public class UserListActivity extends AppCompatActivity implements UsersAdapter.
                     EditUserActivity.class);
             intent.putExtra("systemName", systemName);
             intent.putExtra("systemId",systemId);
-            intent.putExtra("session", (Parcelable) session);
-            intent.putExtra("id", u.getUserID());
+            intent.putExtra("jwt", jwt);
+            intent.putExtra("userId", u.getUserID());
             intent.putExtra("username", u.getUserName());
             intent.putExtra("email", u.getEmail());
             intent.putExtra("pin", u.getPin());

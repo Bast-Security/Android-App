@@ -1,19 +1,15 @@
 package com.example.bast;
 
-import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.bast.objects.HTTP;
 import com.example.bast.objects.Session;
-import com.example.bast.objects.User;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -32,7 +28,7 @@ public class EditUserActivity extends AppCompatActivity {
         EditText card = findViewById(R.id.textView_cardnum);
         EditText pin = findViewById(R.id.textView_pin);
         EditText phone = findViewById(R.id.textView_phone);
-        Button editButton = findViewById(R.id.edit_button);
+        Button confirmEditButton = findViewById(R.id.edit_button);
 
         // pulling values from previous activity
         Bundle bundle = getIntent().getExtras();
@@ -41,9 +37,12 @@ public class EditUserActivity extends AppCompatActivity {
         String cardBefore = bundle.getString("card");
         String pinBefore = bundle.getString("pin");
         String phoneBefore = bundle.getString("phone");
-        String systemId = bundle.getString("systemId");
+        int systemId = bundle.getInt("systemId");
         String systemName = bundle.getString("systemName");
-        String userId = bundle.getString("userId");
+        int userId = bundle.getInt("userId");
+        String jwt = bundle.getString("jwt");
+
+        session = new Session(jwt);
 
         // setting values to xml
         if(username != null){username.setText(usernameBefore);}
@@ -53,7 +52,7 @@ public class EditUserActivity extends AppCompatActivity {
         if(phone != null){phone.setText(phoneBefore);}
 
         // confirm user edit
-        editButton.setOnClickListener((view) ->{
+        confirmEditButton.setOnClickListener((view) ->{
             Log.d("user", "Updating User");
 
             try {
@@ -65,7 +64,6 @@ public class EditUserActivity extends AppCompatActivity {
 
                 // turning the input fields into fields of a JSON object
                 final JSONObject payload = new JSONObject()
-                        .accumulate("id", userId)
                         .accumulate("name", userName)
                         .accumulate("email", userEmail)
                         .accumulate("phone", userPhoneNumber)
@@ -73,12 +71,18 @@ public class EditUserActivity extends AppCompatActivity {
                         .accumulate("cardno", userCard);
 
                 // HTTP request to post to the database
-                String HTTPPost = "systems/" + systemId + "/users";
-                session.requestAsync(HTTP.put(HTTPPost, payload), (response) -> {
-                    if (response.code() != 200) {}
+                String HTTPPut = "systems/" + systemId + "/users/" + userId;
+                Log.d("user", "Updating user at path: " + HTTPPut);
+                //TODO: fix this put request
+                session.requestAsync(HTTP.put(HTTPPut, payload), (response) -> {
+                    if (response.code() != 200) {
+                    }
             });
-                Intent backToUserList = new Intent(EditUserActivity.this,
+                Intent backToUserList = new Intent(this,
                         UserListActivity.class);
+                backToUserList.putExtra("jwt", jwt);
+                backToUserList.putExtra("systemId", systemId);
+                backToUserList.putExtra("systemName", systemName);
                 startActivity(backToUserList);
         } catch (JSONException e) {
                 e.printStackTrace();
