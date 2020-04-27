@@ -7,6 +7,7 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Parcelable;
 import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
@@ -63,6 +64,8 @@ public class UserListActivity extends AppCompatActivity implements UsersAdapter.
         systemName = bundle.getString("systemName");
         systemId = bundle.getInt("systemId");
         session = new Session(jwt);
+
+        refreshUsers(session);
 
         // Display the list
         setContentView(R.layout.activity_general_list);
@@ -278,11 +281,25 @@ public class UserListActivity extends AppCompatActivity implements UsersAdapter.
         TextView card = userDialog.findViewById(R.id.textView_cardnum);
         card.setText(u.getCardNumber());
 
+        TextView phone_header = userDialog.findViewById(R.id.textView_phonenumber);
+        TextView phone = userDialog.findViewById(R.id.textView_phone);
+        phone.setText(u.getPhoneNumber());
+
         Button edit_user = userDialog.findViewById(R.id.edit_button);
         edit_user.setOnClickListener(v -> {
             userDialog.dismiss();
             Intent intent = new Intent(UserListActivity.this,
                     EditUserActivity.class);
+            intent.putExtra("systemName", systemName);
+            intent.putExtra("systemId",systemId);
+            intent.putExtra("session", (Parcelable) session);
+            intent.putExtra("id", u.getUserID());
+            intent.putExtra("username", u.getUserName());
+            intent.putExtra("email", u.getEmail());
+            intent.putExtra("pin", u.getPin());
+            intent.putExtra("phone", u.getPhoneNumber());
+            intent.putExtra("card", u.getCardNumber());
+            intent.putExtra("roles", u.getRoles());
             startActivity(intent);
 
         });
@@ -291,6 +308,11 @@ public class UserListActivity extends AppCompatActivity implements UsersAdapter.
             userDialog.dismiss();
             Intent intent = new Intent(UserListActivity.this,
                     ChangeUserRolesActivity.class);
+            intent.putExtra("systemName", systemName);
+            intent.putExtra("systemId",systemId);
+            intent.putExtra("id", u.getUserID());
+            intent.putExtra("username", u.getUserName());
+            intent.putExtra("roles", u.getRoles());
             startActivity(intent);
         });
 
