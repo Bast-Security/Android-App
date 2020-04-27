@@ -289,13 +289,16 @@ public class UserListActivity extends AppCompatActivity implements UsersAdapter.
 //                    ChangeUserRolesActivity.class);
 //            startActivity(intent);
 //        });
+
+        addDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        addDialog.show();
     }
 
     @Override
     public void OnUserClick(int position) {
         User userClicked = usersList.get(position);
         Log.d("user", userClicked.getUserName() + " clicked");
-//        displayUser(userClicked);
+        displayUser(userClicked);
     }
 
 
