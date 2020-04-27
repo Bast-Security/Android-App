@@ -47,7 +47,7 @@ public class UserListActivity extends AppCompatActivity implements UsersAdapter.
     private final UsersAdapter adapter = new UsersAdapter(usersList, this, this);
     private RecyclerView rv;
     private Session session;
-    private Dialog addDialog;
+    private Dialog userDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,6 +71,7 @@ public class UserListActivity extends AppCompatActivity implements UsersAdapter.
         // Initialize buttons
         final Button addButton = findViewById(R.id.add_btn);
         final Dialog addDialog = new Dialog(this);
+        userDialog = new Dialog(this);
 
         // Initialize swipe to delete users
         final ItemTouchHelper itemTouchHelper = new ItemTouchHelper(simpleCallback);
@@ -246,52 +247,51 @@ public class UserListActivity extends AppCompatActivity implements UsersAdapter.
     }
 
     public void displayUser(User u) {
-        addDialog.setContentView(R.layout.popup_display_userinfo);
-        addDialog.setContentView(R.layout.popup_display_userinfo);
+        userDialog.setContentView(R.layout.popup_display_userinfo);
 
         //final String uName, uEmail, uPhone;
-        //final int uCard, uPin;
+        final int uCard, uPin;
 
-        TextView title = addDialog.findViewById(R.id.userinfo);
+        TextView title = userDialog.findViewById(R.id.userinfo);
 
-        TextView name_header = addDialog.findViewById(R.id.textView_name);
-        TextView username = addDialog.findViewById(R.id.textView_username);
+        TextView name_header = userDialog.findViewById(R.id.textView_name);
+        TextView username = userDialog.findViewById(R.id.textView_username);
         username.setText(u.getUserName());
 
-        TextView roles_header = addDialog.findViewById(R.id.textView_roles);
-        TextView roles = addDialog.findViewById(R.id.textView_roleslist);
+        TextView roles_header = userDialog.findViewById(R.id.textView_roles);
+        TextView roles = userDialog.findViewById(R.id.textView_roleslist);
         roles.setText(u.getRoles().toString());
 
-        TextView email_header = addDialog.findViewById(R.id.textView_mail);
-        TextView email = addDialog.findViewById(R.id.textView_email);
+        TextView email_header = userDialog.findViewById(R.id.textView_mail);
+        TextView email = userDialog.findViewById(R.id.textView_email);
         email.setText(u.getEmail());
 
-        TextView pin_header = addDialog.findViewById(R.id.textView_pincode);
-        TextView pin = addDialog.findViewById(R.id.textView_pin);
+        TextView pin_header = userDialog.findViewById(R.id.textView_pincode);
+        TextView pin = userDialog.findViewById(R.id.textView_pin);
         pin.setText(u.getPin());
 
-        TextView card_header = addDialog.findViewById(R.id.textView_card);
-        TextView card = addDialog.findViewById(R.id.textView_cardnum);
+        TextView card_header = userDialog.findViewById(R.id.textView_card);
+        TextView card = userDialog.findViewById(R.id.textView_cardnum);
         card.setText(u.getCardNumber());
 
-        Button edit_user = addDialog.findViewById(R.id.edit_button);
+        Button edit_user = userDialog.findViewById(R.id.edit_button);
         edit_user.setOnClickListener(v -> {
-            addDialog.dismiss();
+            userDialog.dismiss();
             Intent intent = new Intent(UserListActivity.this,
                     EditUserActivity.class);
             startActivity(intent);
 
         });
-//        Button role_change = addDialog.findViewById(R.id.roles_button);
-//        role_change.setOnClickListener(v -> {
-//            addDialog.dismiss();
-//            Intent intent = new Intent(UserListActivity.this,
-//                    ChangeUserRolesActivity.class);
-//            startActivity(intent);
-//        });
+        Button role_change = userDialog.findViewById(R.id.roles_button);
+        role_change.setOnClickListener(v -> {
+            userDialog.dismiss();
+            Intent intent = new Intent(UserListActivity.this,
+                    ChangeUserRolesActivity.class);
+            startActivity(intent);
+        });
 
-        addDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-        addDialog.show();
+        userDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        userDialog.show();
     }
 
     @Override
