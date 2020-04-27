@@ -1,5 +1,6 @@
 package com.example.bast;
 
+import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.Canvas;
@@ -46,7 +47,7 @@ public class UserListActivity extends AppCompatActivity implements UsersAdapter.
     private final UsersAdapter adapter = new UsersAdapter(usersList, this, this);
     private RecyclerView rv;
     private Session session;
-    Dialog addDialog;
+    private Dialog addDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -243,7 +244,9 @@ public class UserListActivity extends AppCompatActivity implements UsersAdapter.
             }
         });
     }
+
     public void displayUser(User u) {
+        addDialog.setContentView(R.layout.popup_display_userinfo);
         addDialog.setContentView(R.layout.popup_display_userinfo);
 
         //final String uName, uEmail, uPhone;
@@ -279,13 +282,13 @@ public class UserListActivity extends AppCompatActivity implements UsersAdapter.
             startActivity(intent);
 
         });
-        Button role_change = addDialog.findViewById(R.id.roles_button);
-        role_change.setOnClickListener(v -> {
-            addDialog.dismiss();
-            Intent intent = new Intent(UserListActivity.this,
-                    ChangeUserRolesActivity.class);
-            startActivity(intent);
-        });
+//        Button role_change = addDialog.findViewById(R.id.roles_button);
+//        role_change.setOnClickListener(v -> {
+//            addDialog.dismiss();
+//            Intent intent = new Intent(UserListActivity.this,
+//                    ChangeUserRolesActivity.class);
+//            startActivity(intent);
+//        });
     }
 
     @Override
