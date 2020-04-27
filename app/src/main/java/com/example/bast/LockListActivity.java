@@ -69,42 +69,52 @@ public class LockListActivity extends AppCompatActivity implements LocksAdapter.
 
         // Popup add user menu
         add_button.setOnClickListener((view) -> {
-            addDialog.setContentView(R.layout.add_lock);
-
-            final TextView lockTitle = addDialog.findViewById(R.id.lock_title);
-            final EditText name = addDialog.findViewById(R.id.lockname);
-
-            Button add_lock = addDialog.findViewById(R.id.add_button);
-            add_lock.setOnClickListener((btn) -> {
-                final String lockName = name.getText().toString();
-
-                final Handler handler = new Handler();
-
-                Async.task(() -> {
-                    try {
-                        final JSONObject payload = new JSONObject().accumulate("name", lockName);
-                        final String file = String.format("systems/%d/locks", systemId);
-                        try (final Response response = session.request(HTTP.post(file, payload))) {
-                            if (!response.isSuccessful()) {
-                                throw new Exception("Request failed with status " + response.code());
-                            }
-
-                            addDialog.dismiss();
-                        }
-                    } catch (JSONException e) {
-                        Log.d("locks", "JSONException " + e.toString());
-                    } catch (IOException e) {
-                        Log.d("locks", "IOException " + e.toString());
-                    } catch (Exception e) {
-                        Log.d("locks", e.toString());
-                    }
-                });
-            });
-
-            addDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-
-            addDialog.show();
+            Intent intent = new Intent(LockListActivity.this, AddLockActivity.class);
+            startActivity(intent);
         });
+    }
+
+    /**
+     * Kept the old popup add code just in case but not using it for now
+     * @param session
+     * @param systemId
+     */
+    public void addPopUp(Session session, final int systemId) {
+        addDialog.setContentView(R.layout.add_lock);
+
+        final TextView lockTitle = addDialog.findViewById(R.id.lock_title);
+        final EditText name = addDialog.findViewById(R.id.lockname);
+
+        Button add_lock = addDialog.findViewById(R.id.add_button);
+        add_lock.setOnClickListener((btn) -> {
+            final String lockName = name.getText().toString();
+
+            final Handler handler = new Handler();
+
+            Async.task(() -> {
+                try {
+                    final JSONObject payload = new JSONObject().accumulate("name", lockName);
+                    final String file = String.format("systems/%d/locks", systemId);
+                    try (final Response response = session.request(HTTP.post(file, payload))) {
+                        if (!response.isSuccessful()) {
+                            throw new Exception("Request failed with status " + response.code());
+                        }
+
+                        addDialog.dismiss();
+                    }
+                } catch (JSONException e) {
+                    Log.d("locks", "JSONException " + e.toString());
+                } catch (IOException e) {
+                    Log.d("locks", "IOException " + e.toString());
+                } catch (Exception e) {
+                    Log.d("locks", e.toString());
+                }
+            });
+        });
+
+        addDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+
+        addDialog.show();
     }
 
     public void editLockName(Lock current) {
@@ -145,8 +155,7 @@ public class LockListActivity extends AppCompatActivity implements LocksAdapter.
             @Override
             public void onClick(View v) {
                 displayDialog.dismiss();
-                Intent intent = new Intent(LockListActivity.this, AddLockActivity.class);
-                startActivity(intent);
+                editLockName(current);
 
             }
         });
