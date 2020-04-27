@@ -47,7 +47,7 @@ public class LockListActivity extends AppCompatActivity implements LocksAdapter.
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_general_list);
-        TextView title = (TextView) findViewById(R.id.activity_title);
+        TextView title = findViewById(R.id.activity_title);
         title.setText("LOCKS");
 
         final Bundle bundle = getIntent().getExtras();
@@ -64,17 +64,17 @@ public class LockListActivity extends AppCompatActivity implements LocksAdapter.
         final ItemTouchHelper itemTouchHelper = new ItemTouchHelper(simpleCallback);
         itemTouchHelper.attachToRecyclerView(rv);
 
-        final Button add_button = (Button) findViewById(R.id.add_btn);
+        final Button add_button = findViewById(R.id.add_btn);
         addDialog = new Dialog(this);
 
         // Popup add user menu
         add_button.setOnClickListener((view) -> {
             addDialog.setContentView(R.layout.add_lock);
 
-            final TextView lockTitle = (TextView) addDialog.findViewById(R.id.lock_title);
-            final EditText name = (EditText) addDialog.findViewById(R.id.lockname);
+            final TextView lockTitle = addDialog.findViewById(R.id.lock_title);
+            final EditText name = addDialog.findViewById(R.id.lockname);
 
-            Button add_lock = (Button) addDialog.findViewById(R.id.add_button);
+            Button add_lock = addDialog.findViewById(R.id.add_button);
             add_lock.setOnClickListener((btn) -> {
                 final String lockName = name.getText().toString();
 
@@ -110,11 +110,11 @@ public class LockListActivity extends AppCompatActivity implements LocksAdapter.
     public void editLockName(Lock current) {
         addDialog.setContentView(R.layout.add_lock);
 
-        TextView title = (TextView) addDialog.findViewById(R.id.lock_title);
+        TextView title = addDialog.findViewById(R.id.lock_title);
         title.setText("EDIT LOCK NAME");
-        EditText name = (EditText) addDialog.findViewById(R.id.lockname);
+        EditText name = addDialog.findViewById(R.id.lockname);
 
-        Button edit_role = (Button) addDialog.findViewById(R.id.add_button);
+        Button edit_role = addDialog.findViewById(R.id.add_button);
         edit_role.setText("EDIT");
         edit_role.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -133,14 +133,14 @@ public class LockListActivity extends AppCompatActivity implements LocksAdapter.
         displayDialog = new Dialog(this);
         displayDialog.setContentView(R.layout.popup_display_lock);
 
-        TextView lockName = (TextView) displayDialog.findViewById(R.id.lock);
+        TextView lockName = displayDialog.findViewById(R.id.lock);
         lockName.setText(current.getLockName());
 
-        TextView textView_mode = (TextView) displayDialog.findViewById(R.id.textView_mode);
-        TextView mode = (TextView) displayDialog.findViewById(R.id.textView_modeType);
+        TextView textView_mode = displayDialog.findViewById(R.id.textView_mode);
+        TextView mode = displayDialog.findViewById(R.id.textView_modeType);
         mode.setText(current.getMode());
 
-        Button edit_lockname = (Button) displayDialog.findViewById(R.id.edit_button);
+        Button edit_lockname = displayDialog.findViewById(R.id.edit_button);
         edit_lockname.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -151,7 +151,7 @@ public class LockListActivity extends AppCompatActivity implements LocksAdapter.
             }
         });
 
-        Button mode_change = (Button) displayDialog.findViewById(R.id.mode_button);
+        Button mode_change = displayDialog.findViewById(R.id.mode_button);
         mode_change.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

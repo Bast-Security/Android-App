@@ -24,8 +24,8 @@ public class ConnectSystemActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_connect_system);
 
-        Button button = (Button) findViewById(R.id.add_button);
-        EditText systemName = (EditText) findViewById(R.id.username);
+        Button button = findViewById(R.id.add_button);
+        EditText systemName = findViewById(R.id.username);
 
         String name = systemName.toString();
 
@@ -42,8 +42,8 @@ public class ConnectSystemActivity extends AppCompatActivity {
 
     public void openDialog() {
         successDialog.setContentView(R.layout.popup_add_usermenu);
-        ImageView check = (ImageView) successDialog.findViewById(R.id.success_check);
-        TextView successText = (TextView) successDialog.findViewById(R.id.success_text);
+        ImageView check = successDialog.findViewById(R.id.success_check);
+        TextView successText = successDialog.findViewById(R.id.success_text);
 
         successDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         successDialog.show();

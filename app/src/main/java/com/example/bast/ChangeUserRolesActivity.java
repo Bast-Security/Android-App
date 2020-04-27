@@ -1,4 +1,7 @@
 package com.example.bast;
 
-public class ChangeUserRolesActivity {
+import androidx.appcompat.app.AppCompatActivity;
+
+public class ChangeUserRolesActivity extends AppCompatActivity {
+
 }

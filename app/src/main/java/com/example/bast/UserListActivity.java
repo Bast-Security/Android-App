@@ -1,6 +1,5 @@
 package com.example.bast;
 
-import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.Canvas;
@@ -24,8 +23,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.bast.list_adapters.UsersAdapter;
 import com.example.bast.objects.Async;
 import com.example.bast.objects.HTTP;
-import com.example.bast.objects.User;
 import com.example.bast.objects.Session;
+import com.example.bast.objects.User;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 
@@ -48,6 +47,11 @@ public class UserListActivity extends AppCompatActivity implements UsersAdapter.
     private RecyclerView rv;
     private Session session;
     private Dialog userDialog;
+    private String systemName;
+    private int systemId;
+
+    public UserListActivity() {
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,8 +60,8 @@ public class UserListActivity extends AppCompatActivity implements UsersAdapter.
         // Initialize values for database
         final Bundle bundle = getIntent().getExtras();
         final String jwt = bundle.getString("jwt");
-        final String systemName = bundle.getString("systemName");
-        final int systemId = bundle.getInt("systemId");
+        systemName = bundle.getString("systemName");
+        systemId = bundle.getInt("systemId");
         session = new Session(jwt);
 
         // Display the list
@@ -71,7 +75,7 @@ public class UserListActivity extends AppCompatActivity implements UsersAdapter.
         // Initialize buttons
         final Button addButton = findViewById(R.id.add_btn);
         final Dialog addDialog = new Dialog(this);
-        userDialog = new Dialog(this);
+        userDialog= new Dialog(this);
 
         // Initialize swipe to delete users
         final ItemTouchHelper itemTouchHelper = new ItemTouchHelper(simpleCallback);
@@ -289,6 +293,9 @@ public class UserListActivity extends AppCompatActivity implements UsersAdapter.
                     ChangeUserRolesActivity.class);
             startActivity(intent);
         });
+
+        FloatingActionButton exit = userDialog.findViewById(R.id.floatingActionButton);
+        exit.setOnClickListener(v -> userDialog.dismiss());
 
         userDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         userDialog.show();

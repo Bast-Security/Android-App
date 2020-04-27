@@ -24,14 +24,14 @@ public class SystemMenuActivity extends AppCompatActivity implements View.OnClic
         systemName = bundle.getString("systemName");
         systemId = bundle.getInt("systemId");
 
-        final TextView title = (TextView) findViewById(R.id.activity_title);
+        final TextView title = findViewById(R.id.activity_title);
         title.setText(systemName);
 
         // defining the card views
-        final CardView lock = (CardView) findViewById(R.id.locks_button);
-        final CardView user = (CardView) findViewById(R.id.users_button);
-        final CardView role = (CardView) findViewById(R.id.roles_button);
-        final CardView settings = (CardView) findViewById(R.id.logs_button);
+        final CardView lock = findViewById(R.id.locks_button);
+        final CardView user = findViewById(R.id.users_button);
+        final CardView role = findViewById(R.id.roles_button);
+        final CardView settings = findViewById(R.id.logs_button);
 
         lock.setOnClickListener(this);
         user.setOnClickListener(this);
