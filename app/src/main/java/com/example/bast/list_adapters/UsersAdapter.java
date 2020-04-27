@@ -24,31 +24,25 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.ViewHolder> 
 
     private ArrayList<User> users;
     private Context mContext;
+    private OnUserListener mOnUserListener;
 
-    public UsersAdapter(ArrayList<User> users, Context mContext) {
+    public UsersAdapter(ArrayList<User> users, Context mContext, OnUserListener onUserListener) {
         this.users = users;
         this.mContext = mContext;
+        this.mOnUserListener = onUserListener;
     }
 
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_row, parent, false);
-        ViewHolder holder = new ViewHolder(view);
-
+        ViewHolder holder = new ViewHolder(view, mOnUserListener);
         return holder;
     }
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         holder.userName.setText(users.get(position).getUserName());
-
-        holder.item_parent.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-            }
-        });
     }
 
     @Override
@@ -56,20 +50,27 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.ViewHolder> 
         return users.size();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
+    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
         TextView userName;
         RelativeLayout item_parent;
+        OnUserListener onUserListener;
 
-        public ViewHolder(@NonNull View itemView) {
+        public ViewHolder(@NonNull View itemView, OnUserListener onUserListener) {
             super(itemView);
-
             item_parent = itemView.findViewById(R.id.list_parent_layout);
             userName = itemView.findViewById(R.id.list_item);
+            this.onUserListener = onUserListener;
+            itemView.setOnClickListener(this);
+        }
+
+        @Override
+        public void onClick(View v) {
+            onUserListener.OnUserClick(getAdapterPosition());
         }
     }
 
-    public interface OnUsersListener {
-        void onUserClick(int position);
+    public interface OnUserListener{
+        void OnUserClick(int position);
     }
 
     public User getUser(int position) { return users.get(position); }

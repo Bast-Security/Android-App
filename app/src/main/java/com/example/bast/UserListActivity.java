@@ -38,12 +38,12 @@ import java.util.ArrayList;
 import it.xabaras.android.recyclerview.swipedecorator.RecyclerViewSwipeDecorator;
 import okhttp3.Response;
 
-public class UserListActivity extends AppCompatActivity {
+public class UserListActivity extends AppCompatActivity implements UsersAdapter.OnUserListener {
     private static final String TAG = "UserListActivity";
 
     // Initialize values
     private final ArrayList<User> usersList = new ArrayList<>();
-    private final UsersAdapter adapter = new UsersAdapter(usersList, this);
+    private final UsersAdapter adapter = new UsersAdapter(usersList, this, this);
     private RecyclerView rv;
     private Session session;
     Dialog addDialog;
@@ -288,9 +288,13 @@ public class UserListActivity extends AppCompatActivity {
         });
     }
 
-    public void onUserClick(int position) {
-        User clicked = adapter.getUser(position);
-        displayUser(clicked);
+    @Override
+    public void OnUserClick(int position) {
+        User userClicked = usersList.get(position);
+        Log.d("user", userClicked.getUserName() + " clicked");
+//        displayUser(userClicked);
     }
+
+
 
 }
