@@ -28,14 +28,25 @@
             android:paddingTop="@dimen/activity_vertical_margin">
 
             <TextView
-                android:id="@+id/new_system"
+                android:id="@+id/log_timestamp"
                 android:layout_width="wrap_content"
-                android:layout_height="55dp"
+                android:layout_height="wrap_content"
                 android:fontFamily="@font/segoesemibold"
                 android:gravity="center_vertical"
                 android:paddingLeft="15dp"
                 android:text="200420 02:28:37 AM PST"
                 android:textSize="25dp" />
+
+            <TextView
+                android:id="@+id/log_description"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/segoesemibold"
+                android:gravity="center_vertical"
+                android:paddingLeft="15dp"
+                android:layout_below="@id/log_timestamp"
+                android:text="User Bob accessed Door Name"
+                android:textSize="18dp" />
 
         </RelativeLayout>
     </androidx.cardview.widget.CardView>
