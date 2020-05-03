@@ -28,12 +28,11 @@ public class AddLockActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        // Intialize values for database
-        final Bundle bundle = getIntent().getExtras();
-        final String jwt = bundle.getString("jwt");
-        final String systemName = bundle.getString("systemName");
-        systemId = bundle.getInt("systemId");
-        session = new Session(jwt);
+        // pulling values from previous activity
+        Bundle bundle = getIntent().getExtras();
+        int systemId = bundle.getInt("systemId");
+        String systemName = bundle.getString("systemName");
+        String jwt = bundle.getString("jwt");
 
         final TextView code = findViewById(R.id.code);
         final TextView conuntdownTimer = findViewById(R.id.countdown_timer);
@@ -46,15 +45,8 @@ public class AddLockActivity extends AppCompatActivity {
         Async.task(() -> {
             String TOTPGet = "systems/" + systemId + "/totp";
             try (final Response response = session.request(HTTP.get(TOTPGet))) {
-                if (response.isSuccessful()) {
-                    final String responseBody = response.body().string();
-                    final JSONArray lock = new JSONArray(responseBody);
-                    final JSONObject object = lock.getJSONObject(0);
-                    codeValue = object.getString("code");
-                } else {
-                    Log.d("lock", "Bad response from server");
-                }
-            } catch (IOException | JSONException e) {
+
+            } catch (IOException e) {
                 e.printStackTrace();
             }
         });
