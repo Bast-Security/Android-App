@@ -145,7 +145,6 @@ public class HomeScreenActivity extends AppCompatActivity {
             Snackbar.make(rv, deletedSystem.getSystemName(), Snackbar.LENGTH_LONG)
                     .setAction("Undo", v -> {
                         systemsList.add(pos, deletedSystem);
-                        //TODO: put place function to add the system back to database
                         adapter.notifyItemInserted(pos);
                     }).show();
         }

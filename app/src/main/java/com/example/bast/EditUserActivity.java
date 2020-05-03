@@ -73,7 +73,6 @@ public class EditUserActivity extends AppCompatActivity {
                 // HTTP request to post to the database
                 String HTTPPut = "systems/" + systemId + "/users/" + userId;
                 Log.d("user", "Updating user at path: " + HTTPPut);
-                //TODO: fix this put request
                 session.requestAsync(HTTP.put(HTTPPut, payload), (response) -> {
                     if (response.code() != 200) {
                     }
