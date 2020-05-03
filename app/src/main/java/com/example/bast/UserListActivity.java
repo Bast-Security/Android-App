@@ -196,7 +196,25 @@ public class UserListActivity extends AppCompatActivity implements UsersAdapter.
             Snackbar.make(rv, deletedUser.getUserName(), Snackbar.LENGTH_LONG)
                     .setAction("Undo", v -> {
                         usersList.add(pos, deletedUser);
-                        //TODO: put place function to add the user back to database
+                        try {
+                            // turning the input fields into fields of a JSON object
+                            final JSONObject payload = new JSONObject()
+                                    .accumulate("name", deletedUser.getUserName())
+                                    .accumulate("email", deletedUser.getEmail())
+                                    .accumulate("phone", deletedUser.getPhoneNumber())
+                                    .accumulate("pin", deletedUser.getPin())
+                                    .accumulate("cardno", deletedUser.getCardNumber());
+
+                            // HTTP request to post to the database
+                            String HTTPPost = "systems/" + systemId + "/users";
+                            session.requestAsync(HTTP.post(HTTPPost, payload), (response) -> {
+                                if (response.code() != 200) {} else {}
+                                response.close();
+                                refreshUsers(session);
+                            });
+                        } catch (Exception e) {
+                            Log.d("user", e.toString());
+                        }
                         adapter.notifyItemInserted(pos);
                     }).show();
         }
