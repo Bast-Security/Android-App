@@ -70,7 +70,7 @@
         android:layout_below="@+id/textView_instruction"
         android:layout_alignParentStart="true"
         android:layout_marginStart="20dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="35dp"
         android:layout_marginEnd="5dp"
         android:fontFamily="@font/segoeuibold"
         android:text="INSTRUCTIONS"
@@ -78,17 +78,45 @@
         android:textSize="22dp" />
 
     <TextView
-        android:id="@+id/textView_instructionlist"
+        android:id="@+id/textView_instruction1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/textView_instructionTitle"
         android:layout_alignParentStart="true"
         android:layout_marginStart="28dp"
         android:layout_marginTop="11dp"
-        android:layout_marginEnd="5dp"
+        android:layout_marginEnd="30dp"
         android:fontFamily="@font/segoeregular"
-        android:text="1. "
+        android:text="1. Add the code above to your lock with a '#' at the end of it (Ex. 01123456#)"
         android:textColor="@color/colorPrimaryDark"
-        android:textSize="18dp" />
+        android:textSize="16dp" />
+
+    <TextView
+        android:id="@+id/textView_instruction2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/textView_instruction1"
+        android:layout_alignParentStart="true"
+        android:layout_marginStart="28dp"
+        android:layout_marginTop="11dp"
+        android:layout_marginEnd="30dp"
+        android:fontFamily="@font/segoeregular"
+        android:text="2. Once successfully input, the lock will appear in the list of locks when you return to that menu."
+        android:textColor="@color/colorPrimaryDark"
+        android:textSize="16dp" />
+
+    <TextView
+        android:id="@+id/textView_instruction3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/textView_instruction2"
+        android:layout_alignParentStart="true"
+        android:layout_marginStart="28dp"
+        android:layout_marginTop="11dp"
+        android:layout_marginEnd="30dp"
+        android:fontFamily="@font/segoeregular"
+        android:text="3. You can modify the lock's name and settings now by clicking on it."
+        android:textColor="@color/colorPrimaryDark"
+        android:textSize="16dp" />
 
 </RelativeLayout>
