@@ -36,7 +36,7 @@ public class AddLockActivity extends AppCompatActivity {
         session = new Session(jwt);
 
         final TextView code = findViewById(R.id.code);
-        final TextView conuntdownTimer = findViewById(R.id.countdown_timer);
+        final TextView conuntdownTimer = findViewById(R.id.timer);
 
         setContentView(R.layout.activity_connect_lock);
 
@@ -59,4 +59,10 @@ public class AddLockActivity extends AppCompatActivity {
             }
         });
     }
+
+    // timer for code refresh
+    public void countdown(){
+
+    }
+
 }
