@@ -70,9 +70,7 @@ public class LockListActivity extends AppCompatActivity implements LocksAdapter.
         // Popup add user menu
         add_button.setOnClickListener((view) -> {
             Intent intent = new Intent(LockListActivity.this, AddLockActivity.class);
-            intent.putExtra("systemName", systemName);
-            intent.putExtra("systemId",systemId);
-            intent.putExtra("jwt", jwt);
+            intent.putExtras(bundle);
             startActivity(intent);
         });
     }
