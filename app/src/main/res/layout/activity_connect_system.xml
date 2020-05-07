@@ -19,7 +19,7 @@
 
         android:text="CONNECT TO A NEW SYSTEM"
         android:textColor="@color/colorPrimaryDark"
-        android:fontFamily="@font/segoesemibold"
+        android:fontFamily="@font/segoeuiblack"
         android:textSize="20dp"/>
 
     <EditText

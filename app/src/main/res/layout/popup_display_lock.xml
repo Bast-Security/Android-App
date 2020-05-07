@@ -66,6 +66,8 @@
         android:textColor="@color/colorPrimaryDark"
         android:textSize="16dp" />
 
+
+
     <Button
         android:id="@+id/mode_button"
         android:layout_width="140dp"
