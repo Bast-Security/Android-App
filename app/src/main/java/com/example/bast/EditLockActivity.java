@@ -20,6 +20,8 @@ public class EditLockActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_lock);
 
+        // TODO getExtra for lock list and lock position to edit
+
         initSpinner();
     }
 

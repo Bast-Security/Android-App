@@ -169,6 +169,7 @@ public class LockListActivity extends AppCompatActivity implements LocksAdapter.
                 displayDialog.dismiss();
                 Intent intent = new Intent(LockListActivity.this, EditLockActivity.class);
                 intent.putExtra("Lock Position", position);
+                intent.putExtra("Lock List", locks);
                 startActivity(intent);
             }
         });
