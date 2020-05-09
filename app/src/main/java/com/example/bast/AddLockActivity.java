@@ -2,6 +2,7 @@ package com.example.bast;
 
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.os.Handler;
 import android.util.Log;
 import android.widget.TextView;
 
@@ -39,17 +40,38 @@ public class AddLockActivity extends AppCompatActivity {
 
         new CountDownTimer(30000, 1000){
             public void onTick(long millisUntilFinished){
-                String min = String.valueOf(counter / 60);
-                String sec = String.format("%02d", counter % 60);
-                String time = min + ":" + sec;
+                final String min = String.valueOf(counter / 60);
+                final String sec = String.format("%02d", counter % 60);
+                final String time = min + ":" + sec;
                 final TextView countdownTimer = findViewById(R.id.timer);
                 countdownTimer.setText(time);
+
                 final TextView code = findViewById(R.id.code);
-                code.setText(getTOTPCode(session));
+                final Handler handler = new Handler();
+                Async.task(() -> {
+                    String TOTPGet = "systems/"+ systemId + "/totp";
+                    Log.d("lock", "Getting TOTP code from path " + TOTPGet);
+                    try (final Response response = session.request(HTTP.get(TOTPGet))) {
+                        if (response.isSuccessful()) {
+                            final String responseBody = response.body().string();
+                            Log.d("lock", responseBody);
+
+                            final JSONObject TOTP = new JSONObject(responseBody);
+                            final String codeValue = TOTP.getString("code");
+                            handler.post(() -> {
+                                code.setText(codeValue);
+                            });
+                        } else {
+                            Log.d("lock", "Bad response from server");
+                        }
+                    } catch (IOException | JSONException e) {
+                        e.printStackTrace();
+                    }
+                });
+
                 if(counter != 0){counter--;}
                 else{
                     counter = 300;
-                    getTOTPCode(session);
                 }
             }
 
@@ -60,32 +82,4 @@ public class AddLockActivity extends AppCompatActivity {
         setContentView(R.layout.activity_connect_lock);
 
     }
-
-    public String getTOTPCode(Session session) {
-        codeValue = "";
-        Async.task(() -> {
-            String TOTPGet = "systems/"+ systemId + "/totp";
-            Log.d("lock", "Getting TOTP code from path " + TOTPGet);
-            try (final Response response = session.request(HTTP.get(TOTPGet))) {
-                if (response.isSuccessful()) {
-                    final String responseBody = response.body().string();
-                    Log.d("lock", responseBody);
-
-                    final JSONArray TOTP = new JSONArray(responseBody);
-                    for (int i = 0; i < TOTP.length(); i++) {
-                        final JSONObject object = TOTP.getJSONObject(i);
-                        codeValue = object.getString("code");
-                        Log.d("lock", "The codeValue is: " + codeValue);
-                    }
-                } else {
-                    Log.d("lock", "Bad response from server");
-                }
-
-            } catch (IOException | JSONException e) {
-                e.printStackTrace();
-            }
-        });
-        return codeValue;
-    }
-
 }
