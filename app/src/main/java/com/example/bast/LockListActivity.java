@@ -54,6 +54,7 @@ public class LockListActivity extends AppCompatActivity implements LocksAdapter.
         final String jwt = bundle.getString("jwt");
         final String systemName = bundle.getString("systemName");
         final int systemId = bundle.getInt("systemId");
+        final String TotpKey = bundle.getString("TotpKey");
         final Session session = new Session(jwt);
 
         rv = findViewById(R.id.recycler_view);

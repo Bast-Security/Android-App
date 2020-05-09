@@ -32,13 +32,10 @@ public class AddLockActivity extends AppCompatActivity {
 
         // pulling values from previous activity
         Bundle bundle = getIntent().getExtras();
-        int systemId = bundle.getInt("systemId");
+        systemId = bundle.getInt("systemId");
         String systemName = bundle.getString("systemName");
         String jwt = bundle.getString("jwt");
         session = new Session(bundle.getString("jwt"));
-
-        final TextView code = findViewById(R.id.code);
-
 
         new CountDownTimer(30000, 1000){
             public void onTick(long millisUntilFinished){
@@ -67,9 +64,9 @@ public class AddLockActivity extends AppCompatActivity {
     public String getTOTPCode(Session session) {
         codeValue = "";
         Async.task(() -> {
-            String TOTPGet = "systems/" + systemId + "/totp";
+            String TOTPGet = "systems/"+ systemId + "/totp";
             Log.d("lock", "Getting TOTP code from path " + TOTPGet);
-            try (final Response response = session.request(HTTP.get(TOTPGet));) {
+            try (final Response response = session.request(HTTP.get(TOTPGet))) {
                 if (response.isSuccessful()) {
                     final String responseBody = response.body().string();
                     Log.d("lock", responseBody);

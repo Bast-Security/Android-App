@@ -30,12 +30,7 @@ public class ConnectSystemActivity extends AppCompatActivity {
         String name = systemName.toString();
 
         successDialog = new Dialog(this);
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                openDialog();
-            }
-        });
+        button.setOnClickListener(v -> openDialog());
 
     }
 
@@ -50,13 +45,10 @@ public class ConnectSystemActivity extends AppCompatActivity {
 
         successDialog.setCanceledOnTouchOutside(true);
 
-        successDialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
-            @Override
-            public void onCancel(DialogInterface dialog) {
-                // dialog dismisses
-                Intent homeIntent = new Intent(ConnectSystemActivity.this, HomeScreenActivity.class);
-                ConnectSystemActivity.this.startActivity(homeIntent);
-            }
+        successDialog.setOnCancelListener(dialog -> {
+            // dialog dismisses
+            Intent homeIntent = new Intent(ConnectSystemActivity.this, HomeScreenActivity.class);
+            ConnectSystemActivity.this.startActivity(homeIntent);
         });
     }
 

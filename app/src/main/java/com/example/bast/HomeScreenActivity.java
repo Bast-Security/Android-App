@@ -52,7 +52,6 @@ public class HomeScreenActivity extends AppCompatActivity {
 
         final Bundle bundle = getIntent().getExtras();
         session = new Session(bundle.getString("jwt"));
-        Log.d("session", "JWT: " + session.jwt);
 
         setContentView(R.layout.activity_general_list);
         final TextView activityTitle = findViewById(R.id.activity_title);
@@ -171,11 +170,13 @@ public class HomeScreenActivity extends AppCompatActivity {
                     final String responseBody = response.body().string();
                     Log.d("system", responseBody);
                     systemsList.removeAll(systemsList);
+                    Response TotpKey = session.request(HTTP.get("systems"));
 
                     final JSONArray systems = new JSONArray(responseBody);
                     for (int i = 0; i < systems.length(); i++) {
                         final JSONObject object = systems.getJSONObject(i);
-                        final System system = new System(object.getInt("id"), object.getString("name"));
+                        final System system = new System(object.getInt("id"),
+                                object.getString("name"));
                         systemsList.add(system);
                     }
 

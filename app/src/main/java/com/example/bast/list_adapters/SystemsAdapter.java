@@ -74,14 +74,13 @@ public class SystemsAdapter extends RecyclerView.Adapter<SystemsAdapter.ViewHold
     // replaces the contents of a view
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, final int position) {
-        Log.d(TAG, "onBindViewHolder: called.");
 
         final System system = systems.get(position);
 
         holder.systemName.setText(system.name);
 
         holder.parentLayout.setOnClickListener((view) -> {
-            Log.d(TAG, "onClick: clicked on: " + system.name);
+            Log.d(TAG, "Clicked on: " + system.name);
 
             Toast.makeText(mContext, system.name, Toast.LENGTH_SHORT).show();
 
