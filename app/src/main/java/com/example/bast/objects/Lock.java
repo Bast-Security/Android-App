@@ -10,6 +10,9 @@ public class Lock {
     private Date lastOpened;
     private String mode;
 
+    public Lock(String lockName) {
+        this.lockName = lockName;
+    }
 
     // constructor
     public Lock(String lockName, Date dateAdded, String mode) {

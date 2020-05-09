@@ -27,6 +27,7 @@ import com.example.bast.objects.Lock;
 import com.example.bast.objects.Session;
 import com.google.android.material.snackbar.Snackbar;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -73,6 +74,42 @@ public class LockListActivity extends AppCompatActivity implements LocksAdapter.
             Intent intent = new Intent(LockListActivity.this, AddLockActivity.class);
             intent.putExtras(bundle);
             startActivity(intent);
+        });
+
+        refresh(session, systemId);
+    }
+
+    public void refresh(final Session session, final int systemId) {
+        final Handler handler = new Handler();
+        Async.task(() -> {
+            try {
+                final String file = String.format("systems/%d/locks", systemId);
+                try (final Response response = session.request(HTTP.get(file))) {
+                    if (response.isSuccessful()) {
+                        locks.clear();
+
+                        final String body = response.body().string();
+                        Log.d("locks", body);
+                        
+                        final JSONArray array = new JSONArray(body);
+                        for (int i = 0; i < array.length(); i++) {
+                            final JSONObject object = array.getJSONObject(i);
+                            final Lock lock = new Lock(object.getString("name"));
+                            locks.add(lock);
+                        }
+                    }
+
+                    handler.post(() -> {
+                        adapter.notifyDataSetChanged();
+                    });
+                }
+            } catch (JSONException e) {
+                Log.d("locks", "JSONException " + e.toString());
+            } catch (IOException e) {
+                Log.d("locks", "IOException " + e.toString());
+            } catch (Exception e) {
+                Log.d("locks", e.toString());
+            }
         });
     }
 
