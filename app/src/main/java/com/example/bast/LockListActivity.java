@@ -140,7 +140,7 @@ public class LockListActivity extends AppCompatActivity implements LocksAdapter.
         addDialog.show();
     }
 
-    public void displayLock(Lock current) {
+    public void displayLock(Lock current, int position) {
         displayDialog = new Dialog(this);
         displayDialog.setContentView(R.layout.popup_display_lock);
 
@@ -166,9 +166,9 @@ public class LockListActivity extends AppCompatActivity implements LocksAdapter.
             @Override
             public void onClick(View v) {
                 displayDialog.dismiss();
-                // TODO: Implement dropdown changes
-                //Intent intent = new Intent(UserListActivity.this, ChangeUserRolesActivity.class);
-                //startActivity(intent);
+                Intent intent = new Intent(LockListActivity.this, EditLockActivity.class);
+                intent.putExtra("Lock Position", position);
+                startActivity(intent);
             }
         });
 
@@ -214,6 +214,6 @@ public class LockListActivity extends AppCompatActivity implements LocksAdapter.
     @Override
     public void onLockClick(int position) {
         Lock clicked = adapter.getLock(position);
-        displayLock(clicked);
+        displayLock(clicked, position);
     }
 }
