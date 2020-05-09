@@ -22,6 +22,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.bast.list_adapters.RolesAdapter;
 import com.example.bast.objects.Async;
 import com.example.bast.objects.HTTP;
+import com.example.bast.objects.Lock;
 import com.example.bast.objects.Role;
 import com.example.bast.objects.Session;
 import com.google.android.material.snackbar.Snackbar;
@@ -36,7 +37,7 @@ import java.util.ArrayList;
 import it.xabaras.android.recyclerview.swipedecorator.RecyclerViewSwipeDecorator;
 import okhttp3.Response;
 
-public class RoleListActivity extends AppCompatActivity {
+public class RoleListActivity extends AppCompatActivity implements RolesAdapter.OnRolesListener {
     private static final String TAG = "RoleListActivity";
 
     // Initialize values
@@ -44,6 +45,7 @@ public class RoleListActivity extends AppCompatActivity {
     private final RolesAdapter adapter = new RolesAdapter(rolesList, this);
     private RecyclerView rv;
     private Session session;
+    private Dialog addDialog, displayDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,7 +68,8 @@ public class RoleListActivity extends AppCompatActivity {
 
         // Initialize buttons
         final Button addButton = findViewById(R.id.add_btn);
-        final Dialog addDialog = new Dialog(this);
+        addDialog = new Dialog(this);
+        displayDialog= new Dialog(this);
 
         // Initialize swipe for deleting roles
         final ItemTouchHelper itemTouchHelper = new ItemTouchHelper(simpleCallback);
@@ -97,7 +100,7 @@ public class RoleListActivity extends AppCompatActivity {
                         }
 
                         response.close();
-                        refreshSystems(session);
+                        refresh(session);
                     });
                 } catch (Exception e) {
                     Log.d("role", e.toString());
@@ -107,7 +110,7 @@ public class RoleListActivity extends AppCompatActivity {
             addDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
             addDialog.show();
         });
-        refreshSystems(session);
+        refresh(session);
     }
 
     ItemTouchHelper.SimpleCallback simpleCallback = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT) {
@@ -167,7 +170,7 @@ public class RoleListActivity extends AppCompatActivity {
         }
     };
 
-    public void refreshSystems(Session session) {
+    public void refresh(Session session) {
         final Handler handler = new Handler();
         final Bundle bundle = getIntent().getExtras();
         final int systemId = bundle.getInt("systemId");
@@ -201,4 +204,17 @@ public class RoleListActivity extends AppCompatActivity {
     public Session getSession() {
         return session;
     }
+
+    @Override
+    public void onRoleClick(int position) {
+        Role clicked = adapter.getRole(position);
+        displayRole(clicked, position);
+    }
+
+    private void displayRole(Role clicked, int position) {
+        displayDialog = new Dialog(this);
+        displayDialog.setContentView(R.layout.popup_display_role);
+        displayDialog.show();
+    }
+
 }
