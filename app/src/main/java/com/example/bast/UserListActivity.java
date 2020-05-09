@@ -52,9 +52,6 @@ public class UserListActivity extends AppCompatActivity implements UsersAdapter.
     private int systemId;
     private String jwt;
 
-    public UserListActivity() {
-    }
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

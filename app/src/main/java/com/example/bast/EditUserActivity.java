@@ -79,9 +79,7 @@ public class EditUserActivity extends AppCompatActivity {
             });
                 Intent backToUserList = new Intent(this,
                         UserListActivity.class);
-                backToUserList.putExtra("jwt", jwt);
-                backToUserList.putExtra("systemId", systemId);
-                backToUserList.putExtra("systemName", systemName);
+                backToUserList.putExtras(bundle);
                 startActivity(backToUserList);
         } catch (JSONException e) {
                 e.printStackTrace();
