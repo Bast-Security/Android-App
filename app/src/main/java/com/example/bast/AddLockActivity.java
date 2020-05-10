@@ -18,6 +18,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import okhttp3.Response;
 
@@ -38,48 +40,63 @@ public class AddLockActivity extends AppCompatActivity {
         String jwt = bundle.getString("jwt");
         session = new Session(bundle.getString("jwt"));
 
-        new CountDownTimer(30000, 1000){
-            public void onTick(long millisUntilFinished){
-                final String min = String.valueOf(counter / 60);
-                final String sec = String.format("%02d", counter % 60);
-                final String time = min + ":" + sec;
-                final TextView countdownTimer = findViewById(R.id.timer);
-                countdownTimer.setText(time);
+        setContentView(R.layout.activity_connect_lock);
 
-                final TextView code = findViewById(R.id.code);
-                final Handler handler = new Handler();
-                Async.task(() -> {
-                    String TOTPGet = "systems/"+ systemId + "/totp";
-                    Log.d("lock", "Getting TOTP code from path " + TOTPGet);
-                    try (final Response response = session.request(HTTP.get(TOTPGet))) {
-                        if (response.isSuccessful()) {
-                            final String responseBody = response.body().string();
-                            Log.d("lock", responseBody);
+        final TextView code = findViewById(R.id.code);
+        final TextView countdownTimer = findViewById(R.id.timer);
 
-                            final JSONObject TOTP = new JSONObject(responseBody);
-                            final String codeValue = TOTP.getString("code");
-                            handler.post(() -> {
-                                code.setText(codeValue);
-                            });
-                        } else {
-                            Log.d("lock", "Bad response from server");
+        final Handler handler = new Handler();
+
+        new Timer().scheduleAtFixedRate(new TimerTask() {
+            @Override
+            public void run() {
+                long lastOffset = Long.MAX_VALUE;
+
+                while (true) {
+                    final long time = System.currentTimeMillis();
+                    final long duration = 30 * 1000;
+                    final long offset = time % duration;
+                    final long remainingMillis = duration - offset;
+                    final int remainingSecs = (int) (remainingMillis / 1000);
+                    final String label = String.format("%d seconds", remainingSecs);
+
+                    Log.d("lock", "offset " + offset);
+
+                    handler.post(() -> {
+                        countdownTimer.setText(label);
+                    });
+
+                    if (offset < lastOffset) {
+                        String TOTPGet = "systems/" + systemId + "/totp";
+                        Log.d("lock", "Getting TOTP code from path " + TOTPGet);
+                        try (final Response response = session.request(HTTP.get(TOTPGet))) {
+                            if (response.isSuccessful()) {
+                                final String responseBody = response.body().string();
+                                Log.d("lock", responseBody);
+
+                                final JSONObject TOTP = new JSONObject(responseBody);
+                                final String codeValue = TOTP.getString("code");
+                                handler.post(() -> {
+                                    code.setText(codeValue);
+                                });
+                            } else {
+                                Log.d("lock", "Bad response from server");
+                            }
+                        } catch (IOException | JSONException e) {
+                            e.printStackTrace();
                         }
-                    } catch (IOException | JSONException e) {
-                        e.printStackTrace();
                     }
-                });
 
-                if(counter != 0){counter--;}
-                else{
-                    counter = 300;
+                    lastOffset = offset;
                 }
             }
+        }, 0, 500);
 
-            @Override
-            public void onFinish() { }
-        }.start();
+        Async.task(() -> {
 
-        setContentView(R.layout.activity_connect_lock);
+        });
+
+
 
     }
 }
