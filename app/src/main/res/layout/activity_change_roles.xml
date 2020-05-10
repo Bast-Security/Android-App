@@ -9,7 +9,7 @@
     android:background="@drawable/main_backgroundv2">
 
     <TextView
-        android:id="@+id/textView_connectTitle"
+        android:id="@+id/textView_modifyTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
@@ -20,6 +20,16 @@
         android:text="MODIFY THE USER'S ROLES"
         android:textColor="@color/colorPrimaryDark"
         android:fontFamily="@font/segoeuiblack"
-        android:textSize="26dp"/>
+        android:textSize="26dp"
+        android:paddingBottom="15dp"/>
+
+    <ListView
+        android:id="@+id/checkbox_list"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/textView_modifyTitle"
+        />
+
+
 
 </RelativeLayout>
