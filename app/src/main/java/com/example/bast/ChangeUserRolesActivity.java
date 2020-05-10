@@ -35,6 +35,6 @@ public class ChangeUserRolesActivity extends AppCompatActivity {
     }
 
     private void getRoles() {
-        // TODO: fill in the roles from the database into a String Array
+        // TODO: fill in the roles from the database
     }
 }
