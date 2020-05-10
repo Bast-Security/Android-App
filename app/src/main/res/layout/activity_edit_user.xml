@@ -19,7 +19,7 @@
         android:text="USER INFORMATION"
         android:textColor="@color/colorPrimaryDark"
         android:fontFamily="@font/segoeuiblack"
-        android:textSize="25dp"/>
+        android:textSize="28dp"/>
 
     <TextView
         android:id="@+id/textView_name"

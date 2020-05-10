@@ -18,7 +18,7 @@
         android:fontFamily="@font/segoeuiblack"
         android:text="EDIT YOUR LOCK'S SETTINGS"
         android:textColor="@color/colorPrimaryDark"
-        android:textSize="24dp" />
+        android:textSize="26dp" />
 
     <TextView
         android:id="@+id/textView_lock"
