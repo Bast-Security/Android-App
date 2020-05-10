@@ -328,6 +328,7 @@ public class UserListActivity extends AppCompatActivity implements UsersAdapter.
             intent.putExtra("id", u.getUserID());
             intent.putExtra("username", u.getUserName());
             intent.putExtra("roles", u.getRoles());
+            intent.putExtra("jwt", jwt);
             startActivity(intent);
         });
 
