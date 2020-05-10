@@ -156,6 +156,7 @@ public class LockListActivity extends AppCompatActivity implements LocksAdapter.
         addDialog.show();
     }
 
+    // Old
     public void editLockName(Lock current) {
         addDialog.setContentView(R.layout.add_lock);
 
@@ -168,8 +169,9 @@ public class LockListActivity extends AppCompatActivity implements LocksAdapter.
         edit_role.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // TODO: Add changes to locks database
                 addDialog.dismiss();
+                Intent intent = new Intent(LockListActivity.this, EditLockActivity.class);
+                startActivity(intent);
             }
         });
 
@@ -189,24 +191,13 @@ public class LockListActivity extends AppCompatActivity implements LocksAdapter.
         TextView mode = displayDialog.findViewById(R.id.textView_modeType);
         mode.setText(current.getMode());
 
-        Button edit_lockname = displayDialog.findViewById(R.id.edit_button);
-        edit_lockname.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                displayDialog.dismiss();
-                editLockName(current);
-
-            }
-        });
-
-        Button mode_change = displayDialog.findViewById(R.id.mode_button);
-        mode_change.setOnClickListener(new View.OnClickListener() {
+        Button edit_lock = displayDialog.findViewById(R.id.edit_button);
+        edit_lock.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 displayDialog.dismiss();
                 Intent intent = new Intent(LockListActivity.this, EditLockActivity.class);
-                intent.putExtra("Lock Position", position);
-                intent.putExtra("Lock List", locks);
+                // TODO transfer data of clicked position to next intent
                 startActivity(intent);
             }
         });
