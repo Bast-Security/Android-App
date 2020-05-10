@@ -16,7 +16,7 @@
         android:layout_marginStart="23dp"
         android:layout_marginTop="40dp"
 
-        android:fontFamily="@font/segoesemibold"
+        android:fontFamily="@font/segoeuiblack"
         android:text="LOCK NAME"
         android:textColor="@color/colorPrimaryDark"
         android:textSize="25dp" />
