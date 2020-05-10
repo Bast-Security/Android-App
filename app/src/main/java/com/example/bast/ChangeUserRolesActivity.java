@@ -1,16 +1,12 @@
 package com.example.bast;
 
 import android.os.Bundle;
-import android.view.ActionMode;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.widget.AbsListView;
 import android.widget.ListView;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.bast.list_adapters.RoleCheckList;
+import com.example.bast.list_adapters.UserRoleCheckList;
 import com.example.bast.objects.Role;
 import com.example.bast.objects.Session;
 
@@ -21,7 +17,7 @@ public class ChangeUserRolesActivity extends AppCompatActivity {
 
     private Session session;
     private ListView lv;
-    private RoleCheckList adapter;
+    private UserRoleCheckList adapter;
     private List<Role> roles = new ArrayList<>();
 
     @Override
@@ -33,7 +29,7 @@ public class ChangeUserRolesActivity extends AppCompatActivity {
         roles.add(new Role("Janitor"));
 
         lv = findViewById(R.id.checkbox_list);
-        adapter = new RoleCheckList(roles, this);
+        adapter = new UserRoleCheckList(roles, this);
         lv.setAdapter(adapter);
 
     }

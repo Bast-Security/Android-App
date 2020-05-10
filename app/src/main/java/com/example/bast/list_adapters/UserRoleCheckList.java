@@ -16,12 +16,12 @@ import com.example.bast.objects.Role;
 
 import java.util.List;
 
-public class RoleCheckList extends ArrayAdapter<Role> {
+public class UserRoleCheckList extends ArrayAdapter<Role> {
 
     private List<Role> roles;
     private Context context;
 
-    public RoleCheckList(List<Role> roles, Context context) {
+    public UserRoleCheckList(List<Role> roles, Context context) {
         super(context, R.layout.checkbox_item, roles);
         this.roles = roles;
         this.context = context;
