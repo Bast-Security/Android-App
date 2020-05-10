@@ -28,7 +28,9 @@ public class ChangeUserRolesActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_change_roles);
-        getRoles();
+        //getRoles();
+        roles.add(0, new Role("President"));
+        roles.add(new Role("Janitor"));
 
         lv = findViewById(R.id.checkbox_list);
         adapter = new RoleCheckList(roles, this);
