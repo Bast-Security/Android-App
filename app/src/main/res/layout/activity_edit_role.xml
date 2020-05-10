@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_gravity="center"
+    android:padding="5dp"
+    android:background="@drawable/main_backgroundv2">
+
+    <TextView
+        android:id="@+id/textView_modifyRTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="14dp"
+        android:layout_marginTop="135dp"
+
+        android:text="EDIT ROLE PERMISSIONS"
+        android:textColor="@color/colorPrimaryDark"
+        android:fontFamily="@font/segoeuiblack"
+        android:textSize="26dp"
+        android:paddingBottom="15dp"/>
+
+    <TextView
+        android:id="@+id/textView_role"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="28dp"
+        android:layout_marginTop="200dp"
+        android:fontFamily="@font/segoesemibold"
+        android:text="Role: "
+        android:textColor="@color/colorPrimaryDark"
+        android:textSize="24dp"
+        android:paddingBottom="10dp"/>
+
+    <EditText
+        android:id="@+id/textView_roleName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="191dp"
+        android:layout_toRightOf="@id/textView_role"
+        android:fontFamily="@font/segoeregular"
+        android:hint="Enter New Role Name"
+        android:textColor="@color/colorPrimary"
+        android:textSize="20dp" />
+
+    <ListView
+        android:id="@+id/checkbox_list"
+        android:layout_marginStart="28dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/textView_role"
+        />
+
+    <Button
+        android:id="@+id/edit_button"
+        android:layout_width="125dp"
+        android:layout_height="40dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="246dp"
+        android:layout_marginEnd="23dp"
+        android:layout_marginBottom="36dp"
+        android:background="@drawable/rectanglebutton"
+        android:fontFamily="@font/segoesemibold"
+        android:text="CONFIRM"
+        android:textColor="@color/colorPrimaryDark"
+        android:textSize="16dp" />
+
+
+
+</RelativeLayout>
