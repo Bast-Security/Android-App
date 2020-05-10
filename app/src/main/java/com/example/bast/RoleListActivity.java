@@ -22,7 +22,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.bast.list_adapters.RolesAdapter;
 import com.example.bast.objects.Async;
 import com.example.bast.objects.HTTP;
-import com.example.bast.objects.Lock;
 import com.example.bast.objects.Role;
 import com.example.bast.objects.Session;
 import com.google.android.material.snackbar.Snackbar;
