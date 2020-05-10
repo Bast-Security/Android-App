@@ -6,35 +6,36 @@ import android.widget.ListView;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.bast.list_adapters.LockCheckList;
 import com.example.bast.list_adapters.UserRoleCheckList;
-import com.example.bast.objects.Role;
+import com.example.bast.objects.Lock;
 import com.example.bast.objects.Session;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class ChangeUserRolesActivity extends AppCompatActivity {
+public class EditRoleActivity extends AppCompatActivity {
 
     private Session session;
     private ListView lv;
-    private UserRoleCheckList adapter;
-    private List<Role> roles = new ArrayList<>();
+    private LockCheckList adapter;
+    private List<Lock> locks = new ArrayList<>();
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_change_roles);
         //getRoles();
-        roles.add(0, new Role("President"));
-        roles.add(new Role("Janitor"));
+        locks.add(0, new Lock("Front Door"));
+        locks.add(new Lock("Bathroom"));
 
         lv = findViewById(R.id.checkbox_list);
-        adapter = new UserRoleCheckList(roles, this);
+        adapter = new LockCheckList(locks, this);
         lv.setAdapter(adapter);
 
     }
 
-    private void getRoles() {
-        // TODO: fill in the roles from the database
+    private void getLocks() {
+        // TODO: fill in the locks from the database into a String Array
     }
 }

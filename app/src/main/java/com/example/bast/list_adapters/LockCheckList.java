@@ -12,18 +12,18 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.example.bast.R;
-import com.example.bast.objects.Role;
+import com.example.bast.objects.Lock;
 
 import java.util.List;
 
-public class RoleCheckList extends ArrayAdapter<Role> {
+public class LockCheckList extends ArrayAdapter<Lock> {
 
-    private List<Role> roles;
+    private List<Lock> locks;
     private Context context;
 
-    public RoleCheckList(List<Role> roles, Context context) {
-        super(context, R.layout.checkbox_item, roles);
-        this.roles = roles;
+    public LockCheckList(List<Lock> locks, Context context) {
+        super(context, R.layout.checkbox_item, locks);
+        this.locks = locks;
         this.context = context;
     }
 
@@ -33,7 +33,7 @@ public class RoleCheckList extends ArrayAdapter<Role> {
         LayoutInflater inflater = ((Activity)context).getLayoutInflater();
         View row = inflater.inflate(R.layout.checkbox_item, parent, false);
         TextView roleName = row.findViewById(R.id.checkbox_name);
-        roleName.setText(roles.get(position).getRoleName());
+        roleName.setText(locks.get(position).getLockName());
         return row;
     }
 }
