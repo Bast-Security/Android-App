@@ -18,7 +18,7 @@
         android:fontFamily="@font/segoeuiblack"
         android:text="EDIT YOUR LOCK'S SETTINGS"
         android:textColor="@color/colorPrimaryDark"
-        android:textSize="24dp" />
+        android:textSize="26dp" />
 
     <TextView
         android:id="@+id/textView_lock"
@@ -86,7 +86,7 @@
         android:layout_marginBottom="266dp" />
 
     <Button
-        android:id="@+id/edit_button"
+        android:id="@+id/editLock_button"
         android:layout_width="140dp"
         android:layout_height="40dp"
         android:layout_alignParentStart="true"

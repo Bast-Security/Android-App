@@ -16,7 +16,7 @@
         android:layout_marginStart="23dp"
         android:layout_marginTop="40dp"
 
-        android:fontFamily="@font/segoesemibold"
+        android:fontFamily="@font/segoeuiblack"
         android:text="LOCK NAME"
         android:textColor="@color/colorPrimaryDark"
         android:textSize="25dp" />
@@ -51,36 +51,18 @@
 
     <Button
         android:id="@+id/edit_button"
-        android:layout_width="140dp"
+        android:layout_width="150dp"
         android:layout_height="40dp"
         android:layout_alignParentStart="true"
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
         android:layout_marginStart="27dp"
-        android:layout_marginEnd="213dp"
+        android:layout_marginEnd="190dp"
         android:layout_marginBottom="50dp"
 
         android:background="@drawable/rectanglebutton"
         android:fontFamily="@font/segoesemibold"
-        android:text="Edit Name"
-        android:textColor="@color/colorPrimaryDark"
-        android:textSize="16dp" />
-
-
-
-    <Button
-        android:id="@+id/mode_button"
-        android:layout_width="140dp"
-        android:layout_height="40dp"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentBottom="true"
-        android:layout_marginEnd="66dp"
-        android:layout_marginRight="-272dp"
-        android:layout_marginBottom="50dp"
-        android:layout_toLeftOf="@id/edit_button"
-        android:background="@drawable/rectanglebutton"
-        android:fontFamily="@font/segoesemibold"
-        android:text="Change Mode"
+        android:text="Edit Settings"
         android:textColor="@color/colorPrimaryDark"
         android:textSize="16dp" />
 

@@ -7,6 +7,7 @@ public class Role {
     //initialize variables
     private String roleName;
     private ArrayList<User> users;
+    private ArrayList<Lock> locks;
 
     // getter and setter methods
     public String getRoleName() {
@@ -23,6 +24,14 @@ public class Role {
 
     public void setUsers(ArrayList<User> users) {
         this.users = users;
+    }
+
+    public ArrayList<Lock> getLocks() {
+        return locks;
+    }
+
+    public void setLocks(ArrayList<Lock> locks) {
+        this.locks = locks;
     }
 
     // constructor

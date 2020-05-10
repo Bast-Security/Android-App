@@ -1,12 +1,14 @@
 package com.example.bast;
 
 import android.app.Dialog;
+import android.content.Intent;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -213,6 +215,24 @@ public class RoleListActivity extends AppCompatActivity implements RolesAdapter.
     private void displayRole(Role clicked, int position) {
         displayDialog = new Dialog(this);
         displayDialog.setContentView(R.layout.popup_display_role);
+
+        TextView role = (TextView) findViewById(R.id.role);
+        role.setText(rolesList.get(position).getRoleName());
+
+        TextView permissions = (TextView) findViewById(R.id.textView_permissionList);
+        permissions.setText(rolesList.get(position).getLocks().toString());
+
+        Button edit_button = (Button) findViewById(R.id.edit_button);
+        edit_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                displayDialog.dismiss();
+                Intent intent = new Intent(RoleListActivity.this, EditRoleActivity.class);
+                // TODO transfer data of clicked position to next intent
+                startActivity(intent);
+            }
+        });
+
         displayDialog.show();
     }
 
