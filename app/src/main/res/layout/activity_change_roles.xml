@@ -25,10 +25,26 @@
 
     <ListView
         android:id="@+id/checkbox_list"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/textView_modifyTitle"
         />
+
+    <Button
+        android:id="@+id/confirmRoles_button"
+        android:layout_width="125dp"
+        android:layout_height="40dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="246dp"
+        android:layout_marginEnd="23dp"
+        android:layout_marginBottom="36dp"
+        android:background="@drawable/rectanglebutton"
+        android:fontFamily="@font/segoesemibold"
+        android:text="CONFIRM"
+        android:textColor="@color/colorPrimaryDark"
+        android:textSize="16dp" />
 
 
 
