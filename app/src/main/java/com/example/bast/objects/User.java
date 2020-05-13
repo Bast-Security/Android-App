@@ -72,4 +72,10 @@ public class User {
         return roles;
     }
 
+    public void setRoles(Role...role){
+        for (Role i:role) {
+            roles.add(i);
+        }
+    }
+
 }
