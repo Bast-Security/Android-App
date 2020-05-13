@@ -325,10 +325,14 @@ public class UserListActivity extends AppCompatActivity implements UsersAdapter.
                     ChangeUserRolesActivity.class);
             intent.putExtra("systemName", systemName);
             intent.putExtra("systemId",systemId);
+            intent.putExtra("jwt", jwt);
             intent.putExtra("id", u.getUserID());
             intent.putExtra("username", u.getUserName());
+            intent.putExtra("email", u.getEmail());
+            intent.putExtra("pin", u.getPin());
+            intent.putExtra("phone", u.getPhoneNumber());
+            intent.putExtra("card", u.getCardNumber());
             intent.putExtra("roles", u.getRoles());
-            intent.putExtra("jwt", jwt);
             startActivity(intent);
         });
 

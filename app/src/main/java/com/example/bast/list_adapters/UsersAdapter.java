@@ -1,11 +1,9 @@
 package com.example.bast.list_adapters;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -14,9 +12,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.bast.R;
 import com.example.bast.objects.User;
-
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.util.ArrayList;
 
@@ -71,18 +66,6 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.ViewHolder> 
 
     public interface OnUserListener{
         void OnUserClick(int position);
-    }
-
-    public User getUser(int position) { return users.get(position); }
-
-    /**method will receive a string that will be in a form of a json object
-     * @param jsonString - the string that will be received from the controller*/
-    public void getUsers(String jsonString){
-        try {
-            JSONObject jsonObject = new JSONObject(jsonString);
-        }catch (JSONException err){
-            Log.d("Error", err.toString());
-        }
     }
 
 }
