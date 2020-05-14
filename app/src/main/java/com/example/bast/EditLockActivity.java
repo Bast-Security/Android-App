@@ -10,12 +10,18 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.bast.objects.Session;
+
 import java.util.ArrayList;
 import java.util.List;
 
 public class EditLockActivity extends AppCompatActivity {
 
     Spinner dropdown;
+    private String systemName;
+    private int systemId;
+    private String jwt;
+    private Session session;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

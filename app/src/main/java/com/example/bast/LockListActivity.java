@@ -43,6 +43,10 @@ public class LockListActivity extends AppCompatActivity implements LocksAdapter.
     RecyclerView rv;
     LocksAdapter adapter;
     Dialog addDialog, displayDialog;
+    private String systemName;
+    private int systemId;
+    private String jwt;
+    private Session session;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,11 +56,10 @@ public class LockListActivity extends AppCompatActivity implements LocksAdapter.
         title.setText("LOCKS");
 
         final Bundle bundle = getIntent().getExtras();
-        final String jwt = bundle.getString("jwt");
-        final String systemName = bundle.getString("systemName");
-        final int systemId = bundle.getInt("systemId");
-        final String TotpKey = bundle.getString("TotpKey");
-        final Session session = new Session(jwt);
+        jwt = bundle.getString("jwt");
+        systemName = bundle.getString("systemName");
+        systemId = bundle.getInt("systemId");
+        session = new Session(jwt);
 
         rv = findViewById(R.id.recycler_view);
         adapter = new LocksAdapter( locks,this, this);
@@ -166,13 +169,10 @@ public class LockListActivity extends AppCompatActivity implements LocksAdapter.
 
         Button edit_role = addDialog.findViewById(R.id.add_button);
         edit_role.setText("EDIT");
-        edit_role.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                addDialog.dismiss();
-                Intent intent = new Intent(LockListActivity.this, EditLockActivity.class);
-                startActivity(intent);
-            }
+        edit_role.setOnClickListener(v -> {
+            addDialog.dismiss();
+            Intent intent = new Intent(LockListActivity.this, EditLockActivity.class);
+            startActivity(intent);
         });
 
         addDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
@@ -189,17 +189,20 @@ public class LockListActivity extends AppCompatActivity implements LocksAdapter.
 
         TextView textView_mode = displayDialog.findViewById(R.id.textView_mode);
         TextView mode = displayDialog.findViewById(R.id.textView_modeType);
-        mode.setText(current.getMode());
-
+        if(current.getMode() != null) {
+            mode.setText(current.getMode());
+        }
+        else{
+            mode.setText("<mode not set>");
+        }
         Button edit_lock = displayDialog.findViewById(R.id.edit_button);
-        edit_lock.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                displayDialog.dismiss();
-                Intent intent = new Intent(LockListActivity.this, EditLockActivity.class);
-                // TODO transfer data of clicked position to next intent
-                startActivity(intent);
-            }
+        edit_lock.setOnClickListener(v -> {
+            displayDialog.dismiss();
+            Intent intent = new Intent(LockListActivity.this, EditLockActivity.class);
+            intent.putExtra("systemName", systemName);
+            intent.putExtra("systemId",systemId);
+            intent.putExtra("jwt", jwt);
+            startActivity(intent);
         });
 
         displayDialog.show();
