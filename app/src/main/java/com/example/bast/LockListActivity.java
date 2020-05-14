@@ -59,7 +59,7 @@ public class LockListActivity extends AppCompatActivity implements LocksAdapter.
         final Session session = new Session(jwt);
 
         rv = findViewById(R.id.recycler_view);
-        adapter = new LocksAdapter(this, locks);
+        adapter = new LocksAdapter( locks,this, this);
         rv.setAdapter(adapter);
         rv.setLayoutManager(new LinearLayoutManager(this));
 
@@ -242,8 +242,8 @@ public class LockListActivity extends AppCompatActivity implements LocksAdapter.
     };
 
     @Override
-    public void onLockClick(int position) {
-        Lock clicked = adapter.getLock(position);
+    public void OnLockClick(int position) {
+        Lock clicked = locks.get(position);
         displayLock(clicked, position);
     }
 }
