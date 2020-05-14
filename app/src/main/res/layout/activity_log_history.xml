@@ -5,13 +5,15 @@
     android:layout_height="match_parent"
     android:background="@drawable/main_backgroundv2">
 
-    <ListView
+
+    <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/log_history"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_centerHorizontal="true"
+        android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_marginTop="125dp"
-        android:divider="@android:color/transparent"
-        />
+        android:layout_centerHorizontal="true"
+        >
+    </androidx.recyclerview.widget.RecyclerView>
+
 </RelativeLayout>

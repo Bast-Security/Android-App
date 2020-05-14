@@ -1,6 +1,7 @@
 package com.example.bast;
 
 import android.os.Bundle;
+import android.widget.Button;
 import android.widget.ListView;
 
 import androidx.annotation.Nullable;
@@ -41,6 +42,11 @@ public class EditRoleActivity extends AppCompatActivity {
         lv = findViewById(R.id.checkbox_list);
         adapter = new LockCheckList(locks, this);
         lv.setAdapter(adapter);
+
+        Button confirm = (Button) findViewById(R.id.edit_button);
+        confirm.setOnClickListener(v -> {
+
+        });
 
     }
 

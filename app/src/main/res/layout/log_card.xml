@@ -1,23 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:clipToPadding="false"
-    android:orientation="vertical"
-    android:paddingBottom="@dimen/cardview_default_elevation"
-    android:paddingLeft="@dimen/cardview_default_elevation"
-    android:paddingRight="@dimen/cardview_default_elevation"
-    android:paddingTop="@dimen/cardview_default_elevation">
-
-    <androidx.cardview.widget.CardView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:foreground="?android:attr/selectableItemBackground"
-        app:cardBackgroundColor="@color/card_color"
-        app:cardCornerRadius="10dp"
-        android:clickable="true"
-        android:layout_margin="10dp">
+    android:id="@+id/card"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="10dp"
+    app:cardBackgroundColor="@color/card_color"
+    app:cardCornerRadius="10dp"
+    android:padding="10dp">
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -33,20 +23,21 @@
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/segoesemibold"
                 android:gravity="center_vertical"
-                android:paddingLeft="15dp"
+                android:paddingLeft="9dp"
                 android:text="200420 02:28:37 AM PST"
-                android:textSize="25dp" />
+                android:textSize="19dp" />
 
             <TextView
-                android:id="@+id/user_description"
+                android:id="@+id/door_description"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/segoeuibold"
                 android:gravity="center_vertical"
-                android:paddingLeft="15dp"
+                android:paddingLeft="9dp"
                 android:layout_below="@id/log_timestamp"
-                android:text="BOB"
-                android:textSize="20dp"
+                android:text="FRONT DOOR"
+                android:textAllCaps="true"
+                android:textSize="18dp"
                 android:textColor="@color/delete"/>
 
             <TextView
@@ -57,23 +48,10 @@
                 android:gravity="center_vertical"
                 android:paddingLeft="9dp"
                 android:layout_below="@id/log_timestamp"
-                android:layout_toRightOf="@id/user_description"
-                android:text="accessed"
-                android:textSize="20dp" />
+                android:layout_toRightOf="@id/door_description"
+                android:text="was accessed."
+                android:textSize="18dp" />
 
-            <TextView
-                android:id="@+id/door_description"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/segoeuibold"
-                android:gravity="center_vertical"
-                android:paddingLeft="9dp"
-                android:layout_below="@id/log_timestamp"
-                android:layout_toRightOf="@id/log_description"
-                android:text="FRONT DOOR"
-                android:textSize="20dp"
-                android:textColor="@color/delete"/>
 
         </RelativeLayout>
-    </androidx.cardview.widget.CardView>
-</LinearLayout>
+</androidx.cardview.widget.CardView>
