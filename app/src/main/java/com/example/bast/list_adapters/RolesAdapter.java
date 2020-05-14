@@ -62,7 +62,6 @@ public class RolesAdapter extends RecyclerView.Adapter<RolesAdapter.ViewHolder> 
         @Override
         public void onClick(View v) {
             onRoleListener.OnRoleClick(getAdapterPosition());
-            Log.d("role", "role clicked");
         }
     }
 

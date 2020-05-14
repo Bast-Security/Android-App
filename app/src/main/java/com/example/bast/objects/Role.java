@@ -38,5 +38,6 @@ public class Role {
     public Role(String roleName) {
         this.roleName = roleName;
         users = new ArrayList<>();
+        locks = new ArrayList<>();
     }
 }

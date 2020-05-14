@@ -209,26 +209,22 @@ public class RoleListActivity extends AppCompatActivity implements RolesAdapter.
     }
 
 
-    private void displayRole(int position, Role clicked) {
+    private void displayRole(Role clicked) {
         displayDialog = new Dialog(this);
         displayDialog.setContentView(R.layout.popup_display_role);
 
         TextView role = findViewById(R.id.role);
-        role.setText(rolesList.get(position).getRoleName());
-
         TextView permissions = findViewById(R.id.textView_permissionList);
-        permissions.setText(rolesList.get(position).getLocks().toString());
-
         Button edit_button = findViewById(R.id.edit_button);
-        edit_button.setOnClickListener(v -> {
-            displayDialog.dismiss();
-            Intent intent = new Intent(RoleListActivity.this, EditRoleActivity.class);
-            intent.putExtra("jwt", jwt);
-            intent.putExtra("systemName", systemName);
-            intent.putExtra("systemId", systemId);
-            intent.putExtra("roleName", clicked.getRoleName());
-            startActivity(intent);
-        });
+//        edit_button.setOnClickListener(v -> {
+//            displayDialog.dismiss();
+//            Intent intent = new Intent(RoleListActivity.this, EditRoleActivity.class);
+//            intent.putExtra("jwt", jwt);
+//            intent.putExtra("systemName", systemName);
+//            intent.putExtra("systemId", systemId);
+//            intent.putExtra("roleName", clicked.getRoleName());
+//            startActivity(intent);
+//        });
 
         displayDialog.show();
     }
@@ -236,7 +232,6 @@ public class RoleListActivity extends AppCompatActivity implements RolesAdapter.
     @Override
     public void OnRoleClick(int position) {
         Role clicked = rolesList.get(position);
-        displayRole(position, clicked);
-        Log.d("role", "role clicked...Activity");
+        displayRole(clicked);
     }
 }
