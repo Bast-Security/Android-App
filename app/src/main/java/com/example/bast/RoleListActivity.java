@@ -72,7 +72,6 @@ public class RoleListActivity extends AppCompatActivity implements RolesAdapter.
         // Initialize buttons
         final Button addButton = findViewById(R.id.add_btn);
         addDialog = new Dialog(this);
-        displayDialog= new Dialog(this);
 
         // Initialize swipe for deleting roles
         final ItemTouchHelper itemTouchHelper = new ItemTouchHelper(simpleCallback);
@@ -213,18 +212,20 @@ public class RoleListActivity extends AppCompatActivity implements RolesAdapter.
         displayDialog = new Dialog(this);
         displayDialog.setContentView(R.layout.popup_display_role);
 
-        TextView role = findViewById(R.id.role);
-        TextView permissions = findViewById(R.id.textView_permissionList);
-        Button edit_button = findViewById(R.id.edit_button);
-//        edit_button.setOnClickListener(v -> {
-//            displayDialog.dismiss();
-//            Intent intent = new Intent(RoleListActivity.this, EditRoleActivity.class);
-//            intent.putExtra("jwt", jwt);
-//            intent.putExtra("systemName", systemName);
-//            intent.putExtra("systemId", systemId);
-//            intent.putExtra("roleName", clicked.getRoleName());
-//            startActivity(intent);
-//        });
+        TextView role = displayDialog.findViewById(R.id.role);
+        role.setText(clicked.getRoleName());
+        TextView permissions = displayDialog.findViewById(R.id.textView_permissionList);
+        permissions.setText(clicked.getLocks().toString());
+        Button edit_button = displayDialog.findViewById(R.id.edit_button);
+        edit_button.setOnClickListener(v -> {
+            displayDialog.dismiss();
+            Intent intent = new Intent(RoleListActivity.this, EditRoleActivity.class);
+            intent.putExtra("jwt", jwt);
+            intent.putExtra("systemName", systemName);
+            intent.putExtra("systemId", systemId);
+            intent.putExtra("roleName", clicked.getRoleName());
+            startActivity(intent);
+        });
 
         displayDialog.show();
     }

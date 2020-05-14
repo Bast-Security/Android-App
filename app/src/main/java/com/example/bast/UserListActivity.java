@@ -270,7 +270,6 @@ public class UserListActivity extends AppCompatActivity implements UsersAdapter.
     public void displayUser(User u) {
         userDialog.setContentView(R.layout.popup_display_userinfo);
 
-        //final String uName, uEmail, uPhone;
         final int uCard, uPin;
 
         TextView title = userDialog.findViewById(R.id.userinfo);
