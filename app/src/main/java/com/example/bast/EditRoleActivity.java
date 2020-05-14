@@ -28,7 +28,7 @@ public class EditRoleActivity extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_change_roles);
+        setContentView(R.layout.activity_edit_role);
 
         final Bundle bundle = getIntent().getExtras();
         jwt = bundle.getString("jwt");
