@@ -69,10 +69,10 @@ public class ChangeUserRolesActivity extends AppCompatActivity {
         adapter = new UserRoleCheckList(rolesList, this);
         lv.setAdapter(adapter);
 
-
         button.setOnClickListener((view) -> {
             Log.d("user", "Updating User");
-
+            checkedRoles = adapter.getCheckedRoles();
+            Log.d("role", checkedRoles.get(0).getRoleName());
             try {
                 // turning the input fields into fields of a JSON object
                 final JSONObject payload = new JSONObject()

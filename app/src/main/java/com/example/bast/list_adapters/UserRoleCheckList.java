@@ -17,13 +17,14 @@ import androidx.annotation.Nullable;
 import com.example.bast.R;
 import com.example.bast.objects.Role;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class UserRoleCheckList extends ArrayAdapter<Role> {
 
     private List<Role> roles;
     private Context context;
-    private List<Role> checkedRoles;
+    private List<Role> checkedRoles = new ArrayList<>();
 
     public UserRoleCheckList(List<Role> roles, Context context) {
         super(context, R.layout.checkbox_item, roles);
@@ -43,6 +44,7 @@ public class UserRoleCheckList extends ArrayAdapter<Role> {
         checkBox.setTag(Integer.valueOf(position));
         checkBox.setOnCheckedChangeListener(mListener);
 
+
         return row;
     }
 
@@ -51,12 +53,17 @@ public class UserRoleCheckList extends ArrayAdapter<Role> {
             Role checkedRole = new Role(roles.get((Integer) buttonView.getTag()).getRoleName());
             if(buttonView.isChecked()){
                 Log.d("role", checkedRole.getRoleName() + " checked");
+                checkedRoles.add(checkedRole);
             }
             else {
                 Log.d("role", checkedRole.getRoleName() + " unchecked");
+                checkedRoles.remove(checkedRole);
             }
         }
     };
 
+    public List<Role> getCheckedRoles(){
+        return checkedRoles;
+    }
 
 }
