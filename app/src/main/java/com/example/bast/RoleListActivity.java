@@ -37,15 +37,18 @@ import java.util.ArrayList;
 import it.xabaras.android.recyclerview.swipedecorator.RecyclerViewSwipeDecorator;
 import okhttp3.Response;
 
-public class RoleListActivity extends AppCompatActivity implements RolesAdapter.OnRolesListener {
+public class RoleListActivity extends AppCompatActivity implements RolesAdapter.OnRoleListener {
     private static final String TAG = "RoleListActivity";
 
     // Initialize values
-    private final ArrayList<Role> rolesList = new ArrayList<Role>();
-    private final RolesAdapter adapter = new RolesAdapter(rolesList, this);
+    private final ArrayList<Role> rolesList = new ArrayList<>();
+    private final RolesAdapter adapter = new RolesAdapter(rolesList, this, this);
     private RecyclerView rv;
     private Session session;
     private Dialog addDialog, displayDialog;
+    private String jwt;
+    private String systemName;
+    private int systemId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,9 +56,9 @@ public class RoleListActivity extends AppCompatActivity implements RolesAdapter.
 
         // Intialize values for database
         final Bundle bundle = getIntent().getExtras();
-        final String jwt = bundle.getString("jwt");
-        final String systemName = bundle.getString("systemName");
-        final int systemId = bundle.getInt("systemId");
+        jwt = bundle.getString("jwt");
+        systemName = bundle.getString("systemName");
+        systemId = bundle.getInt("systemId");
         session = new Session(jwt);
 
         // Display the list
@@ -205,13 +208,8 @@ public class RoleListActivity extends AppCompatActivity implements RolesAdapter.
         return session;
     }
 
-    @Override
-    public void onRoleClick(int position) {
-        Role clicked = adapter.getRole(position);
-        displayRole(position);
-    }
 
-    private void displayRole(int position) {
+    private void displayRole(int position, Role clicked) {
         displayDialog = new Dialog(this);
         displayDialog.setContentView(R.layout.popup_display_role);
 
@@ -225,11 +223,20 @@ public class RoleListActivity extends AppCompatActivity implements RolesAdapter.
         edit_button.setOnClickListener(v -> {
             displayDialog.dismiss();
             Intent intent = new Intent(RoleListActivity.this, EditRoleActivity.class);
-            // TODO transfer data of clicked position to next intent
+            intent.putExtra("jwt", jwt);
+            intent.putExtra("systemName", systemName);
+            intent.putExtra("systemId", systemId);
+            intent.putExtra("roleName", clicked.getRoleName());
             startActivity(intent);
         });
 
         displayDialog.show();
     }
 
+    @Override
+    public void OnRoleClick(int position) {
+        Role clicked = rolesList.get(position);
+        displayRole(position, clicked);
+        Log.d("role", "role clicked...Activity");
+    }
 }

@@ -7,7 +7,6 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.Parcelable;
 import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
@@ -47,7 +46,7 @@ public class UserListActivity extends AppCompatActivity implements UsersAdapter.
     private final UsersAdapter adapter = new UsersAdapter(usersList, this, this);
     private RecyclerView rv;
     private Session session;
-    private Dialog userDialog;
+    private Dialog userDialog, addDialog;
     private String systemName;
     private int systemId;
     private String jwt;
@@ -74,7 +73,7 @@ public class UserListActivity extends AppCompatActivity implements UsersAdapter.
 
         // Initialize buttons
         final Button addButton = findViewById(R.id.add_btn);
-        final Dialog addDialog = new Dialog(this);
+        addDialog = new Dialog(this);
         userDialog= new Dialog(this);
 
         // Initialize swipe to delete users

@@ -72,6 +72,7 @@ public class ChangeUserRolesActivity extends AppCompatActivity {
         button.setOnClickListener((view) -> {
             Log.d("user", "Updating User");
             checkedRoles = adapter.getCheckedRoles();
+            //todo: change roles
             try {
                 // turning the input fields into fields of a JSON object
                 final JSONObject payload = new JSONObject()
