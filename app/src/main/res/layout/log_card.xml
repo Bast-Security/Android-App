@@ -38,15 +38,41 @@
                 android:textSize="25dp" />
 
             <TextView
+                android:id="@+id/user_description"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/segoeuibold"
+                android:gravity="center_vertical"
+                android:paddingLeft="15dp"
+                android:layout_below="@id/log_timestamp"
+                android:text="BOB"
+                android:textSize="20dp"
+                android:textColor="@color/delete"/>
+
+            <TextView
                 android:id="@+id/log_description"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/segoesemibold"
                 android:gravity="center_vertical"
-                android:paddingLeft="15dp"
+                android:paddingLeft="9dp"
                 android:layout_below="@id/log_timestamp"
-                android:text="User Bob accessed Door Name"
-                android:textSize="18dp" />
+                android:layout_toRightOf="@id/user_description"
+                android:text="accessed"
+                android:textSize="20dp" />
+
+            <TextView
+                android:id="@+id/door_description"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/segoeuibold"
+                android:gravity="center_vertical"
+                android:paddingLeft="9dp"
+                android:layout_below="@id/log_timestamp"
+                android:layout_toRightOf="@id/log_description"
+                android:text="FRONT DOOR"
+                android:textSize="20dp"
+                android:textColor="@color/delete"/>
 
         </RelativeLayout>
     </androidx.cardview.widget.CardView>
