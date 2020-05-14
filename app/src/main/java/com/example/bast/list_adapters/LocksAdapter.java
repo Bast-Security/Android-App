@@ -1,6 +1,7 @@
 package com.example.bast.list_adapters;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,28 +20,25 @@ public class LocksAdapter extends RecyclerView.Adapter<LocksAdapter.ViewHolder> 
 
     private ArrayList<Lock> locks;
     private Context mContext;
+    private OnLockListener mOnLockListener;
 
-    public LocksAdapter(Context mContext, ArrayList<Lock> locks) {
+    public LocksAdapter(ArrayList<Lock> locks, Context mContext, OnLockListener onLockListener) {
         this.locks = locks;
         this.mContext = mContext;
+        this.mOnLockListener = onLockListener;
     }
 
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_row, parent, false);
-        ViewHolder holder = new ViewHolder(view);
-
+        ViewHolder holder = new ViewHolder(view, mOnLockListener);
         return holder;
     }
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         holder.lockName.setText(locks.get(position).getLockName());
-
-        holder.item_parent.setOnClickListener(view -> {
-
-        });
     }
 
     @Override
@@ -48,24 +46,28 @@ public class LocksAdapter extends RecyclerView.Adapter<LocksAdapter.ViewHolder> 
         return locks.size();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
-
+    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
         TextView lockName;
         RelativeLayout item_parent;
+        OnLockListener onLockListener;
 
-        public ViewHolder(@NonNull View itemView) {
+        public ViewHolder(@NonNull View itemView, OnLockListener onLockListener) {
             super(itemView);
-
-            lockName = itemView.findViewById(R.id.list_item);
             item_parent = itemView.findViewById(R.id.list_parent_layout);
+            lockName = itemView.findViewById(R.id.list_item);
+            this.onLockListener = onLockListener;
+            itemView.setOnClickListener(this);
+        }
 
+        @Override
+        public void onClick(View v) {
+            onLockListener.OnLockClick(getAdapterPosition());
+            Log.d("lock", "lock clicked");
         }
     }
 
-    public Lock getLock(int position) { return locks.get(position); }
-
-    public interface OnLockListener {
-        void onLockClick(int position);
+    public interface OnLockListener{
+        void OnLockClick(int position);
     }
 
 }
