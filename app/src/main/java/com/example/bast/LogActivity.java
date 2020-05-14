@@ -31,6 +31,7 @@ public class LogActivity extends AppCompatActivity {
         final String systemName = bundle.getString("systemName");
         final int systemId = bundle.getInt("systemId");
         session = new Session(jwt);
+        android.util.Log.d("role",  jwt);
 
         setContentView(R.layout.activity_log_history);
     }

@@ -2,6 +2,7 @@ package com.example.bast;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
@@ -36,7 +37,7 @@ public class SystemMenuActivity extends AppCompatActivity implements View.OnClic
         lock.setOnClickListener(this);
         user.setOnClickListener(this);
         role.setOnClickListener(this);
-        lock.setOnClickListener(this);
+        settings.setOnClickListener(this);
     }
 
     @Override
