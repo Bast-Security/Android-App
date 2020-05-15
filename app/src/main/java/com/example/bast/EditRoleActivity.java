@@ -61,39 +61,26 @@ public class EditRoleActivity extends AppCompatActivity {
         button.setOnClickListener(v -> {
             final Handler handler = new Handler();
             String rolename = roleNameText.getText().toString();
-            Async.task(() -> {
-                String HTTPGet = "systems/" + systemId + "/roles/" + rolename;
-                try (final Response response = session.request(HTTP.get(HTTPGet))) {
-                    if (response.isSuccessful()) {
-                        final String responseBody = response.body().string();
-                        Log.d("lock", responseBody);
-                        listLocks.removeAll(listLocks);
-
-                        final JSONArray locks = new JSONArray(responseBody);
-                        for (int i = 0; i < locks.length(); i++) {
-                            final JSONObject object = locks.getJSONObject(i);
-                            listLocks.add(object.getString("name"));
-                        }
-                        handler.post(adapter::notifyDataSetChanged);
-                    } else {
-                        Log.d("lock", "Bad response from server");
-                    }
-                } catch (IOException e) {
-                    Log.d("lock", "Failed to connect to host " + e.toString());
-                } catch (JSONException e) {
-                    Log.d("lock", "Failed to parse JSON string " + e.toString());
-                }
-            });
 
             try {
+                final JSONArray doors = new JSONArray();
+
+                for (final Lock lock : adapter.getCheckedLocks()) {
+                    final JSONObject door = new JSONObject()
+                            .accumulate("name", lock.getLockName())
+                            .accumulate("id", lock.getLockId());
+
+                    doors.put(door);
+                }
+
                 final JSONObject payload = new JSONObject()
                         .accumulate("name", rolename)
-                        .accumulate("doors", listLocks.toString());
+                        .accumulate("doors", doors);
 
                 // HTTP request to post to the database
                 String HTTPPost = "systems/" + systemId + "/roles/" + rolename;
                 Log.d("lock", "Updating locks at path: " + HTTPPost);
-                session.requestAsync(HTTP.post(HTTPPost, payload), (response) -> {
+                session.requestAsync(HTTP.put(HTTPPost, payload), (response) -> {
                     if (response.code() != 200) {
                     }
                     response.close();
