@@ -42,20 +42,12 @@ public class LogActivity extends AppCompatActivity {
         final String systemName = bundle.getString("systemName");
         final int systemId = bundle.getInt("systemId");
         session = new Session(jwt);
-        android.util.Log.d("role",  jwt);
 
         setContentView(R.layout.activity_log_history);
 
         rv = (RecyclerView)findViewById(R.id.log_history);
         rv.setAdapter(adapter);
         rv.setLayoutManager(new LinearLayoutManager(this));
-
-        // TODO delete dummy values
-        LogHistory one = new LogHistory("Front Door", Calendar.getInstance().getTime().toString());
-        LogHistory two = new LogHistory("Bathroom", Calendar.getInstance().getTime().toString());
-
-        logHistory.add(one);
-        logHistory.add(two);
 
         listLogHistory(session);
 
@@ -76,7 +68,8 @@ public class LogActivity extends AppCompatActivity {
                     final JSONArray logs = new JSONArray(responseBody);
                     for (int i = 0; i < logs.length(); i++) {
                         final JSONObject object = logs.getJSONObject(i);
-                        final LogHistory log = new LogHistory(object.getString("door"), object.getString("time"));
+                        final LogHistory log = new LogHistory(object.getString("door"),
+                                object.getString("time"));
                         logHistory.add(log);
                     }
 
