@@ -34,7 +34,7 @@ public class EditRoleActivity extends AppCompatActivity {
     private ListView lv;
     private LockCheckList adapter;
     private List<Lock> locksList = new ArrayList<>();
-    private List<Lock> checkedLocks = new ArrayList<>();
+    private List<String> listLocks = new ArrayList<>();
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -59,10 +59,32 @@ public class EditRoleActivity extends AppCompatActivity {
         lv.setAdapter(adapter);
 
         button.setOnClickListener(v -> {
+            final Handler handler = new Handler();
             String rolename = roleNameText.getText().toString();
-            checkedLocks = adapter.getCheckedLocks();
-            List<String> listLocks = adapter.listLocks();
-            Log.d("locks", listLocks.toString());
+            Async.task(() -> {
+                String HTTPGet = "systems/" + systemId + "/roles/" + rolename;
+                try (final Response response = session.request(HTTP.get(HTTPGet))) {
+                    if (response.isSuccessful()) {
+                        final String responseBody = response.body().string();
+                        Log.d("lock", responseBody);
+                        listLocks.removeAll(listLocks);
+
+                        final JSONArray locks = new JSONArray(responseBody);
+                        for (int i = 0; i < locks.length(); i++) {
+                            final JSONObject object = locks.getJSONObject(i);
+                            listLocks.add(object.getString("name"));
+                        }
+                        handler.post(adapter::notifyDataSetChanged);
+                    } else {
+                        Log.d("lock", "Bad response from server");
+                    }
+                } catch (IOException e) {
+                    Log.d("lock", "Failed to connect to host " + e.toString());
+                } catch (JSONException e) {
+                    Log.d("lock", "Failed to parse JSON string " + e.toString());
+                }
+            });
+
             try {
                 final JSONObject payload = new JSONObject()
                         .accumulate("name", rolename)

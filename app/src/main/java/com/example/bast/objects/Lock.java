@@ -22,6 +22,9 @@ public class Lock {
         this.method = method;
     }
 
+    public Lock(String name) {
+    }
+
     // getter and setter methods
     public int getLockId(){return lockId;}
 
