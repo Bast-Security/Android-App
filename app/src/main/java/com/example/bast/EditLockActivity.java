@@ -42,21 +42,21 @@ public class EditLockActivity extends AppCompatActivity {
         systemName = bundle.getString("systemName");
         systemId = bundle.getInt("systemId");
         String lockname = bundle.getString("lockName");
-        int modetype = bundle.getInt("mode");
+        int methodtype = bundle.getInt("method");
         lockId = bundle.getInt("id");
         session = new Session(jwt);
 
         TextView lockName = findViewById(R.id.textView_lockname);
         lockName.setText(lockname);
-        TextView modeType = findViewById(R.id.textView_modeType);
-        if(modetype == 2){
-            modeType.setText("Card Only");
-        }else if(modetype == 4){
-            modeType.setText("Pin Only");
-        }else if(modetype == 6){
-            modeType.setText("Pin or Card");
+        TextView methodType = findViewById(R.id.textView_modeType);
+        if(methodtype == 2){
+            methodType.setText("Card Only");
+        }else if(methodtype == 4){
+            methodType.setText("Pin Only");
+        }else if(methodtype == 6){
+            methodType.setText("Pin or Card");
         }else{
-            modeType.setText("Pin and Card");
+            methodType.setText("Pin and Card");
         }
         Button confirm = findViewById(R.id.editLock_button);
         confirm.setOnClickListener(v -> {
@@ -124,13 +124,17 @@ public class EditLockActivity extends AppCompatActivity {
 
     private void pushChanges() {
         final Bundle bundle = getIntent().getExtras();
+        final String lockname = newLockName;
+        final int method =  choice;
+        Log.d("locks", "activity "+ lockname + " "+ method);
         try {
             final JSONObject payload = new JSONObject()
-                    .accumulate("name", newLockName);
+                    .accumulate("method", method)
+                    .accumulate("name", lockname);
 
             // HTTP request to post to the database
             String HTTPPut = "systems/" + systemId + "/locks/" + lockId;
-            Log.d("user", "Updating user at path: " + HTTPPut);
+            Log.d("lock", "Updating lock at path: " + HTTPPut);
             session.requestAsync(HTTP.put(HTTPPut, payload), (response) -> {
                 if (response.code() != 200) {
                 }

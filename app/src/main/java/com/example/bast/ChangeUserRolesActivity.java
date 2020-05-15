@@ -135,7 +135,7 @@ public class ChangeUserRolesActivity extends AppCompatActivity {
         final Bundle bundle = getIntent().getExtras();
         final int systemId = bundle.getInt("systemId");
         Async.task(() -> {
-            String HTTPGet = "systems/" + systemId + "/users";
+            String HTTPGet = "systems/" + systemId + "/users" + u.getUserID();
             try (final Response response = session.request(HTTP.get(HTTPGet))) {
                 if (response.isSuccessful()) {
                     final String responseBody = response.body().string();
