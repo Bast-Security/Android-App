@@ -9,7 +9,7 @@ public class Lock {
     private String lockName;
     private Date dateAdded;
     private Date lastOpened;
-    private String mode;
+    private int mode = 2;
 
     public Lock(int lockId, String lockName) {
         this.lockName = lockName;
@@ -43,9 +43,9 @@ public class Lock {
         this.lastOpened = lastOpened;
     }
 
-    public String getMode() { return mode; }
+    public int getMode() { return mode; }
 
-    public void setMode(String mode) {
+    public void setMode(int mode) {
         this.mode = mode;
     }
 }

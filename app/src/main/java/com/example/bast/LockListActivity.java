@@ -117,71 +117,6 @@ public class LockListActivity extends AppCompatActivity implements LocksAdapter.
         });
     }
 
-    /**
-     * Kept the old popup add code just in case but not using it for now
-     * @param session
-     * @param systemId
-     */
-    public void addPopUp(Session session, final int systemId) {
-        addDialog.setContentView(R.layout.add_lock);
-
-        final TextView lockTitle = addDialog.findViewById(R.id.lock_title);
-        final EditText name = addDialog.findViewById(R.id.lockname);
-
-        Button add_lock = addDialog.findViewById(R.id.add_button);
-        add_lock.setOnClickListener((btn) -> {
-            final String lockName = name.getText().toString();
-
-            final Handler handler = new Handler();
-
-            Async.task(() -> {
-                try {
-                    final JSONObject payload = new JSONObject().accumulate("name", lockName);
-                    final String file = String.format("systems/%d/locks", systemId);
-                    try (final Response response = session.request(HTTP.post(file, payload))) {
-                        if (!response.isSuccessful()) {
-                            throw new Exception("Request failed with status " + response.code());
-                        }
-
-                        addDialog.dismiss();
-                    }
-                } catch (JSONException e) {
-                    Log.d("locks", "JSONException " + e.toString());
-                } catch (IOException e) {
-                    Log.d("locks", "IOException " + e.toString());
-                } catch (Exception e) {
-                    Log.d("locks", e.toString());
-                }
-            });
-        });
-
-        addDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-
-        addDialog.show();
-    }
-
-    // Old
-    public void editLockName(Lock current) {
-        addDialog.setContentView(R.layout.add_lock);
-
-        TextView title = addDialog.findViewById(R.id.lock_title);
-        title.setText("EDIT LOCK NAME");
-        EditText name = addDialog.findViewById(R.id.lockname);
-
-        Button edit_role = addDialog.findViewById(R.id.add_button);
-        edit_role.setText("EDIT");
-        edit_role.setOnClickListener(v -> {
-            addDialog.dismiss();
-            Intent intent = new Intent(LockListActivity.this, EditLockActivity.class);
-            intent.putExtra("id", current.getLockId());
-            startActivity(intent);
-        });
-
-        addDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-
-        addDialog.show();
-    }
-
     public void displayLock(Lock current, int position) {
         displayDialog = new Dialog(this);
         displayDialog.setContentView(R.layout.popup_display_lock);
@@ -191,12 +126,16 @@ public class LockListActivity extends AppCompatActivity implements LocksAdapter.
 
         TextView textView_mode = displayDialog.findViewById(R.id.textView_mode);
         TextView mode = displayDialog.findViewById(R.id.textView_modeType);
-        if(current.getMode() != null) {
-            mode.setText(current.getMode());
+        if(current.getMode() == 2){
+            mode.setText("Card Only");
+        }else if(current.getMode() == 4){
+            mode.setText("Pin Only");
+        }else if(current.getMode() == 6){
+            mode.setText("Pin or Card");
+        }else{
+            mode.setText("Pin and Card");
         }
-        else{
-            mode.setText("<mode not set>");
-        }
+
         Button edit_lock = displayDialog.findViewById(R.id.edit_button);
         edit_lock.setOnClickListener(v -> {
             displayDialog.dismiss();
@@ -205,6 +144,7 @@ public class LockListActivity extends AppCompatActivity implements LocksAdapter.
             intent.putExtra("systemId",systemId);
             intent.putExtra("jwt", jwt);
             intent.putExtra("lockName", current.getLockName());
+            intent.putExtra("id", current.getLockId());
             intent.putExtra("mode", current.getMode());
             startActivity(intent);
         });
@@ -225,12 +165,9 @@ public class LockListActivity extends AppCompatActivity implements LocksAdapter.
             adapter.notifyItemRemoved(pos);
 
             Snackbar.make(rv, deletedLock.getLockName(), Snackbar.LENGTH_LONG)
-                    .setAction("Undo", new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            locks.add(pos, deletedLock);
-                            adapter.notifyItemInserted(pos);
-                        }
+                    .setAction("Undo", v -> {
+                        locks.add(pos, deletedLock);
+                        adapter.notifyItemInserted(pos);
                     }).show();
         }
 

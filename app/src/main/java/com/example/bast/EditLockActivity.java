@@ -13,7 +13,11 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.bast.objects.HTTP;
 import com.example.bast.objects.Session;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,7 +30,8 @@ public class EditLockActivity extends AppCompatActivity {
     private String jwt;
     private Session session;
     private String newLockName;
-    private int choice;
+    private int choice = 2;
+    private int lockId;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -37,16 +42,21 @@ public class EditLockActivity extends AppCompatActivity {
         systemName = bundle.getString("systemName");
         systemId = bundle.getInt("systemId");
         String lockname = bundle.getString("lockName");
-        String modetype = bundle.getString("mode");
+        int modetype = bundle.getInt("mode");
+        lockId = bundle.getInt("id");
         session = new Session(jwt);
 
         TextView lockName = findViewById(R.id.textView_lockname);
         lockName.setText(lockname);
         TextView modeType = findViewById(R.id.textView_modeType);
-        if(modetype != null){
-            modeType.setText(modetype);
+        if(modetype == 2){
+            modeType.setText("Card Only");
+        }else if(modetype == 4){
+            modeType.setText("Pin Only");
+        }else if(modetype == 6){
+            modeType.setText("Pin or Card");
         }else{
-            modeType.setText("<no mode set>");
+            modeType.setText("Pin and Card");
         }
         Button confirm = findViewById(R.id.editLock_button);
         confirm.setOnClickListener(v -> {
@@ -113,6 +123,24 @@ public class EditLockActivity extends AppCompatActivity {
     }
 
     private void pushChanges() {
-        Log.d("locks", newLockName + String.valueOf(choice));
+        final Bundle bundle = getIntent().getExtras();
+        try {
+            final JSONObject payload = new JSONObject()
+                    .accumulate("name", newLockName);
+
+            // HTTP request to post to the database
+            String HTTPPut = "systems/" + systemId + "/locks/" + lockId;
+            Log.d("user", "Updating user at path: " + HTTPPut);
+            session.requestAsync(HTTP.put(HTTPPut, payload), (response) -> {
+                if (response.code() != 200) {
+                }
+            });
+            Intent backToUserList = new Intent(this,
+                    UserListActivity.class);
+            backToUserList.putExtras(bundle);
+            startActivity(backToUserList);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 }
