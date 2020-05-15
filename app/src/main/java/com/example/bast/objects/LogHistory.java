@@ -2,15 +2,15 @@ package com.example.bast.objects;
 
 import java.util.Date;
 
-public class Log {
+public class LogHistory {
 
     String door;
-    Date timeAccessed;
+    String timeAccessed;
     String pin;
     String card;
     User user;
 
-    public Log(String door, Date timeAccessed) {
+    public LogHistory(String door, String timeAccessed) {
         this.door = door;
         this.timeAccessed = timeAccessed;
     }
@@ -24,10 +24,10 @@ public class Log {
     }
 
     public String getTimeAccessed() {
-        return timeAccessed.toString();
+        return timeAccessed;
     }
 
-    public void setTimeAccessed(Date timeAccessed) {
+    public void setTimeAccessed(String timeAccessed) {
         this.timeAccessed = timeAccessed;
     }
 }
