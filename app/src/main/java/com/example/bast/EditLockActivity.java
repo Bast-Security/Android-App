@@ -53,7 +53,7 @@ public class EditLockActivity extends AppCompatActivity {
             newLockName = lockName.getText().toString();
             pushChanges();
 
-            Intent intent = new Intent(this, LockListActivity.class);
+            Intent intent = new Intent(this, SystemMenuActivity.class);
             intent.putExtra("jwt", jwt);
             intent.putExtra("systemName", systemName);
             intent.putExtra("systemId", systemId);

@@ -7,6 +7,7 @@ import android.util.Log;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -85,15 +86,14 @@ public class ChangeUserRolesActivity extends AppCompatActivity {
                     }
                 });
 
-                /*
-                * Go back to the edit user screen after the updated roles have been pushed to the
-                * controller
-                * */
-                Intent intent = new Intent(this, UserListActivity.class);
+
+                Intent intent = new Intent(this, SystemMenuActivity.class);
                 intent.putExtra("jwt", jwt);
                 intent.putExtra("systemName", systemName);
                 intent.putExtra("systemId", systemId);
                 startActivity(intent);
+                Toast.makeText(this, "Roles updated!",
+                        Toast.LENGTH_SHORT).show();
             } catch (JSONException e) {
                 e.printStackTrace();
             }
