@@ -1,9 +1,11 @@
 package com.example.bast;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -22,11 +24,34 @@ public class EditLockActivity extends AppCompatActivity {
     private int systemId;
     private String jwt;
     private Session session;
+    private String newLockName;
+    private int choice;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_lock);
 
+        final Bundle bundle = getIntent().getExtras();
+        jwt = bundle.getString("jwt");
+        systemName = bundle.getString("systemName");
+        systemId = bundle.getInt("systemId");
+        String lockname = bundle.getString("lockName");
+        String modetype = bundle.getString("mode");
+        session = new Session(jwt);
+
+        TextView lockName = findViewById(R.id.textView_lockname);
+        lockName.setText(lockname);
+        TextView modeType = findViewById(R.id.textView_modeType);
+        if(modetype != null){
+            modeType.setText(modetype);
+        }else{
+            modeType.setText("<no mode set>");
+        }
+        Button confirm = findViewById(R.id.editLock_button);
+        confirm.setOnClickListener(v -> {
+            newLockName = lockName.getText().toString();
+            pushChanges();
+        });
         initSpinner();
     }
 
@@ -48,32 +73,26 @@ public class EditLockActivity extends AppCompatActivity {
         dropdown.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                int choice;
-
                 if(parent.getItemAtPosition(position).equals("Choose Mode")) { }
                 else if(parent.getItemAtPosition(position).equals("Pin Only")) {
                     choice = 4;
                     String item = parent.getItemAtPosition(position).toString();
                     Toast.makeText(parent.getContext(), "Selected: " + item, Toast.LENGTH_SHORT).show();
-                    // TODO: edit changes made into database
                 }
                 else if(parent.getItemAtPosition(position).equals("Card Only")) {
                     choice = 2;
                     String item = parent.getItemAtPosition(position).toString();
                     Toast.makeText(parent.getContext(), "Selected: " + item, Toast.LENGTH_SHORT).show();
-                    // TODO: edit changes made into database
                 }
                 else if(parent.getItemAtPosition(position).equals("Pin or Card")) {
                     choice = 6;
                     String item = parent.getItemAtPosition(position).toString();
                     Toast.makeText(parent.getContext(), "Selected: " + item, Toast.LENGTH_SHORT).show();
-                    // TODO: edit changes made into database
                 }
                 else if(parent.getItemAtPosition(position).equals("Pin and Card")) {
                     choice = 8;
                     String item = parent.getItemAtPosition(position).toString();
                     Toast.makeText(parent.getContext(), "Selected: " + item, Toast.LENGTH_SHORT).show();
-                    // TODO: edit changes made into database
                 }
             }
 
@@ -82,5 +101,9 @@ public class EditLockActivity extends AppCompatActivity {
 
             }
         });
+    }
+
+    private void pushChanges() {
+        Log.d("locks", newLockName + String.valueOf(choice));
     }
 }

@@ -5,6 +5,7 @@ import java.util.Date;
 public class Lock {
 
     // intialize variables
+    private int lockId;
     private String lockName;
     private Date dateAdded;
     private Date lastOpened;
@@ -23,6 +24,8 @@ public class Lock {
     }
 
     // getter and setter methods
+    public int getLockId(){return lockId;}
+
     public String getLockName() {
         return lockName;
     }

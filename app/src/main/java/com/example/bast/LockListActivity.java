@@ -202,6 +202,8 @@ public class LockListActivity extends AppCompatActivity implements LocksAdapter.
             intent.putExtra("systemName", systemName);
             intent.putExtra("systemId",systemId);
             intent.putExtra("jwt", jwt);
+            intent.putExtra("lockName", current.getLockName());
+            intent.putExtra("mode", current.getMode());
             startActivity(intent);
         });
 
