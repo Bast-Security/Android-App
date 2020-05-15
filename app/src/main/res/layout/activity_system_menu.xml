@@ -15,7 +15,7 @@
         android:layout_marginTop="125dp"
         android:paddingBottom="15dp"
         android:text="SYSTEM MENU"
-        android:textSize="40dp"
+        android:textSize="40sp"
         android:fontFamily="@font/segoeuiblack"
         android:textColor="@color/colorPrimaryDark"/>
 
@@ -54,7 +54,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Locks"
-                    android:textSize="25dp"
+                    android:textSize="25sp"
                     android:fontFamily="@font/segoesemibold">
                 </TextView>
             </LinearLayout>
@@ -85,7 +85,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Users"
-                    android:textSize="25dp"
+                    android:textSize="25sp"
                     android:fontFamily="@font/segoesemibold">
                 </TextView>
             </LinearLayout>
@@ -127,8 +127,8 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Roles"
-                    android:textSize="25dp"
+                    android:text="@string/roles_menu_button"
+                    android:textSize="25sp"
                     android:fontFamily="@font/segoesemibold">
                 </TextView>
             </LinearLayout>
@@ -161,8 +161,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/segoesemibold"
-                    android:text="History"
-                    android:textSize="25dp"></TextView>
+                    android:text="@string/history_menu"
+                    android:textSize="25sp"></TextView>
             </LinearLayout>
         </androidx.cardview.widget.CardView>
 

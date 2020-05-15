@@ -16,11 +16,11 @@
         android:layout_alignParentTop="true"
         android:layout_marginStart="14dp"
         android:layout_marginTop="125dp"
-
-        android:text="CONNECT YOUR LOCK WITH THIS CODE"
+        android:textAllCaps="true"
+        android:text="@string/connect_lock_title"
         android:textColor="@color/colorPrimaryDark"
         android:fontFamily="@font/segoeuiblack"
-        android:textSize="19dp"/>
+        android:textSize="19sp"/>
 
     <TextView
         android:id="@+id/code"
@@ -32,9 +32,9 @@
         android:layout_marginTop="167dp"
         android:layout_marginEnd="35dp"
         android:fontFamily="@font/segoesemibold"
-        android:paddingLeft="10dp"
+        android:paddingStart="10dp"
         android:text="452136"
-        android:textSize="45dp" />
+        android:textSize="45sp" />
 
     <TextView
         android:id="@+id/timer"
@@ -47,7 +47,7 @@
         android:text="5:00"
         android:textColor="@color/timer"
         android:layout_toEndOf="@+id/textView_instruction"
-        android:textSize="23dp" />
+        android:textSize="23sp" />
 
     <TextView
         android:id="@+id/textView_instruction"
@@ -61,7 +61,7 @@
         android:fontFamily="@font/segoeregular"
         android:text="This code will expire in:"
         android:textColor="@color/colorPrimaryDark"
-        android:textSize="22dp" />
+        android:textSize="22sp" />
 
     <TextView
         android:id="@+id/textView_instructionTitle"
@@ -75,7 +75,7 @@
         android:fontFamily="@font/segoeuibold"
         android:text="INSTRUCTIONS"
         android:textColor="@color/colorPrimaryDark"
-        android:textSize="22dp" />
+        android:textSize="22sp" />
 
     <TextView
         android:id="@+id/textView_instruction1"
@@ -89,7 +89,7 @@
         android:fontFamily="@font/segoeregular"
         android:text="1. Input the code to your lock."
         android:textColor="@color/colorPrimaryDark"
-        android:textSize="16dp" />
+        android:textSize="16sp" />
 
     <TextView
         android:id="@+id/textView_instruction2"
@@ -104,7 +104,7 @@
         android:text="2. At the end of the code input, add a '#'.
         (Ex. 01123456#)"
         android:textColor="@color/colorPrimaryDark"
-        android:textSize="16dp" />
+        android:textSize="16sp" />
 
     <TextView
         android:id="@+id/textView_instruction3"
@@ -118,7 +118,7 @@
         android:fontFamily="@font/segoeregular"
         android:text="3. Once successfully input, the lock will appear in the list of locks when you return to that menu."
         android:textColor="@color/colorPrimaryDark"
-        android:textSize="16dp" />
+        android:textSize="16sp" />
 
     <TextView
         android:id="@+id/textView_instruction4"
@@ -132,6 +132,6 @@
         android:fontFamily="@font/segoeregular"
         android:text="4. You can modify the lock's name and settings now by clicking on it."
         android:textColor="@color/colorPrimaryDark"
-        android:textSize="16dp" />
+        android:textSize="16sp" />
 
 </RelativeLayout>

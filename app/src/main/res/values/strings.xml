@@ -3,4 +3,19 @@
     <string name="title_activity_main">MainActivity</string>
     <string name="title_activity_home_menu">HomeMenu</string>
     <string name="plus_add">+</string>
+    <string name="edit_role_hint">Enter New Role Name</string>
+    <string name="edit_role_title">Edit Role Permissions</string>
+    <string name="role">Role:</string>
+    <string name="confirm_button">confirm</string>
+    <string name="systems_title">systems</string>
+    <string name="phone">Phone</string>
+    <string name="edit_user_information">User Information</string>
+    <string name="name">Name</string>
+    <string name="email">Email</string>
+    <string name="system_connect_title">Connect to a New System</string>
+    <string name="add_button">Add</string>
+    <string name="modify_user_title">Modify the User\'s Role</string>
+    <string name="connect_lock_title">Connect your Lock with this Code</string>
+    <string name="roles_menu_button">Roles</string>
+    <string name="history_menu">History</string>
 </resources>

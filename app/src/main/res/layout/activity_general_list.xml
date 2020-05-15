@@ -9,11 +9,12 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
-        android:layout_marginTop="115dp"
+        android:layout_marginTop="130dp"
         android:paddingBottom="10dp"
-        android:paddingLeft="15dp"
-        android:text="SYSTEMS"
-        android:textSize="35dp"
+        android:paddingStart="15dp"
+        android:text="@string/systems_title"
+        android:textAllCaps="true"
+        android:textSize="40sp"
         android:fontFamily="@font/segoeuiblack"
         android:textColor="@color/colorPrimaryDark"/>
 
