@@ -12,17 +12,17 @@ import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.bast.R;
-import com.example.bast.objects.Log;
+import com.example.bast.objects.LogHistory;
 
 import java.util.ArrayList;
 
 public class LogAdapter extends RecyclerView.Adapter<LogAdapter.ViewHolder>{
 
-    private ArrayList<Log> logs;
+    private ArrayList<LogHistory> logHistories;
     private Context mContext;
 
-    public LogAdapter(Context mContext, ArrayList<Log> logs) {
-        this.logs = logs;
+    public LogAdapter(Context mContext, ArrayList<LogHistory> logHistories) {
+        this.logHistories = logHistories;
         this.mContext = mContext;
     }
 
@@ -37,16 +37,16 @@ public class LogAdapter extends RecyclerView.Adapter<LogAdapter.ViewHolder>{
 
     @Override
     public void onBindViewHolder(@NonNull LogAdapter.ViewHolder holder, int position) {
-        Log log = logs.get(position);
+        LogHistory logHistory = logHistories.get(position);
 
-        holder.timestamp.setText(logs.get(position).getTimeAccessed());
-        holder.door.setText(logs.get(position).getDoor());
+        holder.timestamp.setText(logHistories.get(position).getTimeAccessed());
+        holder.door.setText(logHistories.get(position).getDoor());
 
     }
 
     @Override
     public int getItemCount() {
-        return logs.size();
+        return logHistories.size();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
