@@ -57,6 +57,39 @@ public class LogActivity extends AppCompatActivity {
         logHistory.add(one);
         logHistory.add(two);
 
+        listLogHistory(session);
+
+    }
+
+    private void listLogHistory(Session session) {
+        final Handler handler = new Handler();
+        final Bundle bundle = getIntent().getExtras();
+        final int systemId = bundle.getInt("systemId");
+        Async.task(() -> {
+            String HTTPGet = "systems/" + systemId + "/log";
+            try (final Response response = session.request(HTTP.get(HTTPGet))) {
+                if (response.isSuccessful()) {
+                    final String responseBody = response.body().string();
+                    Log.d("logs", responseBody);
+                    logHistory.removeAll(logHistory);
+
+                    final JSONArray logs = new JSONArray(responseBody);
+                    for (int i = 0; i < logs.length(); i++) {
+                        final JSONObject object = logs.getJSONObject(i);
+                        final LogHistory log = new LogHistory(object.getString("door"), object.getString("time"));
+                        logHistory.add(log);
+                    }
+
+                    handler.post(() -> adapter.notifyDataSetChanged());
+                } else {
+                    Log.d("log", "Bad response from server");
+                }
+            } catch (IOException e) {
+                Log.d("log", "Failed to connect to host " + e.toString());
+            } catch (JSONException e) {
+                Log.d("log", "Failed to parse JSON string " + e.toString());
+            }
+        });
     }
 
 }
