@@ -56,25 +56,25 @@ public class EditUserActivity extends AppCompatActivity {
             Log.d("user", "Updating User");
 
             try {
-                final String userName = username.getText().toString();
-                final String userEmail = email.getText().toString();
-                final String userPhoneNumber = phone.getText().toString();
-                final String userPin = pin.getText().toString();
-                final String userCard = card.getText().toString();
+                        final String userName = username.getText().toString();
+                        final String userEmail = email.getText().toString();
+                        final String userPhoneNumber = phone.getText().toString();
+                        final String userPin = pin.getText().toString();
+                        final String userCard = card.getText().toString();
 
-                // turning the input fields into fields of a JSON object
-                final JSONObject payload = new JSONObject()
-                        .accumulate("name", userName)
-                        .accumulate("email", userEmail)
-                        .accumulate("phone", userPhoneNumber)
-                        .accumulate("pin", userPin)
-                        .accumulate("cardno", userCard);
+                        // turning the input fields into fields of a JSON object
+                        final JSONObject payload = new JSONObject()
+                                .accumulate("name", userName)
+                                .accumulate("email", userEmail)
+                                .accumulate("phone", userPhoneNumber)
+                                .accumulate("pin", userPin)
+                                .accumulate("cardno", userCard);
 
-                // HTTP request to post to the database
-                String HTTPPut = "systems/" + systemId + "/users/" + userId;
-                Log.d("user", "Updating user at path: " + HTTPPut);
-                session.requestAsync(HTTP.put(HTTPPut, payload), (response) -> {
-                    if (response.code() != 200) {
+                        // HTTP request to post to the database
+                        String HTTPPut = "systems/" + systemId + "/users/" + userId;
+                        Log.d("user", "Updating user at path: " + HTTPPut);
+                        session.requestAsync(HTTP.put(HTTPPut, payload), (response) -> {
+                            if (response.code() != 200) {
                     }
             });
                 Intent backToUserList = new Intent(this,

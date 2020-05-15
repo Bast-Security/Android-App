@@ -59,8 +59,27 @@ public class EditRoleActivity extends AppCompatActivity {
         lv.setAdapter(adapter);
 
         button.setOnClickListener(v -> {
-            final String rolename = roleNameText.getText().toString();
+            String rolename = roleNameText.getText().toString();
             checkedLocks = adapter.getCheckedLocks();
+            List<String> listLocks = adapter.listLocks();
+            Log.d("locks", listLocks.toString());
+            try {
+                final JSONObject payload = new JSONObject()
+                        .accumulate("name", rolename)
+                        .accumulate("doors", listLocks.toString());
+
+                // HTTP request to post to the database
+                String HTTPPost = "systems/" + systemId + "/roles/" + rolename;
+                Log.d("lock", "Updating locks at path: " + HTTPPost);
+                session.requestAsync(HTTP.post(HTTPPost, payload), (response) -> {
+                    if (response.code() != 200) {
+                    }
+                    response.close();
+                });
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
             Intent intent = new Intent(this, SystemMenuActivity.class);
             intent.putExtra("jwt", jwt);
             intent.putExtra("systemName", systemName);

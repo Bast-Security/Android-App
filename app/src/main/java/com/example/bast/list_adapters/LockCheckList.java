@@ -65,5 +65,13 @@ public class LockCheckList extends ArrayAdapter<Lock> {
     public List<Lock> getCheckedLocks(){
         return checkedLocks;
     }
+    public List<String> listLocks(){
+        List<String> listLocks = new ArrayList<>();
+        for(int i = 0; i < checkedLocks.size(); i++){
+            String name = checkedLocks.get(i).getLockName();
+            listLocks.add(name);
+        }
+        return listLocks;
+    }
 
 }

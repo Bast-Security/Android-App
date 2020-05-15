@@ -67,7 +67,6 @@ public class ChangeUserRolesActivity extends AppCompatActivity {
         button.setOnClickListener((view) -> {
             Log.d("user", "Updating User");
             checkedRoles = adapter.getCheckedRoles();
-            //todo: change roles
             try {
                 // turning the input fields into fields of a JSON object
                 final JSONObject payload = new JSONObject()
@@ -77,11 +76,14 @@ public class ChangeUserRolesActivity extends AppCompatActivity {
                         .accumulate("pin", pin)
                         .accumulate("cardno", card)
                         .accumulate("roles", checkedRoles);
+                Log.d("role", payload.toString());
 
                 // HTTP request to post to the database
                 String HTTPPut = "systems/" + systemId + "/users/" + userId;
                 session.requestAsync(HTTP.put(HTTPPut, payload), (response) -> {
                     if (response.code() != 200) {
+                    }
+                    else{
                     }
                 });
 
@@ -135,7 +137,7 @@ public class ChangeUserRolesActivity extends AppCompatActivity {
         final Bundle bundle = getIntent().getExtras();
         final int systemId = bundle.getInt("systemId");
         Async.task(() -> {
-            String HTTPGet = "systems/" + systemId + "/users" + u.getUserID();
+            String HTTPGet = "systems/" + systemId + "/users/" + u.getUserID();
             try (final Response response = session.request(HTTP.get(HTTPGet))) {
                 if (response.isSuccessful()) {
                     final String responseBody = response.body().string();
