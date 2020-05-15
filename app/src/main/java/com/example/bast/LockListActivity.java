@@ -98,7 +98,8 @@ public class LockListActivity extends AppCompatActivity implements LocksAdapter.
                         for (int i = 0; i < array.length(); i++) {
                             final JSONObject object = array.getJSONObject(i);
                             final Lock lock = new Lock(object.getInt("id")
-                                    , object.getString("name"));
+                                    , object.getString("name"),
+                                    object.getInt("method"));
                             locks.add(lock);
                         }
                     }
@@ -118,6 +119,7 @@ public class LockListActivity extends AppCompatActivity implements LocksAdapter.
     }
 
     public void displayLock(Lock current, int position) {
+        Log.d("lock", String.valueOf(current.getMethod()));
         displayDialog = new Dialog(this);
         displayDialog.setContentView(R.layout.popup_display_lock);
 

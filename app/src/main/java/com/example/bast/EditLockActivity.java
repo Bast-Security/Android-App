@@ -109,7 +109,7 @@ public class EditLockActivity extends AppCompatActivity {
                     Toast.makeText(parent.getContext(), "Selected: " + item, Toast.LENGTH_SHORT).show();
                 }
                 else if(parent.getItemAtPosition(position).equals("Pin and Card")) {
-                    choice = 8;
+                    choice = 7;
                     String item = parent.getItemAtPosition(position).toString();
                     Toast.makeText(parent.getContext(), "Selected: " + item, Toast.LENGTH_SHORT).show();
                 }
@@ -142,6 +142,7 @@ public class EditLockActivity extends AppCompatActivity {
             Intent backToUserList = new Intent(this,
                     UserListActivity.class);
             backToUserList.putExtras(bundle);
+            backToUserList.putExtra("method", method);
             startActivity(backToUserList);
         } catch (JSONException e) {
             e.printStackTrace();
