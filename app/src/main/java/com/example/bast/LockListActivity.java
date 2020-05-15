@@ -162,13 +162,56 @@ public class LockListActivity extends AppCompatActivity implements LocksAdapter.
 
         @Override
         public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
+            // Initialize variables for deleting a user
             int pos = viewHolder.getAdapterPosition();
             Lock deletedLock = locks.remove(pos);
+            int lockId = deletedLock.getLockId();
+            String userID = Integer.toString(lockId);
             adapter.notifyItemRemoved(pos);
 
+            // Initializing HTTP variables for delete requests
+            final Bundle bundle = getIntent().getExtras();
+            final int systemId = bundle.getInt("systemId");
+
+            Async.task(() -> {
+                try {
+                    // HTTP delete requests
+                    final String file = String.format("systems/"+ systemId + "/locks/" + lockId);
+                    Log.d("lock", "Deleting lock at path: " + file);
+                    try (final Response response = session.request(HTTP.delete(file))) {
+                        if (!response.isSuccessful()) {
+                            throw new Exception("Request failed with status " + response.code());
+                        }
+                    }
+                } catch (JSONException e) {
+                    Log.d("lock", "JSONException " + e.toString());
+                } catch (IOException e) {
+                    Log.d("lock", "IOException " + e.toString());
+                } catch (Exception e) {
+                    Log.d("lock", e.toString());
+                }
+            });
+
+            // Display a snackbar popup to undo a delete
             Snackbar.make(rv, deletedLock.getLockName(), Snackbar.LENGTH_LONG)
                     .setAction("Undo", v -> {
                         locks.add(pos, deletedLock);
+                        try {
+                            // turning the input fields into fields of a JSON object
+                            final JSONObject payload = new JSONObject()
+                                    .accumulate("name", deletedLock.getLockName())
+                                    .accumulate("method", deletedLock.getMethod());
+
+                            // HTTP request to post to the database
+                            String HTTPPost = "systems/" + systemId + "/locks/" + lockId;
+                            session.requestAsync(HTTP.post(HTTPPost, payload), (response) -> {
+                                if (response.code() != 200) {} else {}
+                                response.close();
+                                refresh();
+                            });
+                        } catch (Exception e) {
+                            Log.d("lock", e.toString());
+                        }
                         adapter.notifyItemInserted(pos);
                     }).show();
         }
