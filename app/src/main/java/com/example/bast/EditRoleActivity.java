@@ -1,30 +1,41 @@
 package com.example.bast;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.util.Log;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.bast.list_adapters.LockCheckList;
 import com.example.bast.list_adapters.UserRoleCheckList;
+import com.example.bast.objects.Async;
+import com.example.bast.objects.HTTP;
 import com.example.bast.objects.Lock;
 import com.example.bast.objects.Role;
 import com.example.bast.objects.Session;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class EditRoleActivity extends AppCompatActivity {
+import okhttp3.Response;
 
+public class EditRoleActivity extends AppCompatActivity {
+    private Session session;
     private ListView lv;
     private LockCheckList adapter;
-    private List<Lock> locks = new ArrayList<>();
-    private Session session;
-    private String jwt;
-    private String systemName;
-    private int systemId;
+    private List<Lock> locksList = new ArrayList<>();
+    private List<Lock> checkedLocks = new ArrayList<>();
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -32,25 +43,65 @@ public class EditRoleActivity extends AppCompatActivity {
         setContentView(R.layout.activity_edit_role);
 
         final Bundle bundle = getIntent().getExtras();
-        jwt = bundle.getString("jwt");
-        systemName = bundle.getString("systemName");
-        systemId = bundle.getInt("systemId");
-        final String roleName = bundle.getString("roleName");
+        int systemId = bundle.getInt("systemId");
+        String systemName = bundle.getString("systemName");
+        int userId = bundle.getInt("userId");
+        String jwt = bundle.getString("jwt");
+        String roleName = bundle.getString("roleName");
         Role role = new Role(roleName);
         session = new Session(jwt);
+        listAllRoles(session);
 
         lv = findViewById(R.id.checkbox_list);
-        adapter = new LockCheckList(locks, this);
+        Button button = findViewById(R.id.edit_button);
+        TextView roleNameText = findViewById(R.id.textView_roleName);
+        roleNameText.setText(roleName);
+        adapter = new LockCheckList(locksList, this);
         lv.setAdapter(adapter);
 
-        Button confirm = (Button) findViewById(R.id.edit_button);
-        confirm.setOnClickListener(v -> {
-
+        button.setOnClickListener(v -> {
+            final String rolename = roleNameText.getText().toString();
+            checkedLocks = adapter.getCheckedLocks();
+            Intent intent = new Intent(this, RoleListActivity.class);
+            intent.putExtra("jwt", jwt);
+            intent.putExtra("systemName", systemName);
+            intent.putExtra("systemId", systemId);
+            startActivity(intent);
+            Toast.makeText(this, "Role updated!",
+                    Toast.LENGTH_SHORT).show();
         });
 
     }
 
-    private void getLocks() {
-        // TODO: fill in the locks from the database into a String Array
+    private void listAllRoles(Session session) {
+        final Handler handler = new Handler();
+        final Bundle bundle = getIntent().getExtras();
+        final int systemId = bundle.getInt("systemId");
+        Async.task(() -> {
+            String HTTPGet = "systems/" + systemId + "/locks";
+            try (final Response response = session.request(HTTP.get(HTTPGet))) {
+                if (response.isSuccessful()) {
+                    final String responseBody = response.body().string();
+                    Log.d("role", responseBody);
+                    locksList.removeAll(locksList);
+
+                    final JSONArray locks = new JSONArray(responseBody);
+                    for (int i = 0; i < locks.length(); i++) {
+                        final JSONObject object = locks.getJSONObject(i);
+                        final Lock lock = new Lock(object.getString("name"));
+                        locksList.add(lock);
+                    }
+
+                    handler.post(() -> adapter.notifyDataSetChanged());
+                } else {
+                    Log.d("role", "Bad response from server");
+                }
+            } catch (IOException e) {
+                Log.d("role", "Failed to connect to host " + e.toString());
+            } catch (JSONException e) {
+                Log.d("role", "Failed to parse JSON string " + e.toString());
+            }
+        });
     }
+
 }
