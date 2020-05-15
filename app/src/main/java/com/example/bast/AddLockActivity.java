@@ -1,7 +1,6 @@
 package com.example.bast;
 
 import android.os.Bundle;
-import android.os.CountDownTimer;
 import android.os.Handler;
 import android.util.Log;
 import android.widget.TextView;
@@ -10,10 +9,8 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.bast.objects.Async;
 import com.example.bast.objects.HTTP;
-import com.example.bast.objects.Role;
 import com.example.bast.objects.Session;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 

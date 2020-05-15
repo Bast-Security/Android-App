@@ -13,7 +13,6 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.bast.list_adapters.LockCheckList;
-import com.example.bast.list_adapters.UserRoleCheckList;
 import com.example.bast.objects.Async;
 import com.example.bast.objects.HTTP;
 import com.example.bast.objects.Lock;
