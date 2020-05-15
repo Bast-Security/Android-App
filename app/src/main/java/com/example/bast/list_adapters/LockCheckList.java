@@ -49,7 +49,8 @@ public class LockCheckList extends ArrayAdapter<Lock> {
 
     CompoundButton.OnCheckedChangeListener mListener = new CompoundButton.OnCheckedChangeListener() {
         public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-            Lock checkedLock = new Lock(locks.get((Integer) buttonView.getTag()).getLockName());
+            Lock checkedLock = new Lock(locks.get((Integer) buttonView.getTag()).getLockId(),
+                    locks.get((Integer) buttonView.getTag()).getLockName());
             if(buttonView.isChecked()){
                 Log.d("lock", checkedLock.getLockName() + " checked");
                 checkedLocks.add(checkedLock);

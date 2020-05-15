@@ -11,16 +11,9 @@ public class Lock {
     private Date lastOpened;
     private String mode;
 
-    public Lock(String lockName) {
+    public Lock(int lockId, String lockName) {
         this.lockName = lockName;
-    }
-
-    // constructor
-    public Lock(String lockName, Date dateAdded, String mode) {
-        this.lockName = lockName;
-        this.dateAdded = dateAdded;
-        this.mode = mode;
-        lastOpened = null;
+        this.lockId = lockId;
     }
 
     // getter and setter methods

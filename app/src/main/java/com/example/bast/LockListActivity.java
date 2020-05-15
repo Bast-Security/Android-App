@@ -72,6 +72,7 @@ public class LockListActivity extends AppCompatActivity implements LocksAdapter.
         final Button add_button = findViewById(R.id.add_btn);
         addDialog = new Dialog(this);
 
+        refresh();
         // Popup add user menu
         add_button.setOnClickListener((view) -> {
             Intent intent = new Intent(LockListActivity.this, AddLockActivity.class);
@@ -79,10 +80,9 @@ public class LockListActivity extends AppCompatActivity implements LocksAdapter.
             startActivity(intent);
         });
 
-        refresh(session, systemId);
     }
 
-    public void refresh(final Session session, final int systemId) {
+    public void refresh() {
         final Handler handler = new Handler();
         Async.task(() -> {
             try {
@@ -97,7 +97,8 @@ public class LockListActivity extends AppCompatActivity implements LocksAdapter.
                         final JSONArray array = new JSONArray(body);
                         for (int i = 0; i < array.length(); i++) {
                             final JSONObject object = array.getJSONObject(i);
-                            final Lock lock = new Lock(object.getString("name"));
+                            final Lock lock = new Lock(object.getInt("id")
+                                    , object.getString("name"));
                             locks.add(lock);
                         }
                     }
@@ -172,6 +173,7 @@ public class LockListActivity extends AppCompatActivity implements LocksAdapter.
         edit_role.setOnClickListener(v -> {
             addDialog.dismiss();
             Intent intent = new Intent(LockListActivity.this, EditLockActivity.class);
+            intent.putExtra("id", current.getLockId());
             startActivity(intent);
         });
 

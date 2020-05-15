@@ -87,7 +87,8 @@ public class EditRoleActivity extends AppCompatActivity {
                     final JSONArray locks = new JSONArray(responseBody);
                     for (int i = 0; i < locks.length(); i++) {
                         final JSONObject object = locks.getJSONObject(i);
-                        final Lock lock = new Lock(object.getString("name"));
+                        final Lock lock = new Lock(object.getInt("id")
+                                , object.getString("name"));
                         locksList.add(lock);
                     }
 
