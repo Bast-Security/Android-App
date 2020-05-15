@@ -9,11 +9,17 @@ public class Lock {
     private String lockName;
     private Date dateAdded;
     private Date lastOpened;
-    private int mode = 2;
+    private int method;
 
     public Lock(int lockId, String lockName) {
         this.lockName = lockName;
         this.lockId = lockId;
+        method = 2;
+    }
+    public Lock(int lockId, String lockName, int method) {
+        this.lockName = lockName;
+        this.lockId = lockId;
+        this.method = method;
     }
 
     // getter and setter methods
@@ -43,9 +49,9 @@ public class Lock {
         this.lastOpened = lastOpened;
     }
 
-    public int getMode() { return mode; }
+    public int getMethod() { return method; }
 
-    public void setMode(int mode) {
-        this.mode = mode;
+    public void setMethod(int method) {
+        this.method = method;
     }
 }

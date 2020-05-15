@@ -126,11 +126,11 @@ public class LockListActivity extends AppCompatActivity implements LocksAdapter.
 
         TextView textView_mode = displayDialog.findViewById(R.id.textView_mode);
         TextView mode = displayDialog.findViewById(R.id.textView_modeType);
-        if(current.getMode() == 2){
+        if(current.getMethod() == 2){
             mode.setText("Card Only");
-        }else if(current.getMode() == 4){
+        }else if(current.getMethod() == 4){
             mode.setText("Pin Only");
-        }else if(current.getMode() == 6){
+        }else if(current.getMethod() == 6){
             mode.setText("Pin or Card");
         }else{
             mode.setText("Pin and Card");
@@ -145,7 +145,7 @@ public class LockListActivity extends AppCompatActivity implements LocksAdapter.
             intent.putExtra("jwt", jwt);
             intent.putExtra("lockName", current.getLockName());
             intent.putExtra("id", current.getLockId());
-            intent.putExtra("mode", current.getMode());
+            intent.putExtra("method", current.getMethod());
             startActivity(intent);
         });
 
