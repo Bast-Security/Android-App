@@ -1,5 +1,6 @@
 package com.example.bast;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.ListView;
@@ -45,7 +46,13 @@ public class EditRoleActivity extends AppCompatActivity {
 
         Button confirm = (Button) findViewById(R.id.edit_button);
         confirm.setOnClickListener(v -> {
+            // TODO: apply changes
 
+            Intent intent = new Intent(this, RoleListActivity.class);
+            intent.putExtra("jwt", jwt);
+            intent.putExtra("systemName", systemName);
+            intent.putExtra("systemId", systemId);
+            startActivity(intent);
         });
 
     }
