@@ -103,5 +103,4 @@ public class EditRoleActivity extends AppCompatActivity {
             }
         });
     }
-
 }
