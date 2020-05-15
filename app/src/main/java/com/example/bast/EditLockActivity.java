@@ -1,5 +1,6 @@
 package com.example.bast;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -51,6 +52,14 @@ public class EditLockActivity extends AppCompatActivity {
         confirm.setOnClickListener(v -> {
             newLockName = lockName.getText().toString();
             pushChanges();
+
+            Intent intent = new Intent(this, LockListActivity.class);
+            intent.putExtra("jwt", jwt);
+            intent.putExtra("systemName", systemName);
+            intent.putExtra("systemId", systemId);
+            startActivity(intent);
+            Toast.makeText(this, "Lock updated!",
+                    Toast.LENGTH_SHORT).show();
         });
         initSpinner();
     }
