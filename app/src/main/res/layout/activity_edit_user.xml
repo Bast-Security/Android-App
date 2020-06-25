@@ -97,11 +97,10 @@
         android:layout_alignParentTop="true"
         android:layout_marginStart="28dp"
         android:layout_marginTop="350dp"
-        android:hint="021645"
         android:textColor="@color/colorPrimary"
         android:fontFamily="@font/segoeregular"
         android:textSize="18sp"
-        android:inputType="number"/>
+        android:inputType="numberPassword"/>
 
     <TextView
         android:id="@+id/textView_card"
@@ -124,11 +123,11 @@
         android:layout_alignParentTop="true"
         android:layout_marginStart="28dp"
         android:layout_marginTop="420dp"
-        android:hint="1235456783521"
         android:textColor="@color/colorPrimary"
         android:fontFamily="@font/segoeregular"
         android:textSize="18sp"
-        android:inputType="number"/>
+        android:inputType="textPassword|number"
+        android:password="true"/>
 
     <TextView
         android:id="@+id/textView_phonenumber"
